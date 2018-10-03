@@ -1,4 +1,5 @@
 import 'package:benza/pages/groups/group_list_page.dart';
+import 'package:benza/pages/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 1;
   final List<Widget> _children = [
-    PlaceholderWidget(Colors.red),
+    ProfileWidget(),
     GroupList(),
     PlaceholderWidget(Colors.yellow)
   ];

@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:benza/data/Group.dart';
+import 'package:benza/pages/groups/group_list_item.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 
 class GroupList extends StatelessWidget {
   @override
@@ -34,50 +36,13 @@ class GroupList extends StatelessWidget {
     return dummyGroups;
   }
 
-  _generateCard(Group group) {
-    return new Card(
-      elevation: 3.0,
-      margin: EdgeInsets.all(10.0),
-      child: new Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListTile(
-            leading: const Icon(Icons.done, color: Colors.green),
-            title: Text('Destination: ${group.to.name}'),
-            subtitle: Text(
-                'Depart from ${group.from.name}\n${group.users.length} users inside'),
-          ),
-          new ButtonTheme.bar(
-            // make buttons use the appropriate styles for cards
-            child: new ButtonBar(
-              children: <Widget>[
-                new FlatButton(
-                  child: const Text('DETAILS'),
-                  onPressed: () {
-                    /* ... */
-                  },
-                ),
-                new FlatButton(
-                  child: const Text('JOIN'),
-                  onPressed: () {
-                    /* ... */
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Group> values = snapshot.data;
     print("values: ${values.length}");
     return new ListView.builder(
       itemCount: values.length,
       itemBuilder: (BuildContext context, int index) =>
-          _generateCard(values[index]),
+          GroupListItem(values[index]),
     );
   }
 }

@@ -8,7 +8,7 @@ class Group {
 
   Group({this.name, this.from, this.to, this.users}) {
     if (from is! Position) from = Position.randomPosition();
-    if (to is! Position) to = Position.randomPosition();
+    while (to is! Position || to == from) to = Position.randomPosition();
     if (users is! List<User>) users = User.getRandomUsers();
   }
 }

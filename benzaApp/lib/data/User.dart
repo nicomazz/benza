@@ -12,6 +12,7 @@ class User {
     List<User> generated = [];
     for (var i = 0 ; i < n; i++){
       generated.add(User(Faker().person.name()));
+
     }
     return generated;
   }

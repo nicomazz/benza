@@ -17,6 +17,8 @@ dependencies:
   cloud_firestore:
   latlong: ^0.6.1
   faker: ^1.0.0
+  flutter_map: ^0.1.4
+
   flutter:
     sdk: flutter
 
