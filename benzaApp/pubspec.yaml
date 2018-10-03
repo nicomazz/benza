@@ -13,6 +13,10 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  firebase_auth:
+  cloud_firestore:
+  latlong: ^0.6.1
+  faker: ^1.0.0
   flutter:
     sdk: flutter
 
