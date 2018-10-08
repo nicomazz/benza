@@ -76,11 +76,12 @@ class GroupListItemState extends State<GroupListItem> {
         clipBehavior: Clip.hardEdge,
         child: Row(
           children: <Widget>[
-            Hero(child: map,
+            Hero(child: Material(child: map),
                 tag: "group_item_${widget._group.name}"),
             Hero(
                 tag: "group_item_details_${widget._group.name}",
-                child: GroupItemTextDescription(group: widget._group))
+                child: Material(
+                    child: GroupItemTextDescription(group: widget._group)))
 
           ],
         ),

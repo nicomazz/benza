@@ -1,4 +1,5 @@
 import 'package:benza/data/Group.dart';
+import 'package:benza/pages/chat/chat_page.dart';
 import 'package:benza/pages/groups/group_list_item.dart';
 import 'package:benza/pages/placeholder_page.dart';
 import 'package:benza/services/map_utilities.dart';
@@ -22,7 +23,7 @@ class GroupDetailPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             SizedBox(
-                height: MediaQuery.of(context).size.height / 2,
+                height: MediaQuery.of(context).size.height / 4,
                 child: Hero(
                   child: map,
                   tag: "group_item_${this.group.name}",
@@ -31,10 +32,11 @@ class GroupDetailPage extends StatelessWidget {
                 tag: "group_item_details_${this.group.name}",
                 child: Row(
                   children: <Widget>[
-                    GroupItemTextDescription(group: this.group),
+                    Material(child: GroupItemTextDescription(group: this.group)),
                   ],
                 )),
-            Expanded(child: PlaceholderWidget(Colors.green, "Chat")),
+            Divider(height: 1.0,),
+            Expanded(child: ChatPage()),
           ],
         ),
       ),
