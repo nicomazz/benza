@@ -31,32 +31,39 @@ class ProfileBody extends StatelessWidget {
       style: TextStyle(fontSize: 40.0, fontStyle: FontStyle.italic),
     );
 
+    var imageNameDescription = Column(children: <Widget>[
+      image,
+      SizedBox(height: 15.0),
+      name,
+      SizedBox(height: 10.0),
+      Text(
+        'I like to travel!',
+        style: TextStyle(
+            fontSize: 20.0, color: Colors.black.withOpacity(0.5)),
+      )
+    ],);
     return Scaffold(
       body: Stack(
         children: <Widget>[
           ClipPath(
               child: Container(color: Colors.black.withOpacity(0.8)),
               clipper: getClipper()),
-          Positioned(
-              left: MediaQuery.of(context).size.width / 2 - image_size / 2,
-              top: size.height / 4 - image_size / 2,
-              child: Column(
-                children: <Widget>[
-                  image,
-                  SizedBox(height: 15.0),
-                  name,
-                  SizedBox(height: 10.0),
-                  Text(
-                    'I like to travel!',
-                    style: TextStyle(
-                        fontSize: 20.0, color: Colors.black.withOpacity(0.5)),
-                  ),
-                  SizedBox(height: 25.0),
-                  MyButton("Left a review", Colors.green, Colors.greenAccent),
-                  SizedBox(height: 25.0),
-                  MyButton("Log out", Colors.red, Colors.redAccent)
-                ],
-              ))
+          Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(
+                top: (size.height / 6 + size.height / 3) / 2 - image_size / 2),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              //  mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                imageNameDescription,
+                SizedBox(height: 25.0),
+                MyButton("Left a review", Colors.green, Colors.greenAccent),
+                SizedBox(height: 25.0),
+                MyButton("Log out", Colors.red, Colors.redAccent)
+              ],
+            ),
+          )
         ],
       ),
     );

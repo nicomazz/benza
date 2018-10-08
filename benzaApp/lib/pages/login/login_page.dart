@@ -8,8 +8,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String _email;
-  String _password;
+  String _email = 'aa@b.com';
+  String _password = '123456';
+
+  bool _loginInProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
+                controller: TextEditingController(text: _email),
                 decoration: InputDecoration(hintText: 'Email'),
                 onChanged: (value) {
                   setState(() {
@@ -32,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
                 }),
             SizedBox(height: 15.0),
             TextField(
+                controller: TextEditingController(text: _password),
                 decoration: InputDecoration(hintText: 'Password'),
                 onChanged: (value) {
                   setState(() {
@@ -39,19 +43,22 @@ class _LoginPageState extends State<LoginPage> {
                   });
                 }),
             SizedBox(height: 20.0),
-            RaisedButton(
+            _loginInProgress ? CircularProgressIndicator() : RaisedButton(
                 child: Text('Login'),
                 color: Colors.blue,
                 textColor: Colors.white,
                 elevation: 7.0,
                 onPressed: () {
                   //FirebaseAuth.instance.currentUser()
+                  setState(() => _loginInProgress = true);
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
-                          email: _email, password: _password)
+                      email: _email, password: _password)
                       .then((FirebaseUser user) {
+                    setState(() => _loginInProgress = false);
                     //Navigator.of(context).pushReplacementNamed('/homepage');
                   }).catchError((e) {
+                    setState(() => _loginInProgress = false);
                     print(e);
                   });
                 }),

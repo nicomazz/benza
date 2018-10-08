@@ -1,5 +1,8 @@
+import 'package:benza/data/Group.dart';
+import 'package:benza/pages/chat/chat_page.dart';
+import 'package:benza/pages/groups/group_detail_page.dart';
 import 'package:benza/pages/groups/group_list_page.dart';
-import 'package:benza/pages/profile_page.dart';
+import 'package:faker/faker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -8,19 +11,37 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+class TabElement {
+  Widget widget;
+  Widget icon;
+  String tag;
+
+  TabElement({this.widget, this.icon, this.tag});
+
+}
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 1;
-  final List<Widget> _children = [
-    ProfileWidget(),
-    GroupList(),
-    PlaceholderWidget(Colors.yellow)
+  int _currentIndex = 0;
+
+  final List<TabElement> _children = [
+    TabElement(
+        widget: ChatPage(),
+        icon: Icon(Icons.chat),
+        tag: "Chat"),
+    TabElement(widget: GroupList(),
+        icon: Icon(Icons.group), tag: "Group"),
+    TabElement(widget: GroupList(),
+        icon: Icon(Icons.directions), tag: "Trips"),
+    TabElement(
+        widget: GroupDetailPage(Group(name: Faker().address.city())),
+        icon: Icon(Icons.group_work),
+        tag: "Group Details example"),
+
   ];
-  final List<String> _childrenNames = ["Request", "Groups", "Trips"];
 
   @override
   Widget build(BuildContext context) {
     var appbar = AppBar(
-      title: Text(_childrenNames[_currentIndex]),
+      title: Text(_children[_currentIndex].tag),
       centerTitle: true,
       actions: <Widget>[
         IconButton(
@@ -34,26 +55,22 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: appbar,
         bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _currentIndex,
-            // this will be set when a new tab is tapped
-            onTap: (index) => setState(() {
-                  _currentIndex = index;
-                }),
-            items: [
+          // type:BottomNavigationBarType.fixed,
+          currentIndex: _currentIndex,
+          // this will be set when a new tab is tapped
+          onTap: (index) =>
+              setState(() {
+                _currentIndex = index;
+              }),
+          items: _children.map((i) =>
               BottomNavigationBarItem(
-                icon: Icon(Icons.group_add),
-                title: Text(_childrenNames[0]),
+                backgroundColor: Colors.blue,
+                icon: i.icon,
+                title: Text(i.tag),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.group),
-                title: Text(_childrenNames[1]),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.directions),
-                title: Text(_childrenNames[2]),
-              )
-            ]),
-        body: _children[_currentIndex]);
+          ).toList(),
+        ),
+        body: _children[_currentIndex].widget);
   }
 
   /*
@@ -90,15 +107,3 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class PlaceholderWidget extends StatelessWidget {
-  final Color color;
-
-  PlaceholderWidget(this.color);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: color,
-    );
-  }
-}

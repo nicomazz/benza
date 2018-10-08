@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:benza/data/Group.dart';
+import 'package:benza/pages/groups/group_detail_page.dart';
 import 'package:benza/pages/groups/group_list_item.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 
 class GroupList extends StatelessWidget {
   @override
@@ -41,8 +41,18 @@ class GroupList extends StatelessWidget {
     print("values: ${values.length}");
     return new ListView.builder(
       itemCount: values.length,
-      itemBuilder: (BuildContext context, int index) =>
-          GroupListItem(values[index]),
+      itemBuilder:
+          (BuildContext context, int index) =>
+          GroupListItem(values[index], () {
+
+            Navigator
+                .of(context)
+                .push(
+                MaterialPageRoute(
+                    builder: (_) => GroupDetailPage(values[index])
+                )
+            );
+          }),
     );
   }
 }

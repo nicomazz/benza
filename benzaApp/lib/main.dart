@@ -3,8 +3,12 @@ import 'package:benza/pages/login/login_page.dart';
 import 'package:benza/pages/login/signup_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart' show timeDilation;
 
-void main() => runApp(new MyApp());
+void main() {
+  timeDilation = 5.0;
+  runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -37,6 +41,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
+
         home: _handleCurrentScreen(),//LoginPage(),
         routes: <String, WidgetBuilder>{
           '/landingpage': (BuildContext context) => MyApp(),
