@@ -4,8 +4,8 @@ import 'package:latlong/latlong.dart';
 
 class MyMap extends StatefulWidget {
   final List<LatLng> points;
-
-  const MyMap({Key key, this.points}) : super(key: key);
+  final String name; // needed for shared transactions
+  const MyMap({Key key, this.points, this.name}) : super(key: key);
 
   @override
   MyMapState createState() {
@@ -25,21 +25,24 @@ class MyMapState extends State<MyMap> {
 
   @override
   Widget build(BuildContext context) {
-    return new FlutterMap(
-      mapController: mapController,
-      options: new MapOptions(
-        center: widget.points[0] ?? null,
-        zoom: 13.0,
-      ),
-      layers: [
-        new TileLayerOptions(
-          urlTemplate: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    return Hero(
+      tag: "map_item_${widget.name}",
+      child: new FlutterMap(
+        mapController: mapController,
+        options: new MapOptions(
+          center: widget.points[0] ?? null,
+          zoom: 13.0,
         ),
-        PolylineLayerOptions(polylines: [
-          Polyline(
-              points: widget.points, strokeWidth: 4.0, color: Colors.purple)
-        ])
-      ],
+        layers: [
+          new TileLayerOptions(
+            urlTemplate: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          ),
+          PolylineLayerOptions(polylines: [
+            Polyline(
+                points: widget.points, strokeWidth: 4.0, color: Colors.purple)
+          ])
+        ],
+      ),
     );
   }
 

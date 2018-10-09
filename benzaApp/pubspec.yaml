@@ -15,9 +15,14 @@ environment:
 dependencies:
   firebase_auth:
   cloud_firestore:
+  firebase_storage:
   latlong: ^0.6.1
   faker: ^1.0.0
   flutter_map: ^0.1.4
+  image_picker: ^0.4.10
+  shared_preferences: ^0.4.3
+  cached_network_image: ^0.4.1
+
 
   flutter:
     sdk: flutter

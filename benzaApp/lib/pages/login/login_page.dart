@@ -8,7 +8,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String _email = 'aa@b.com';
+  String _email = 'aaa@b.com';
   String _password = '123456';
 
   bool _loginInProgress = false;

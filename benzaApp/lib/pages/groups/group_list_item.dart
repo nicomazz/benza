@@ -22,7 +22,7 @@ class GroupListItemState extends State<GroupListItem> {
     var map = SizedBox(
       width: 120.0,
       height: 120.0,
-        child: MyMap(points: points)
+        child: MyMap(points: points, name: widget._group.name)
     );
 
     var text_description = Padding(
@@ -76,8 +76,7 @@ class GroupListItemState extends State<GroupListItem> {
         clipBehavior: Clip.hardEdge,
         child: Row(
           children: <Widget>[
-            Hero(child: Material(child: map),
-                tag: "group_item_${widget._group.name}"),
+            Material(child: map),
             Hero(
                 tag: "group_item_details_${widget._group.name}",
                 child: Material(

@@ -1,4 +1,13 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:benza/services/user_management.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileWidget extends StatelessWidget {
   // This widget is the root of your application.
@@ -8,59 +17,99 @@ class ProfileWidget extends StatelessWidget {
   }
 }
 
-class ProfileBody extends StatelessWidget {
+class ProfileBody extends StatefulWidget {
+  @override
+  ProfileBodyState createState() {
+    return new ProfileBodyState();
+  }
+}
+
+class ProfileBodyState extends State<ProfileBody> {
+  File imageFile;
+
+  bool isLoading = false;
+
+  String imageUrl;
+
+  DocumentSnapshot user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    updateUser();
+  }
+
+  updateUser() async {
+    var currentUser = await FirebaseAuth.instance.currentUser();
+    user = await (await Firestore.instance.collection('/users').document(
+        currentUser.uid)).get();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var image_size = MediaQuery.of(context).size.width / 3;
-
+    var photoUrl = user?.data["imageUri"];
+    var user_name = user?.data["name"];
+    var description = user?.data["description"];
     var image = Container(
       width: image_size,
       height: image_size,
       decoration: BoxDecoration(
-          color: Colors.red,
+          color: Colors.white,
           image: DecorationImage(
-              image: NetworkImage(
-                  "https://randomuser.me/api/portraits/men/46.jpg"),
+              image: CachedNetworkImageProvider(
+                  photoUrl ??
+                      "https://randomuser.me/api/portraits/men/46.jpg"),
               fit: BoxFit.cover),
           borderRadius: BorderRadius.circular(image_size / 2),
           boxShadow: [BoxShadow(blurRadius: 7.0, color: Colors.black)]),
     );
     var name = Text(
-      'Mario rossi',
+      user_name ?? 'Mario rossi',
       style: TextStyle(fontSize: 40.0, fontStyle: FontStyle.italic),
     );
 
     var imageNameDescription = Column(children: <Widget>[
-      image,
+      InkWell(
+          onTap: () {
+            getImage();
+          },
+          child: image),
       SizedBox(height: 15.0),
       name,
       SizedBox(height: 10.0),
       Text(
-        'I like to travel!',
+        description ?? 'I like to travel!',
         style: TextStyle(
             fontSize: 20.0, color: Colors.black.withOpacity(0.5)),
       )
     ],);
     return Scaffold(
+      floatingActionButton: user != null ? FloatingActionButton(
+        child: Icon(Icons.edit),
+        onPressed: (){
+          _editProfile();
+        },
+      ): null,
       body: Stack(
         children: <Widget>[
           ClipPath(
-              child: Container(color: Colors.black.withOpacity(0.8)),
+              child: Container(color: Theme
+                  .of(context)
+                  .primaryColorDark),
               clipper: getClipper()),
           Container(
             alignment: Alignment.center,
             margin: EdgeInsets.only(
-                top: (size.height / 6 + size.height / 3) / 2 - image_size / 2),
+              top: image_size / 3,),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               //  mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 imageNameDescription,
-                SizedBox(height: 25.0),
-                MyButton("Left a review", Colors.green, Colors.greenAccent),
-                SizedBox(height: 25.0),
-                MyButton("Log out", Colors.red, Colors.redAccent)
               ],
             ),
           )
@@ -68,6 +117,45 @@ class ProfileBody extends StatelessWidget {
       ),
     );
   }
+
+  Future getProfileInfo() async {
+    var currentUser = await FirebaseAuth.instance.currentUser();
+
+    if (currentUser != null) {
+
+    }
+  }
+
+  Future getImage() async {
+    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        imageFile = image;
+        isLoading = true;
+      });
+      uploadFile();
+    }
+  }
+
+  Future uploadFile() async {
+    String fileName = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
+    StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
+    StorageUploadTask uploadTask = reference.putFile(imageFile);
+
+
+    imageUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
+    var currentUser = await FirebaseAuth.instance.currentUser();
+    UserManagement().onProfileImageChanged(currentUser, imageUrl, context);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void _editProfile() {}
 }
 
 class MyButton extends StatelessWidget {
@@ -92,9 +180,9 @@ class MyButton extends StatelessWidget {
                 onTap: () {},
                 child: Center(
                     child: Text(
-                  this.text,
-                  style: TextStyle(color: Colors.white, fontSize: 15.0),
-                )))));
+                      this.text,
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
+                    )))));
   }
 }
 

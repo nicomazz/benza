@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 class UserManagement {
   storeNewUser(user, context) {
-    Firestore.instance.collection('/users').add({
+    Firestore.instance.collection('/users').document(user.uid).setData({
       'email': user.email,
       'uid': user.uid
     }).then((doc) {
@@ -15,6 +15,14 @@ class UserManagement {
 
     }).catchError((e) {
       print(e);
+    });
+  }
+
+  onProfileImageChanged(user, newUri, context) {
+    Firestore.instance.collection('/users').document(user.uid).updateData({
+      "imageUri": newUri
+    }).then((_) {
+      print("changed!");
     });
   }
 }
