@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:benza/pages/profile/rating_widget.dart';
 import 'package:benza/services/user_management.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,6 +19,7 @@ class ProfileWidget extends StatelessWidget {
 }
 
 class ProfileBody extends StatefulWidget {
+
   @override
   ProfileBodyState createState() {
     return new ProfileBodyState();
@@ -31,29 +33,36 @@ class ProfileBodyState extends State<ProfileBody> {
 
   String imageUrl;
 
-  DocumentSnapshot user;
+  DocumentSnapshot displayedUser;
+
+  FirebaseUser _currentUser;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     updateUser();
   }
 
   updateUser() async {
     var currentUser = await FirebaseAuth.instance.currentUser();
-    user = await (await Firestore.instance.collection('/users').document(
-        currentUser.uid)).get();
-    setState(() {});
+    //todo modify here to see everyone
+    displayedUser = await Firestore.instance.collection('users').document(
+        currentUser.uid).get();
+    setState(() {
+      this._currentUser = currentUser;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var image_size = MediaQuery.of(context).size.width / 3;
-    var photoUrl = user?.data["imageUri"];
-    var user_name = user?.data["name"];
-    var description = user?.data["description"];
+    var data = displayedUser?.data ?? Map();
+    var photoUrl = data["imageUri"];
+    var user_name = data["name"];
+    var description = data["description"];
+
+
     var image = Container(
       width: image_size,
       height: image_size,
@@ -68,7 +77,7 @@ class ProfileBodyState extends State<ProfileBody> {
           boxShadow: [BoxShadow(blurRadius: 7.0, color: Colors.black)]),
     );
     var name = Text(
-      user_name ?? 'Mario rossi',
+      user_name ?? '...',
       style: TextStyle(fontSize: 40.0, fontStyle: FontStyle.italic),
     );
 
@@ -87,8 +96,9 @@ class ProfileBodyState extends State<ProfileBody> {
             fontSize: 20.0, color: Colors.black.withOpacity(0.5)),
       )
     ],);
+
     return Scaffold(
-      floatingActionButton: user != null ? FloatingActionButton(
+      floatingActionButton: displayedUser != null ? FloatingActionButton(
         child: Icon(Icons.edit),
         onPressed: (){
           _editProfile();
@@ -110,6 +120,7 @@ class ProfileBodyState extends State<ProfileBody> {
               //  mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 imageNameDescription,
+                RatingWidget(displayedUser, _currentUser)
               ],
             ),
           )
