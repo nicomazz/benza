@@ -10,11 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d92e115c-a34a-4f50-aeba-d0f8da501148" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/pages/profile/rating_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/chat/chat_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/home_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/profile_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/profile/profile_page.dart" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -32,11 +28,10 @@
       <file leaf-file-name="profile_page.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/pages/profile/profile_page.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1140">
+            <state relative-caret-position="3696">
               <caret line="122" column="28" selection-start-line="122" selection-start-column="28" selection-end-line="122" selection-end-column="28" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
-                <element signature="e#4351#5024#0" />
               </folding>
             </state>
           </provider>
@@ -45,7 +40,7 @@
       <file leaf-file-name="rating_widget.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/pages/profile/rating_widget.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1081">
+            <state relative-caret-position="2013">
               <caret line="63" column="24" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
               <folding>
                 <element signature="e#0#54#0" expanded="true" />
@@ -57,8 +52,8 @@
       <file leaf-file-name="chat_page.dart" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/pages/chat/chat_page.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="609">
-              <caret line="156" column="64" selection-start-line="156" selection-start-column="64" selection-end-line="156" selection-end-column="64" />
+            <state relative-caret-position="759">
+              <caret line="178" column="38" selection-start-line="178" selection-start-column="38" selection-end-line="178" selection-end-column="38" />
               <folding>
                 <element signature="e#0#54#0" expanded="true" />
               </folding>
@@ -69,7 +64,7 @@
       <file leaf-file-name="circle_avatar.dart" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Android/flutter/packages/flutter/lib/src/material/circle_avatar.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="402">
+            <state relative-caret-position="1452">
               <caret line="50" column="8" selection-start-line="50" selection-start-column="8" selection-end-line="50" selection-end-column="8" />
             </state>
           </provider>
@@ -78,7 +73,7 @@
       <file leaf-file-name="colors.dart" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Android/flutter/packages/flutter/lib/src/material/colors.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="402">
+            <state relative-caret-position="59763">
               <caret line="1815" column="35" selection-start-line="1815" selection-start-column="35" selection-end-line="1815" selection-end-column="35" />
             </state>
           </provider>
@@ -87,7 +82,7 @@
       <file leaf-file-name="animations.dart" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Android/flutter/packages/flutter/lib/src/animation/animations.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-93">
+            <state relative-caret-position="2607">
               <caret line="88" column="8" selection-start-line="88" selection-start-column="8" selection-end-line="88" selection-end-column="8" />
             </state>
           </provider>
@@ -96,7 +91,7 @@
       <file leaf-file-name="firebase_auth.dart" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.5.20/lib/firebase_auth.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1140">
+            <state relative-caret-position="11055">
               <caret line="340" column="23" selection-start-line="340" selection-start-column="23" selection-end-line="340" selection-end-column="23" />
             </state>
           </provider>
@@ -105,7 +100,7 @@
       <file leaf-file-name="progress_indicator.dart" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Android/flutter/packages/flutter/lib/src/material/progress_indicator.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="501">
+            <state relative-caret-position="5709">
               <caret line="181" column="8" selection-start-line="181" selection-start-column="8" selection-end-line="181" selection-end-column="8" />
             </state>
           </provider>
@@ -114,7 +109,7 @@
       <file leaf-file-name="document_reference.dart" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.8.1/lib/src/document_reference.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1140">
+            <state relative-caret-position="2343">
               <caret line="73" column="27" selection-start-line="73" selection-start-column="27" selection-end-line="73" selection-end-column="27" />
             </state>
           </provider>
@@ -123,7 +118,7 @@
       <file leaf-file-name="firestore.dart" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.8.1/lib/src/firestore.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="622">
+            <state relative-caret-position="2112">
               <caret line="66" column="22" selection-start-line="66" selection-start-column="22" selection-end-line="66" selection-end-column="22" />
             </state>
           </provider>
@@ -197,7 +192,7 @@
     <option name="x" value="-2" />
     <option name="y" value="-40" />
     <option name="width" value="3844" />
-    <option name="height" value="2202" />
+    <option name="height" value="2159" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -207,7 +202,6 @@
     <panes>
       <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -249,6 +243,7 @@
         </subPane>
         <option name="show-excluded-files" value="false" />
       </pane>
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -348,8 +343,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2" y="-40" width="3844" height="2202" extended-state="0" />
-    <editor active="true" />
+    <frame x="-2" y="-40" width="3844" height="2159" extended-state="0" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="18" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" order="9" weight="0.3295699" />
@@ -361,7 +355,7 @@
       <window_info anchor="bottom" id="Dart Analysis" order="15" weight="0.32741934" />
       <window_info anchor="bottom" id="Run" order="3" weight="0.3451883" />
       <window_info anchor="bottom" id="Version Control" order="19" weight="0.33064517" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="16" visible="true" weight="0.4675192" />
+      <window_info anchor="bottom" id="Terminal" order="16" weight="0.32008368" />
       <window_info anchor="right" id="Flutter Outline" order="3" weight="0.32978722" />
       <window_info anchor="bottom" id="Logcat" order="17" weight="0.31344086" />
       <window_info id="Captures" order="2" />
@@ -387,7 +381,6 @@
       <window_info id="Designer" order="2" />
       <window_info anchor="bottom" id="Dart Analysis" order="7" weight="0.32741934" />
       <window_info id="Build Variants" order="3" side_tool="true" />
-      <window_info id="Image Layers" order="4" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32903227" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -399,20 +392,21 @@
       <window_info anchor="bottom" id="Android Profiler" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3295699" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.363127" />
       <window_info anchor="right" id="Device File Explorer" order="5" side_tool="true" />
       <window_info anchor="right" id="Flutter Outline" order="6" weight="0.32978722" />
       <window_info anchor="bottom" id="Logcat" order="10" weight="0.31344086" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.33010754" />
       <window_info anchor="bottom" id="Terminal" order="12" weight="0.22741936" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.363127" />
       <window_info anchor="bottom" id="Messages" order="13" weight="0.3295699" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.3295699" />
+      <window_info id="Image Layers" order="4" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
     </layout-to-restore>
@@ -714,46 +708,45 @@
     </entry>
     <entry file="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.8.1/lib/src/firestore.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="622">
+        <state relative-caret-position="2112">
           <caret line="66" column="22" selection-start-line="66" selection-start-column="22" selection-end-line="66" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.8.1/lib/src/document_reference.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
+        <state relative-caret-position="2343">
           <caret line="73" column="27" selection-start-line="73" selection-start-column="27" selection-end-line="73" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Android/flutter/packages/flutter/lib/src/material/progress_indicator.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
+        <state relative-caret-position="5709">
           <caret line="181" column="8" selection-start-line="181" selection-start-column="8" selection-end-line="181" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Android/flutter/packages/flutter/lib/src/animation/animations.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-93">
+        <state relative-caret-position="2607">
           <caret line="88" column="8" selection-start-line="88" selection-start-column="8" selection-end-line="88" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/profile/profile_page.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
+        <state relative-caret-position="3696">
           <caret line="122" column="28" selection-start-line="122" selection-start-column="28" selection-end-line="122" selection-end-column="28" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <element signature="e#4351#5024#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/profile/rating_widget.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1081">
+        <state relative-caret-position="2013">
           <caret line="63" column="24" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
           <folding>
             <element signature="e#0#54#0" expanded="true" />
@@ -763,29 +756,29 @@
     </entry>
     <entry file="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.5.20/lib/firebase_auth.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
+        <state relative-caret-position="11055">
           <caret line="340" column="23" selection-start-line="340" selection-start-column="23" selection-end-line="340" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Android/flutter/packages/flutter/lib/src/material/colors.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
+        <state relative-caret-position="59763">
           <caret line="1815" column="35" selection-start-line="1815" selection-start-column="35" selection-end-line="1815" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Android/flutter/packages/flutter/lib/src/material/circle_avatar.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
+        <state relative-caret-position="1452">
           <caret line="50" column="8" selection-start-line="50" selection-start-column="8" selection-end-line="50" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/chat/chat_page.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="156" column="64" selection-start-line="156" selection-start-column="64" selection-end-line="156" selection-end-column="64" />
+        <state relative-caret-position="759">
+          <caret line="178" column="38" selection-start-line="178" selection-start-column="38" selection-end-line="178" selection-end-column="38" />
           <folding>
             <element signature="e#0#54#0" expanded="true" />
           </folding>
