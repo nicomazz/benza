@@ -13,7 +13,7 @@ When you're ok with your modification, and you want to upload all online: `git p
 
 If you want to delete all your changes, and return back at the previous commit status: `git checkout`
 
-If you encour in merge problems, check in internet for the solution.
+If you encounter any merge problems, check the internet for the solution.
 
 If you know how to work with branches, it could be better.
 
@@ -31,7 +31,7 @@ then, to start the server `python app.py`
 
 # Docker
 
-Don't read this if you don't know what is docker.
+Don't read this if you don't know what docker is.
 
 ## Server specific initializations
 
