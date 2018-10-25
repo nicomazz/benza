@@ -42,15 +42,10 @@ class UserDAO(object):
         self.db = redis.Redis(host='redis', port=6379)
 
     def get(self, user_id):
-        print(f"called get with {user_id}")
-        notification_id = self.db.get(user_id)
-        print(f"getted notification_id: {notification_id}")
-        return notification_id
+        return self.db.get(user_id)
 
     def create(self, user_id, notification_id):
         self.db.set(user_id, notification_id)
-        print(f"setted {user_id} to {notification_id}")
-        print(f"if i get, i receive {self.db.get(user_id)}")
         return notification_id
 
     def update(self, user_id, notification_id):
