@@ -41,9 +41,4 @@ something like `docker swarm join --token a_token 1.1.1.1:2377`
 
 
 ## Code modification
-Do all the modification you want, then in the correct service:
-`sudo docker build -t SERVICE_NAME .`
-in which `SERVICE_NAME` must be replaced with the right service.
-
-Once the building is completed, you can run the service with :
-`sudo docker run -p 4000:80 SERVICE_NAME`
+`docker-compose up` on the root directory et woilà. Every time you save your code, everything reloads automatically

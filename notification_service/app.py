@@ -1,7 +1,12 @@
 from flask import Flask
 from flask_restplus import Api, Resource, fields
+import redis
+
+app = Flask(__name__)
+
 #import redis
 
+db = redis.Redis(host='redis', port=6379)
 
 app = Flask(__name__)
 #r = redis.StrictRedis(host='localhost', port=6379, db=0)
@@ -13,74 +18,55 @@ api = Api(app, version='1.0', title='Notification service',
 ns = api.namespace('user', description='user management')
 notify_ws = api.namespace('notify', description='Notify service')
 
-user_id = api.model('user_id',{
-    'userId':fields.String(readOnly=True, description='The user unique identifier'),
+user_id = api.model('user_id', {
+    'user_id': fields.String(readOnly=True, description='The user unique identifier'),
+})
+notification_id = api.model('notification_id', {
+    'notification_id': fields.String(description='The user unique notification id'),
 })
 
-user = api.model('UserNotificationId', {
-    'userId': fields.String(readOnly=True, description='The user unique identifier'),
-    'notificationId': fields.String(required=False, description='The task details')
+user = api.model('user', {
+    'user_id': fields.String(readOnly=True, description='The user unique identifier'),
+    'notification_id': fields.String(required=False, description='The task details')
 })
 
 notification = api.model('notification', {
     'title': fields.String(readOnly=True, description='Title of the notify'),
     'body': fields.String(readOnly=True, description='body of the notify'),
-    'userTargets': fields.List(fields.Nested(user_id),required=True, description='id of users to be notified')
+    'userTargets': fields.List(fields.Nested(user_id), required=True, description='id of users to be notified')
 })
-
 
 
 class UserDAO(object):
     def __init__(self):
-        self.counter = 0
-        self.users = []
+        self.db = redis.Redis(host='redis', port=6379)
 
-    def get_all(self):
-        return self.users
+    def get(self, user_id):
+        print(f"called get with {user_id}")
+        notification_id = self.db.get(user_id)
+        print(f"getted notification_id: {notification_id}")
+        return notification_id
 
-    def get(self, id):
-        for user in self.users:
-            if user['userId'] == id:
-                return user
-        api.abort(404, "user {} doesn't exist".format(id))
+    def create(self, user_id, notification_id):
+        self.db.set(user_id, notification_id)
+        print(f"setted {user_id} to {notification_id}")
+        print(f"if i get, i receive {self.db.get(user_id)}")
+        return notification_id
 
-    def create(self, data):
-        user = data
-        self.users.append(user)
-        return user
-
-    def update(self, id, notificationId):
-        user = self.get(id)
-        user['notificationId'] = notificationId
-        return user
+    def update(self, user_id, notification_id):
+        self.create(user_id, notification_id)
 
     def delete(self, id):
-        user = self.get(id)
-        self.users.remove(user)
+        self.db.set(id, "")
 
 
-DAO = UserDAO();
-DAO.create({'userId': 'user_1', 'notificationId':"not1"})
-DAO.create({'userId': 'user_2', 'notificationId':"not2"})
-DAO.create({'userId': 'user_3', 'notificationId':"not3"})
-DAO.create({'userId': 'user_4', 'notificationId':"not4"})
+DAO = UserDAO()
 
-
-@ns.route('/list')
-class UserList(Resource):
-    '''Shows a list of all users, and lets you POST to add new tasks'''
-    @ns.doc('list_users')
-    @ns.marshal_list_with(user)
-    def get(self):
-        '''List all tasks'''
-        return DAO.users
-
-    # @ns.doc('create_user')
-    # @ns.expect(user)
-    # @ns.marshal_with(user, code=201)
-    # def post(self):
-    #     '''Create a new task'''
-    #     return DAO.create(api.payload), 201
+# mock users
+DAO.create('user_1', "not1")
+DAO.create('user_2', "not2")
+DAO.create('user_3', "not3")
+DAO.create('user_4', "not4")
 
 
 @ns.route('/<string:id>')
@@ -90,10 +76,11 @@ class User(Resource):
 
     '''Show a single user item and lets you delete them'''
     @ns.doc('get_user')
-    @ns.marshal_with(user)
+    @ns.marshal_with(notification_id)
     def get(self, id):
-        '''Fetch a given resource'''
-        return DAO.get(id)
+        return {
+            "notification_id": DAO.get(id).decode("utf-8")
+        }
 
     @ns.doc('delete_user')
     @ns.response(204, 'user deleted')
@@ -103,23 +90,21 @@ class User(Resource):
         return '', 204
 
     @ns.expect(user)
-    @ns.marshal_with(user)
+    @ns.expect(notification_id)
     def put(self, id):
-        '''Update a task given its identifier'''
-        print(api.payload)
-        return DAO.update(id, api.payload['notificationId'])
-    
+        return self.post(id)
+
     @ns.doc('create_user')
-    @ns.expect(user)
-    @ns.marshal_with(user)
+    @ns.expect(notification_id)
+    @ns.marshal_with(notification_id)
     def post(self, id):
-        '''Update a task given its identifier'''
-        return DAO.create(api.payload), 201
+        return {
+            "notification_id":DAO.create(id, api.payload['notification_id'])
+        }, 201
+
 
 @notify_ws.route('/')
 class Notify(Resource):
-
-    
     @notify_ws.doc('send a notification to the id in the payload')
     @notify_ws.expect(notification)
  #   @ns.marshal_with(user)
