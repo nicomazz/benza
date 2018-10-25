@@ -20,7 +20,7 @@ If you know how to work with branches, it could be better.
 **BEFORE EVERY MODIFICATION** always do `git pull`, to get the latest version of all.
 
 # How to execute a service locally
-Fist of all, install python3. ()[https://www.python.org/downloads/]
+Fist of all, install python3. (https://www.python.org/downloads/)[]
 
 `cd service_name` (eg. `cd notification_service`)
 

@@ -1,7 +1,10 @@
 from flask import Flask
 from flask_restplus import Api, Resource, fields
+#import redis
+
 
 app = Flask(__name__)
+#r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 api = Api(app, version='1.0', title='Notification service',
           description='A simple service to handle notification with firebase messaging',
