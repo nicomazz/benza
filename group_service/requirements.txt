@@ -1,4 +1,3 @@
 Flask
-Redis
 flask-restplus
-pyfcm
+dataset
