@@ -8,12 +8,22 @@ services:
      - "4000:4000"
     volumes:
      - ./notification_service:/notification_service
+    restart: on-failure:5 
   group_service:
     build: ./group_service
+    depends_on:
+     - mysql_db
     ports:
      - "4100:4000"
     volumes:
      - ./group_service:/group_service 
+    restart: on-failure:5 
+  matching_service:
+    build: ./matching_service
+    ports:
+      - "4200:4000"
+     volumes:
+     - ./matching_service:/matching_service 
   mysql_db:
     image: mysql:5.7
     ports:

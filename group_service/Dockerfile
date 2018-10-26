@@ -7,6 +7,9 @@ WORKDIR /group_service
 # Copy the current directory contents into the container at /app
 COPY . /group_service
 
+RUN apk add py-mysqldb
+RUN apk add --no-cache mariadb-dev build-base
+
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
 

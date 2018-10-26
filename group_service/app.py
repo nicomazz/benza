@@ -1,11 +1,34 @@
 from flask import Flask
 from flask_restplus import Api, Resource, fields
-
+import dataset
 app = Flask(__name__)
 
-api = Api(app, version='1.0', title='Notification service',
+api = Api(app, version='1.0', title='Group service',
           description='A simple service to handle notification with firebase messaging',
           )
+config = {
+        'user': 'root',
+        'password': 'not_so_secret',
+        'host': 'mysql_db',
+        'port': '3306',
+        'database': 'group_db'
+    }
+
+#for the docs: https://dataset.readthedocs.io/en/latest/quickstart.html
+def test_db():
+    db = dataset.connect('mysql://root:not_so_secret@mysql_db/group_db')
+    print(db.tables)
+    table = db['user']
+    # Insert a new record.
+    table.insert(dict(name='John Doe', age=46, country='China'))
+    # dataset will create "missing" columns any time you insert a dict with an unknown key
+    table.insert(dict(name='Jane Doe', age=37, country='France', gender='female'))
+    print(db.tables)
+    print("user list:")
+    print(list(db['user'].all()))
+
+test_db()
+
 
 ns = api.namespace('user', description='user management')
 notify_ws = api.namespace('notify', description='Notify service')

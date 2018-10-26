@@ -6,6 +6,9 @@
 # Duncan's ignores
 *.DS_Store
 
+#redis ignore
+*/appendonly.aof
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

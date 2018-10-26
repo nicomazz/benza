@@ -19,26 +19,21 @@ If you know how to work with branches, it could be better.
 
 **BEFORE EVERY MODIFICATION** always do `git pull`, to get the latest version of all.
 
-# How to execute a service locally
-Fist of all, install python3. (https://www.python.org/downloads/)[]
+# How to execute services locally
+(of course, you need to install docker)
 
-`cd service_name` (eg. `cd notification_service`)
+`docker-compose up` on the root directory et woilà. Every time you save your code, everything reloads automatically
 
-only the first time you have to install dependencies: `sudo pip install -r requirements.txt`
-
-then, to start the server `python app.py`
+to run only some services: `docker-compose up service_name_1 service_name_2`. You can find service_names in docker-compose.yml.
 
 
-# Docker
+## rebuild
+`docker-compose build --no-cache service_name`
 
-Don't read this if you don't know what docker is.
 
-## Server specific initializations
+## multiple machine deploy 
+> this part is useless now
 
 init swarm: `sudo docker swarm init --advertise-addr $(hostname -i)`
 (optional) to add nodes follow the isstructions produced by the previous command.
 something like `docker swarm join --token a_token 1.1.1.1:2377`
-
-
-## Code modification
-`docker-compose up` on the root directory et woilà. Every time you save your code, everything reloads automatically
