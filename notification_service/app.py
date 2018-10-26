@@ -1,8 +1,11 @@
+import sys
+
 from flask import Flask
 from flask_restplus import Api, Resource, fields
 from pyfcm import FCMNotification
 
-from notification_service.UserDAO import UserDAO
+from UserDAO import UserDAO
+
 push_service = FCMNotification(api_key="AAAAgTBmNoo:APA91bHL08Z1VW5iaCAnxqM-u3xsSgRcXd9lwbXHRTY9ygDeT-s2GopwclF1-TNkhsWCFcfayZetZE1DHhKbjBRNmFD0FROEOd3JQKFpRioJUsc5pNdO2fY_Z1Go-mohrgsQaKwK97sd")
 
 app = Flask(__name__)
@@ -33,7 +36,7 @@ notification = api.model('notification', {
 
 DAO = UserDAO()
 
-# mock users
+# MOCK USERS
 DAO.create('user_1', "not_key_1")
 DAO.create('user_2', "not2")
 DAO.create('user_3', "not3")
@@ -71,14 +74,20 @@ class User(Resource):
     @ns.expect(notification_id)
     @ns.marshal_with(notification_id)
     def post(self, user_id):
+        DAO.create(user_id, api.payload['notification_id'])
         return {
-                   "notification_id": DAO.create(id, api.payload['notification_id'])
+                   "notification_id": DAO.get(user_id).decode("utf-8")
                }, 201
 
 
 def get_notifications_ids(user_ids):
-    return ["test1","test2"]
-
+    print(user_ids)
+    res = []
+    for id in user_ids:
+        notification_id = DAO.get(id)
+        if notification_id is not None:
+            res.append(str(notification_id))
+    return res
 
 @notify_ws.route('/')
 class Notify(Resource):
@@ -92,11 +101,9 @@ class Notify(Resource):
         notification_ids = get_notifications_ids(user_ids)
         result = push_service.notify_multiple_devices(registration_ids=notification_ids, message_title=title,
                                                       message_body=body)
-
-        print("todo: send a real notify to ")
-        print(notification_ids)
-        print(result)
+        sys.stdout.flush()
         return result, 201
+
 
 
 if __name__ == '__main__':
