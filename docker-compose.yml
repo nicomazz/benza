@@ -2,6 +2,8 @@ version: '3'
 services:
   notification_service:
     build: ./notification_service
+    depends_on:
+     - redis
     ports:
      - "4000:4000"
     volumes:
@@ -20,3 +22,6 @@ services:
       MYSQL_ROOT_PASSWORD: not_so_secret
   redis:
     image: "redis:alpine"
+    command: ["redis-server","--appendonly","yes"]
+    volumes:
+     - ./redis-data:/data

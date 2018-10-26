@@ -42,7 +42,6 @@ DAO.create('user_2', "not2")
 DAO.create('user_3', "not3")
 DAO.create('user_4', "not4")
 
-
 # NOTIFICATION_KEY SETTING
 
 @ns.route('/<string:user_id>')
@@ -103,7 +102,6 @@ class Notify(Resource):
                                                       message_body=body)
         sys.stdout.flush()
         return result, 201
-
 
 
 if __name__ == '__main__':
