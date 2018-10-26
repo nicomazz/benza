@@ -2,6 +2,10 @@
 # Created by https://www.gitignore.io/api/python
 
 ### Python ###
+
+# Duncan's ignores
+*.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
