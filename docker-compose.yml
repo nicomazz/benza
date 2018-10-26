@@ -1,10 +1,22 @@
 version: '3'
 services:
-  web:
+  notification_service:
     build: ./notification_service
     ports:
      - "4000:4000"
     volumes:
      - ./notification_service:/notification_service
+  group_service:
+    build: ./group_service
+    ports:
+     - "4100:4000"
+    volumes:
+     - ./group_service:/group_service 
+  mysql_db:
+    image: mysql:5.7
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: not_so_secret
   redis:
     image: "redis:alpine"

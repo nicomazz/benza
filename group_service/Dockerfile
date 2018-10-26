@@ -2,10 +2,10 @@
 FROM python:3.6-alpine
 
 # Set the working directory to /app
-WORKDIR /app
+WORKDIR /group_service
 
 # Copy the current directory contents into the container at /app
-COPY . /app
+COPY . /group_service
 
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
