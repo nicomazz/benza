@@ -39,6 +39,9 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: new ThemeData(
           primarySwatch: Colors.blue,
+          brightness: Brightness.light,
+          primaryColor: Colors.blue, //Changing this will change the color of the TabBar
+          accentColor: Colors.cyan[600],
         ),
         debugShowCheckedModeBanner: false,
 

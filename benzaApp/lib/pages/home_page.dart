@@ -1,9 +1,6 @@
-import 'package:benza/data/Group.dart';
 import 'package:benza/pages/chat/chat_page.dart';
-import 'package:benza/pages/groups/group_detail_page.dart';
 import 'package:benza/pages/groups/group_list_page.dart';
 import 'package:benza/pages/profile/profile_page.dart';
-import 'package:faker/faker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +18,7 @@ class TabElement {
 
 }
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 4;
+  int _currentIndex = 1;
 
   final List<TabElement> _children = [
     TabElement(
@@ -32,10 +29,6 @@ class _HomePageState extends State<HomePage> {
         icon: Icon(Icons.group), tag: "Group"),
     TabElement(widget: GroupList(),
         icon: Icon(Icons.directions), tag: "Trips"),
-    TabElement(
-        widget: GroupDetailPage(Group(name: Faker().address.city())),
-        icon: Icon(Icons.group_work),
-        tag: "Group Details"),
     TabElement(
         widget: ProfileWidget(),
         icon: Icon(Icons.person),

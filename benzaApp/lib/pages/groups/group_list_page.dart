@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:benza/data/Group.dart';
+import 'package:benza/models/Group.dart';
 import 'package:benza/pages/groups/group_detail_page.dart';
 import 'package:benza/pages/groups/group_list_item.dart';
+import 'package:benza/resources/mock/group_mock_provider.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 
@@ -28,11 +29,11 @@ class GroupList extends StatelessWidget {
 
   Future<List<Group>> _getData() async {
     List<Group> dummyGroups = new List<Group>.generate(
-        100, (i) => Group(name: Faker().address.city()));
+        100, (i) => generateRandomGroup());
 
     //throw new Exception("Danger Will Robinson!!!");
 
-    await new Future.delayed(new Duration(seconds: 0));
+    await new Future.delayed(new Duration(seconds: 1));
     return dummyGroups;
   }
 
