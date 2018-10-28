@@ -14,7 +14,7 @@ RUN apk add --no-cache mariadb-dev build-base
 RUN pip install -r requirements.txt
 
 # Make port 4100 available to the world outside this container
-EXPOSE 4000
+EXPOSE 4100
 
 # Define environment variable
 ENV NAME World
