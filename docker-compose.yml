@@ -22,7 +22,7 @@ services:
     build: ./matching_service
     ports:
       - "4200:4000"
-     volumes:
+    volumes:
      - ./matching_service:/matching_service 
   mysql_db:
     image: mysql:5.7
