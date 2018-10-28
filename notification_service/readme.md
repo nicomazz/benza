@@ -1,8 +1,8 @@
-# Best way to contribute tu this service
+# Best way to contribute to this service
 to start the server: `python app.py`
 
-Then, after every modification, the server automatically reload.
-To se the service in action: `localhost:4000` (while it's running)
+Then, after every modification, the server will automatically reload.
+To see the service in action: `localhost:4000` (while it's running)
 
 # If you find problems in the previous procedure
 After docker installation
