@@ -10,8 +10,8 @@ COPY . /matching_service
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
 
-# Make port 4000 available to the world outside this container
-EXPOSE 4000
+# Make port 4200 available to the world outside this container
+EXPOSE 4200
 
 # Define environment variable
 ENV NAME World
