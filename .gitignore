@@ -7,7 +7,7 @@
 *.DS_Store
 
 #redis ignore
-*/appendonly.aof
+*.aof
 .idea
 
 # Byte-compiled / optimized / DLL files

@@ -28,10 +28,12 @@ services:
     image: mysql:5.7
     ports:
       - "32000:3306"
+    volumes:
+      - ./db/mysql:/docker-entrypoint-initdb.d/:ro
     environment:
       MYSQL_ROOT_PASSWORD: not_so_secret
   redis:
     image: "redis:alpine"
     command: ["redis-server","--appendonly","yes"]
     volumes:
-     - ./redis-data:/data
+     - ./db/redis-data:/data

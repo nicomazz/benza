@@ -1,0 +1,1 @@
+CREATE DATABASE group_db;
