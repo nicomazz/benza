@@ -1,4 +1,5 @@
 import 'package:benza/pages/chat/chat_page.dart';
+import 'package:benza/pages/groups/create_group_page.dart';
 import 'package:benza/pages/groups/group_list_page.dart';
 import 'package:benza/pages/profile/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +23,10 @@ class _HomePageState extends State<HomePage> {
 
   final List<TabElement> _children = [
     TabElement(
+        widget: CreateGroupPage(),
+        icon: Icon(Icons.person),
+        tag: "Create group"),
+    TabElement(
         widget: ChatPage(),
         icon: Icon(Icons.chat),
         tag: "Chat"),
@@ -33,6 +38,7 @@ class _HomePageState extends State<HomePage> {
         widget: ProfileWidget(),
         icon: Icon(Icons.person),
         tag: "Profile"),
+
 
   ];
 
@@ -71,30 +77,6 @@ class _HomePageState extends State<HomePage> {
         body: _children[_currentIndex].widget);
   }
 
-  /*
-
-   Center(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('You are now logged in'),
-              SizedBox(
-                height: 15.0,
-              ),
-              OutlineButton(
-                borderSide: BorderSide(
-                    color: Colors.red, style: BorderStyle.solid, width: 3.0),
-                child: Text('Logout'),
-                onPressed: () {
-                  _logout();
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    */
 
   _logout() {
     FirebaseAuth.instance.signOut().then((value) {

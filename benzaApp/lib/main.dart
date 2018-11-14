@@ -1,3 +1,4 @@
+import 'package:benza/pages/groups/create_group_page.dart';
 import 'package:benza/pages/home_page.dart';
 import 'package:benza/pages/login/login_page.dart';
 import 'package:benza/pages/login/signup_page.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
 
-        home: _handleCurrentScreen(),//LoginPage(),
+        home: _handleCurrentScreen(),//LoginPage(), // todo: for testing, put this the page
         routes: <String, WidgetBuilder>{
           '/landingpage': (BuildContext context) => MyApp(),
           '/signup': (BuildContext context) => SignUpPage(),
