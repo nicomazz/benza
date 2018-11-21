@@ -90,7 +90,7 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
         Step(
             title: Text("Review path"),
             content: SizedBox(
-              height: 400.0,
+              height: 250.0,
               child: MyMap(
                   points: getStartEndCoordArray(), name: "create_group_map"),
             ),
