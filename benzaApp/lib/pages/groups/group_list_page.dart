@@ -31,8 +31,6 @@ class GroupList extends StatelessWidget {
     List<Group> dummyGroups = new List<Group>.generate(
         100, (i) => generateRandomGroup());
 
-    //throw new Exception("Danger Will Robinson!!!");
-
     await new Future.delayed(new Duration(seconds: 1));
     return dummyGroups;
   }

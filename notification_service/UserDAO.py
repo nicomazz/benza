@@ -1,6 +1,6 @@
 import redis
 
-
+#Class to handle the connection between the the service and the database
 class UserDAO(object):
     def __init__(self):
         try:

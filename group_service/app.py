@@ -8,35 +8,14 @@ app = Flask(__name__)
 api = Api(app, version='1.0', title='Group service',
           description='A simple service to handle notification with firebase messaging',
           )
-'''
-config = {
-        'user': 'root',
-        'password': 'not_so_secret',
-        'host': 'mysql_db',
-        'port': '3306',
-        'database': 'group_db'
-    }
-'''
-#for the docs: https://dataset.readthedocs.io/en/latest/quickstart.html
-def test_db():
-    db = dataset.connect('mysql://root:not_so_secret@mysql_db/group_db')
-    print(db.tables)
-    table = db['user']
-    # Insert a new record.
-    table.insert(dict(name='John Doe', age=46, country='China'))
-    # dataset will create "missing" columns any time you insert a dict with an unknown key
-    table.insert(dict(name='Jane Doe', age=37, country='France', gender='female'))
-    print(db.tables)
-    print("user list:")
-    print(list(db['user'].all()))
-
-#test_db()
-
 
 group_ns = api.namespace('group', description='CRUD for groups')
 user_group_ns = api.namespace('user_group', description='Used to insert user in a group')
 group_offer = api.namespace('group', description='group management')
 ns = api.namespace('old_user', description='group management')
+
+
+# MODELS
 
 latlng_t = api.model("LatLng",{
     "lat":fields.Float(),
@@ -86,6 +65,19 @@ class Group(Resource):
         return DAO.get_all()
 
 
+
+def test_db():
+    db = dataset.connect('mysql://root:not_so_secret@mysql_db/group_db')
+    print(db.tables)
+    table = db['user']
+    # Insert a new record.
+    table.insert(dict(name='John Doe', age=46, country='China'))
+    # dataset will create "missing" columns any time you insert a dict with an unknown key
+    table.insert(dict(name='Jane Doe', age=37, country='France', gender='female'))
+    print(db.tables)
+    print("user list:")
+    print(list(db['user'].all()))
+#for the docs: https://dataset.readthedocs.io/en/latest/quickstart.html
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000, host='0.0.0.0')

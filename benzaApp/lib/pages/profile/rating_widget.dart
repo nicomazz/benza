@@ -71,8 +71,7 @@ class _RatingWidgetState extends State<RatingWidget> {
     for (var d in data) {
       if (d["type"] == "up")
         up++;
-      else if (d["type"] == "down")
-        down++;
+      else if (d["type"] == "down") down++;
     }
     if (up == 0 && down == 0) return 0.5;
     return up / (up + down);

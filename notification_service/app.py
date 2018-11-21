@@ -6,6 +6,7 @@ from pyfcm import FCMNotification
 
 from UserDAO import UserDAO
 
+# IMPORTANT: this key is revoked, replace it with a new one, and protect it in the most appropriate way
 push_service = FCMNotification(api_key="AAAAgTBmNoo:APA91bHL08Z1VW5iaCAnxqM-u3xsSgRcXd9lwbXHRTY9ygDeT-s2GopwclF1-TNkhsWCFcfayZetZE1DHhKbjBRNmFD0FROEOd3JQKFpRioJUsc5pNdO2fY_Z1Go-mohrgsQaKwK97sd")
 
 app = Flask(__name__)
@@ -36,7 +37,7 @@ notification = api.model('notification', {
 
 DAO = UserDAO()
 
-# MOCK USERS
+# MOCK USERS for testing pourpose
 DAO.create('user_1', "not_key_1")
 DAO.create('user_2', "not2")
 DAO.create('user_3', "not3")
@@ -88,6 +89,7 @@ def get_notifications_ids(user_ids):
             res.append(str(notification_id))
     return res
 
+# endpoint to effectiverly send a notification
 @notify_ws.route('/')
 class Notify(Resource):
     @notify_ws.doc('send a notification to the id in the payload')

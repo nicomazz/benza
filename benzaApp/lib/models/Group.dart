@@ -1,9 +1,6 @@
-
-
 import 'dart:convert';
 
 import 'package:benza/models/Position.dart';
-import 'package:benza/models/User.dart';
 import 'package:benza/models/UserInGroup.dart';
 import 'package:latlong/latlong.dart';
 
@@ -14,26 +11,25 @@ class Group {
   final List<LatLng> polyline;
   final List<UserInGroup> users;
 
-  Group({this.id,this.name, this.from, this.to, this.users, this.polyline});
+  Group({this.id, this.name, this.from, this.to, this.users, this.polyline});
 
   factory Group.fromJson(Map<String, dynamic> j) {
-    var user_list  = (json.decode(j["users"]) as List)
+    var userList = (json.decode(j["users"]) as List)
         .map((data) => new UserInGroup.fromJson(data))
         .toList();
-    List<LatLng> polyline =  decodePolyline(j['polyline']);
+    List<LatLng> polyline = decodePolyline(j['polyline']);
     return Group(
       id: j['id'],
       name: j['name'],
       polyline: polyline,
-      from : j["from_location"],
+      from: j["from_location"],
       to: j["from_location"],
-      users: user_list,
+      users: userList,
     );
   }
 
   toJson() => json.encode(this);
 }
-
 
 //temp workaround, we have to find a library
 List<LatLng> decodePolyline(String encoded) {
