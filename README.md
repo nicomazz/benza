@@ -63,4 +63,6 @@ something like `docker swarm join --token a_token 1.1.1.1:2377`
 ## Interesting folders
 - benzaApp: it contains the flutter app
    - lib: contains the flutter code
+      - main.dart: Where magic happens
+      - resources/group_provider.dart: code to query the group web service
 - group/matching/notification_service: contains the code needed for each service.
