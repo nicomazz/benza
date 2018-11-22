@@ -9,21 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d92e115c-a34a-4f50-aeba-d0f8da501148" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/Group.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Group.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/Offer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Offer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/chat/chat_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/groups/group_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/groups/group_list_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/profile/profile_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/profile/profile_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/profile/rating_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/profile/rating_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../group_service/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../group_service/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../matching_service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../matching_service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../notification_service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../notification_service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../notification_service/UserDAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../notification_service/UserDAO.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../notification_service/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../notification_service/app.py" afterDir="false" />
-    </list>
+    <list default="true" id="d92e115c-a34a-4f50-aeba-d0f8da501148" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
     <ignored path="$PROJECT_DIR$/.pub/" />
