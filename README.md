@@ -2,6 +2,7 @@
 
 Benza is a mobile app developed by team "Bravo" as project for "Principle of software engineering" couse in the University of Aberdeen. All the project is at the very beginning.
 
+![alt text](https://raw.githubusercontent.com/nicomazz/benza/master/demo_image.png)
 
 
 The following technologies/languages/frameworks has been used:
