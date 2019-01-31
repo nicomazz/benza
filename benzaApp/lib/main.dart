@@ -10,7 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  //auth management. It check if the user is logged in correctly
+  //auth management. Checks if the user is logged in correctly
   Widget _handleCurrentScreen() {
     return new StreamBuilder<FirebaseUser>(
         stream: FirebaseAuth.instance.onAuthStateChanged,
@@ -28,12 +28,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Benza',
         theme: new ThemeData(
           primarySwatch: Colors.blue,
           brightness: Brightness.light,
           primaryColor: Colors.blue,
-          accentColor: Colors.cyan[600], // tabbar color
+          accentColor: Colors.cyan[600], // tab bar color
         ),
         debugShowCheckedModeBanner: false,
         home: _handleCurrentScreen(),
