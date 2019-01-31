@@ -6,8 +6,8 @@ class GroupDAO(object):
         self.db = dataset.connect(
             'mysql://root:not_so_secret@mysql_db/group_db')
         self.group_table = self.db['group']
-        print("db tables:")
-        print(self.db.tables)
+        #print("db tables:")
+        #print(self.db.tables)
 
     def get(self, group_id):
         return self.group_table.find_one(group_id=group_id)

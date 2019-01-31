@@ -6,7 +6,7 @@ from GroupDAO import GroupDAO
 app = Flask(__name__)
 
 api = Api(app, version='1.0', title='Group service',
-          description='A simple service to handle notification with firebase messaging',
+          description='A simple service to handle groups of users',
           )
 
 group_ns = api.namespace('group', description='CRUD for groups')

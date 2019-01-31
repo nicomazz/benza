@@ -7,12 +7,12 @@ var dummyLocations = [
   Position("Glasgow", LatLng(55.864239, -4.251806)),
   Position("Edinburgh", LatLng(55.953251, -3.188267)),
   Position("London", LatLng(51.507351, -0.327758)),
-  Position("aergae", LatLng(45.507351, -0.427758)),
-  Position("aerger", LatLng(12.507351, -0.527758)),
-  Position("Loaergaerndon", LatLng(88.507351, -0.627758)),
-  Position("aergaer", LatLng(15.507351, -0.727758)),
-  Position("agaga", LatLng(74.507351, -0.827758)),
-  Position("gerge", LatLng(32.507351, -0.927758))
+  Position("Neulles", LatLng(45.507351, -0.427758)),
+  Position("Boulsa", LatLng(12.507351, -0.527758)),
+  Position("Cape Town", LatLng(-33.907395, 18.407043)),
+  Position("Mogadishu", LatLng(2.055231, 45.328154)),
+  Position("Lviv", LatLng(49.809315, 24.034179)),
+  Position("Oslo", LatLng(59.916380, 10.751514))
 ];
 
 Position randomPosition() =>

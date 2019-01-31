@@ -70,13 +70,13 @@ class ProfileBodyState extends State<ProfileBody> {
           color: Colors.white,
           image: DecorationImage(
               image: CachedNetworkImageProvider(
-                  photoUrl ?? "https://randomuser.me/api/portraits/men/46.jpg"),
+                  photoUrl ?? "https://www.gannett-cdn.com/-mm-/cdeb9a9e093b3172aa58ea309e74edcf80bf651f/c=0-77-2911-1722/local/-/media/2016/05/29/Cincinnati/Cincinnati/636001135964333349-Harambe2.jpg?width=3200&height=1680&fit=crop"),
               fit: BoxFit.cover),
           borderRadius: BorderRadius.circular(image_size / 2),
           boxShadow: [BoxShadow(blurRadius: 7.0, color: Colors.black)]),
     );
     var name = Text(
-      user_name ?? '...',
+      user_name ?? 'Username',
       style: TextStyle(fontSize: 40.0, fontStyle: FontStyle.italic),
     );
 
@@ -91,7 +91,7 @@ class ProfileBodyState extends State<ProfileBody> {
         name,
         SizedBox(height: 10.0),
         Text(
-          description ?? 'I like to travel!',
+          description ?? 'Benza testing meeting 29/01/2019',
           style:
               TextStyle(fontSize: 20.0, color: Colors.black.withOpacity(0.5)),
         )
@@ -119,7 +119,7 @@ class ProfileBodyState extends State<ProfileBody> {
             ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
-              //  mainAxisAlignment: MainAxisAlignment.start,
+              //mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 imageNameDescription,
                 RatingWidget(displayedUser, _currentUser)
