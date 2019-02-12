@@ -6,7 +6,7 @@ class UserDAO(object):
         try:
             self.db = redis.Redis(host='redis', port=6379)
             print(self.db.keys())
-        except e:
+        except redis.ConnectionError:
             print("error in the connection")
 
     def get(self, user_id):
