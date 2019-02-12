@@ -3,8 +3,7 @@ import dataset
 
 class GroupDAO(object):
     def __init__(self):
-        self.db = dataset.connect(
-            'mysql://root:not_so_secret@mysql_db/group_db')
+        self.db = dataset.connect('mysql://root:not_so_secret@mysql_db/group_db')
         self.group_table = self.db['group']
         #print("db tables:")
         #print(self.db.tables)
