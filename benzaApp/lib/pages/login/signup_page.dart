@@ -26,6 +26,13 @@ class _SignUpPageState extends State<SignUpPage> {
           children: <Widget>[
             TextField(
                 decoration: InputDecoration(hintText: 'Email'),
+                controller: TextEditingController.fromValue(
+                	TextEditingValue(
+                    	text: _email, selection: TextSelection.collapsed(
+                    		offset: _email.length-1
+                    	)
+                  	)
+                ),
                 onChanged: (value) {
                   setState(() {
                     _email = value;
