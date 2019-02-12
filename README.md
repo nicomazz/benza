@@ -58,8 +58,7 @@ To add nodes follow the instructions produced by the previous command.
 something like `docker swarm join --token a_token 1.1.1.1:2377`
 
 ## File Structure
-
-benzaApp
+```benzaApp
    └── lib                                            - Contains all of the Flutter code
          └── models                                   - Where objects are made, attrs defined
                ├── Group.dart
@@ -92,3 +91,4 @@ benzaApp
                ├── map_utilities.dart                 - Interfaces with OpenStreetMap, widget grabs appropriate map tile
                └── user_management.dart               - Interfaces with Firebase Console for adding new User/updating dp
          └── main.dart                                - Initialise the app, check for auth, load landing page
+```
