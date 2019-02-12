@@ -55,7 +55,7 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
 
   _fetchCorrectPosition(String query, Function(Address) then) async {
     if (query.isEmpty) return;
-    print("fetch iniziato");
+    print("Fetch initiated");
     var addresses = await Geocoder.local.findAddressesFromQuery(query);
     if (addresses.isEmpty) {
       print("No addresses found");
