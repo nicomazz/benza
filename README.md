@@ -1,11 +1,11 @@
 # Benza
 
-Benza is a mobile app developed by team "Bravo" as project for "Principle of software engineering" couse in the University of Aberdeen. All the project is at the very beginning.
+Benza is a mobile app developed by team "Bravo" as a project for a series of sustained study courses focused on software development at the University of Aberdeen.
 
 ![alt text](https://raw.githubusercontent.com/nicomazz/benza/master/demo_image.png)
 
 
-The following technologies/languages/frameworks has been used:
+The following technologies/languages/frameworks have been used:
 - Flutter
    - Dart programming language
 - Python
@@ -16,54 +16,79 @@ The following technologies/languages/frameworks has been used:
 - MySql
 - Docker
 
-## Setup
+## Developer Setup
 
 You have to install git on your machine. [git installation](http://bfy.tw/2LY7).
 
-to clone this repository, cd in the target folder and do: `git clone https://github.com/nicomazz/benza.git`
-
-Then, to enter in it: `cd benza`
+To clone this repository, cd into the target folder and do: `git clone https://github.com/nicomazz/benza.git`
 
 ## How to commit
-I advise to follow an online detailed tutorial on how to use git. Here a short referece.
+Follow an online detailed tutorial on how to use git. Here's a short referece.
 
 If you create a new file, you have to add it to the version control: `git add path/to/new/file.txt`
 
-When you have done modification somewhere, you can commit locally with: `git commit -m "A description of my changes" -a` 
+When you've modified something, you can commit locally with: `git commit -m "A description of my changes" -a` 
 
-When you're ok with your modification, and you want to upload all online: `git push`
+When you're ok with your modification (it works) and you want to upload it so we can all use it: `git push`
 
-If you want to delete all your changes, and return back at the previous commit status: `git checkout`
+If you want to delete all your changes, and return back to the previous commit status: `git checkout`
 
-If you encounter any merge problems, gl.
+**BEFORE EVERY MODIFICATION** always do `git pull`, to get the latest version of the repo.
 
-If you know how to work with branches, it could be better.
+If you have any problems with git, try googling first :)
 
-**BEFORE EVERY MODIFICATION** always do `git pull`, to get the latest version of all.
-
-## How to execute services locally
-(of course, you need to install docker)
+## Executing services locally
+Install Docker on your machine
 
 `docker-compose up` on the root directory et woilà. Every time you save your code, everything reloads automatically
 
-to run only some services: `docker-compose up service_name_1 service_name_2`. You can find service_names in docker-compose.yml.
+To run only selected services: `docker-compose up service_name_1 service_name_2`. You can find service_names in docker-compose.yml.
 
 
 ## Rebuild in case of problems
 `docker-compose build --no-cache service_name`
 
 
-## multiple machine deploy 
+## Multiple machine deploy 
 Don't read this part if you don't really need to.
 
-init swarm: `sudo docker swarm init --advertise-addr $(hostname -i)`
+Init swarm: `sudo docker swarm init --advertise-addr $(hostname -i)`
 
-To add nodes follow the isstructions produced by the previous command.
+To add nodes follow the instructions produced by the previous command.
 something like `docker swarm join --token a_token 1.1.1.1:2377`
 
-## Interesting folders
-- benzaApp: it contains the flutter app
-   - lib: contains the flutter code
-      - main.dart: Where magic happens
-      - resources/group_provider.dart: code to query the group web service
-- group/matching/notification_service: contains the code needed for each service.
+## File Structure
+
+benzaApp
+   └── lib                                            - Contains all of the Flutter code
+         └── models                                   - Where objects are made, attrs defined
+               ├── Group.dart
+               ├── Offer.dart
+               ├── Position.dart                      - Must change to suit GoogleMaps integration
+               ├── User.dart
+               └── UserInGroup.dart
+         └── pages                                    - Structure of pages in the Flutter app
+               ├── home_page.dart                     - The basic layout of the app (home of the navbar)
+               ├── placeholder_page.dart              - from flutter app template (unnecessary)
+               └── chat
+                    └── chat_page.dart                - Chat page for the group that current user is in
+               └── groups
+                     ├── create_group_page.dart       - The left-most tab on the navbar/lets you create a group
+                     ├── group_detail_page.dart       - Appears when you tap on a specific group from the list
+                     ├── group_list_item.dart         
+                     └── group_list_page.dart
+               └── login
+                     ├── login_page.dart
+                     └── signup_page.dart
+               └── profile
+                     ├── profile_page.dart
+                     └── rating_widget.dart 
+         └── resources
+               └── mock
+                     ├── group_mock_provider.dart
+                     └── user_mock_provider.dart
+               └── group_provider.dart                - Code to query the group web service
+         └── services
+               ├── map_utilities.dart                 - Interfaces with OpenStreetMap, widget grabs appropriate map tile
+               └── user_management.dart               - Interfaces with Firebase Console for adding new User/updating dp
+         └── main.dart                                - Initialise the app, check for auth, load landing page
