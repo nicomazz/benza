@@ -11,12 +11,13 @@ class GroupList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
-      future: _getData(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+      future: _getData(), // successful future returns dummyGroups
+      initialData: new Text('No groups yet!'),
+      builder: (BuildContext context, AsyncSnapshot snapshot) { // evaluates last known state of async computation
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return new Text('loading...');
+            return new Text('Loading...');
           default:
             if (snapshot.hasError)
               return new Text('Error: ${snapshot.error}');
@@ -29,22 +30,22 @@ class GroupList extends StatelessWidget {
 
   Future<List<Group>> _getData() async {
     List<Group> dummyGroups = new List<Group>.generate(
-        100, (i) => generateRandomGroup());
+        100, (i) => generateRandomGroup()); // creates list of length 100 & generates random group (from mock_provider) for each entry
 
-    await new Future.delayed(new Duration(seconds: 1));
+    await new Future.delayed(new Duration(seconds: 1)); // delay leaves time for list of groups to be generated
     return dummyGroups;
   }
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Group> values = snapshot.data;
-    print("values: ${values.length}");
-    return new ListView.builder(
+    print("List<Group> values: ${values.length}");
+    return new ListView.builder( // this builds the list of groups as more groups are loaded (to a max of itemCount)
       itemCount: values.length,
       itemBuilder:
           (BuildContext context, int index) =>
-          GroupListItem(values[index], () {
+          GroupListItem(values[index], () { // builds the individual groups in the list
 
-            Navigator
+            Navigator // a navigation stack - the way to move between screens in flutter apps.
                 .of(context)
                 .push(
                 MaterialPageRoute(
