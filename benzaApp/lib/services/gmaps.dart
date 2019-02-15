@@ -34,6 +34,13 @@ class MapsDemoState extends State<MapsDemo> {
               width: 300.0,
               height: 200.0,
               child: GoogleMap(
+                initialCameraPosition:
+                const CameraPosition(
+                  bearing: 270.0,
+                  target: LatLng(51.5160895, -0.1294527),
+                  tilt: 30.0,
+                  zoom: 17.0,
+                ),
                 onMapCreated: _onMapCreated,
               ),
             ),
