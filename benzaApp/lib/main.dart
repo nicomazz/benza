@@ -3,8 +3,10 @@ import 'package:benza/pages/login/login_page.dart';
 import 'package:benza/pages/login/signup_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
+  debugPaintSizeEnabled = true; // use to show structure of widgets on screen
   //timeDilation = 5.0; // use to test animations
   runApp(new MyApp());
 }
