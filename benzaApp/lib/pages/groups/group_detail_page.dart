@@ -2,6 +2,7 @@ import 'package:benza/models/Group.dart';
 import 'package:benza/pages/chat/chat_page.dart';
 import 'package:benza/pages/groups/group_list_item.dart';
 import 'package:benza/services/map_utilities.dart';
+import 'package:benza/services/gmaps.dart';
 import 'package:flutter/material.dart';
 
 class GroupDetailPage extends StatelessWidget {
@@ -15,7 +16,8 @@ class GroupDetailPage extends StatelessWidget {
     final keyboardDisplayed = bottomInset > 0.0;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
-    var map = MyMap(points: group.polyline, name: group.name);
+    //var map = MyMap(points: group.polyline, name: group.name); //uses the temp openstreetmap workaround
+    var map = MapsDemo(name: group.name); // the Google Maps demo
     var topMapWidget = SizedBox(
       height: keyboardDisplayed ? 0.0 : MediaQuery.of(context).size.height / 4,
       child: Stack(children: <Widget>[map, mapFullScreenFab(context, map)]),

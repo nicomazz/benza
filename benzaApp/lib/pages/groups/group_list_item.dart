@@ -1,5 +1,6 @@
 import 'package:benza/models/Group.dart';
 import 'package:benza/services/map_utilities.dart';
+import 'package:benza/services/gmaps.dart';
 import 'package:flutter/material.dart';
 
 class GroupListItem extends StatefulWidget {
@@ -18,12 +19,13 @@ class GroupListItemState extends State<GroupListItem> {
 
   @override
   Widget build(BuildContext context) {
-    var points = widget._group.polyline;
+    //var points = widget._group.polyline;
 
     var map = SizedBox(
       width: 120.0,
       height: 120.0,
-        child: MyMap(points: points, name: widget._group.name)
+        // child: MyMap(points: points, name: widget._group.name)
+        child: MapsDemo(name: widget._group.name)
     );
 
 
@@ -83,7 +85,7 @@ class GroupItemTextDescription extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Destination: ${group.to.name}',
+            '${group.to.name}',
             style: TextStyle(
                 fontSize: 20.0, fontWeight: FontWeight.bold),
           ),
@@ -92,7 +94,7 @@ class GroupItemTextDescription extends StatelessWidget {
           ),
           Text(
             'Depart from ${group.from.name}\n${group
-                .users.length} users inside',
+                .users.length} people in group',
             style: TextStyle(
                 fontSize: 16.0, color: Colors.black.withOpacity(0.6)),
           )

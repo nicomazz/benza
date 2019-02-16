@@ -30,7 +30,7 @@ class GroupList extends StatelessWidget {
 
   Future<List<Group>> _getData() async {
     List<Group> dummyGroups = new List<Group>.generate(
-        100, (i) => generateRandomGroup()); // creates list of length 100 & generates random group (from mock_provider) for each entry
+        2, (i) => generateRandomGroup()); // creates list of length 2 & generates random group (from mock_provider) for each entry
 
     await new Future.delayed(new Duration(seconds: 1)); // delay leaves time for list of groups to be generated
     return dummyGroups;

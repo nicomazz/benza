@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-// FROM https://pub.dartlang.org/packages/google_maps_flutter
-
 /*
 void main() {
   runApp(MaterialApp(
     home: Scaffold(
-      appBar: AppBar(title: const Text('Google Maps demo')),
-      body: MapsDemo(),
+      appBar: AppBar(title: const Text('gmapstest')),
+      body: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (BuildContext context, int index) {
+        return new MapsDemo();
+       },
+      ),
     ),
   ));
 }
 */
+
 class MapsDemo extends StatefulWidget {
+	final String name; // needed for shared transactions
+	const MapsDemo({Key key, this.name}) : super(key: key);
+	
   @override
-  State createState() => MapsDemoState();
+  MapsDemoState createState() {
+		return new MapsDemoState();
+	}
 }
 
 class MapsDemoState extends State<MapsDemo> {
-
   GoogleMapController mapController;
 
   @override
@@ -31,32 +39,18 @@ class MapsDemoState extends State<MapsDemo> {
         children: <Widget>[
           Center(
             child: SizedBox(
-              width: 300.0,
-              height: 200.0,
+              width: 60.0,
+              height: 60.0,
               child: GoogleMap(
-                initialCameraPosition:
-                const CameraPosition(
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: const CameraPosition(
                   bearing: 270.0,
                   target: LatLng(51.5160895, -0.1294527),
                   tilt: 30.0,
                   zoom: 17.0,
                 ),
-                onMapCreated: _onMapCreated,
               ),
             ),
-          ),
-          RaisedButton(
-            child: const Text('Go to London'),
-            onPressed: mapController == null ? null : () {
-              mapController.animateCamera(CameraUpdate.newCameraPosition(
-                const CameraPosition(
-                  bearing: 270.0,
-                  target: LatLng(51.5160895, -0.1294527),
-                  tilt: 30.0,
-                  zoom: 17.0,
-                ),
-              ));
-            },
           ),
         ],
       ),
@@ -64,6 +58,9 @@ class MapsDemoState extends State<MapsDemo> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
-    setState(() { mapController = controller; });
+    setState(() {
+      mapController = controller;
+    });
   }
+
 }
