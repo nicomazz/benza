@@ -44,6 +44,10 @@ Install Docker on your machine
 
 To run only selected services: `docker-compose up service_name_1 service_name_2`. You can find service_names in docker-compose.yml.
 
+To interact via the rest AOI, open a web browser and go to the default Docker URL (e.g. `0.0.0.0:4000` for the notification service).
+
+Your default URL might be different, you can find it when you start docker in command line (it'll be one of the first things Docker prints out).
+
 
 ## Rebuild in case of problems
 `docker-compose build --no-cache service_name`
@@ -58,7 +62,8 @@ To add nodes follow the instructions produced by the previous command.
 something like `docker swarm join --token a_token 1.1.1.1:2377`
 
 ## File Structure
-```benzaApp
+```
+benzaApp
    └── lib                                            - Contains all of the Flutter code
          └── models                                   - Where objects are made, attrs defined
                ├── Group.dart
@@ -72,10 +77,10 @@ something like `docker swarm join --token a_token 1.1.1.1:2377`
                └── chat
                     └── chat_page.dart                - Chat page for the group that current user is in
                └── groups
-                     ├── create_group_page.dart       - The left-most tab on the navbar/lets you create a group
-                     ├── group_detail_page.dart       - Appears when you tap on a specific group from the list
-                     ├── group_list_item.dart         
-                     └── group_list_page.dart
+                     ├── create_group_page.dart       - Create a group
+                     ├── group_detail_page.dart       - View of one group (tap one of the groups from the list)
+                     ├── group_list_item.dart         - Elements of the list (includes map tile, group name, people inside etc.)
+                     └── group_list_page.dart         - The page that the list is displayed on
                └── login
                      ├── login_page.dart
                      └── signup_page.dart
@@ -89,6 +94,7 @@ something like `docker swarm join --token a_token 1.1.1.1:2377`
                └── group_provider.dart                - Code to query the group web service
          └── services
                ├── map_utilities.dart                 - Interfaces with OpenStreetMap, widget grabs appropriate map tile
+               ├── gmaps.dart                         - Interfaces with Google Maps API
                └── user_management.dart               - Interfaces with Firebase Console for adding new User/updating dp
          └── main.dart                                - Initialise the app, check for auth, load landing page
 ```
