@@ -140,3 +140,4 @@ pip-selfcheck.json
 .vscode/launch.json
 
 # End of https://www.gitignore.io/api/python
+db/redis-data/appendonly.aof
