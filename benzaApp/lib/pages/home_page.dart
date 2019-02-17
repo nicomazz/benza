@@ -24,14 +24,14 @@ class _HomePageState extends State<HomePage> {
   final List<TabElement> _children = [
     TabElement(
         widget: CreateGroupPage(),
-        icon: Icon(Icons.person),
-        tag: "Create group"),
+        icon: Icon(Icons.group_add),
+        tag: "New group"),
     TabElement(
         widget: ChatPage(),
         icon: Icon(Icons.chat),
         tag: "Chat"),
     TabElement(widget: GroupList(),
-        icon: Icon(Icons.group), tag: "Group"),
+        icon: Icon(Icons.group), tag: "My Groups"),
     TabElement(widget: GroupList(),
         icon: Icon(Icons.directions), tag: "Trips"),
     TabElement(
@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
 
   _logout() {
     FirebaseAuth.instance.signOut().then((value) {
-      // Navigator.of(context).pushReplacementNamed('/landingpage');
+      Navigator.of(context).pushReplacementNamed('/landingpage');
     }).catchError((e) {
       print(e);
     });
