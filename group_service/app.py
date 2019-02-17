@@ -37,24 +37,24 @@ group = api.model('group',{
 })
 
 
-DAO = GroupDAO();
+DAO = GroupDAO()
 
 
 @group_ns.route('/<int:id>')
 class Group(Resource):
     @group_ns.doc('get info for the group with a specific id')
     def get(self,id):
-        pass
+        return DAO.get(id), 200
 
     @group_ns.doc('add or update a specific group')
     @group_ns.expect(group)
     #@group_ns.marshal_with(group)
     def post(self,id):
-        return DAO.create(api.payload) , 201
+        return DAO.create(api.payload), 200
 
 
     def delete(self,id):
-        return DAO.delete(id), 201
+        return DAO.delete(id), 200
 
 
 @group_ns.route('/')
@@ -62,7 +62,7 @@ class Group(Resource):
     @group_ns.doc('get all the groups')
   #  @group_ns.marshal_list_with(group)
     def get(self):
-        return DAO.get_all()
+        return DAO.get_all(), 200
 
 
 
