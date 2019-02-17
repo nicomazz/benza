@@ -4,10 +4,12 @@ import 'package:benza/models/Group.dart';
 import 'package:benza/pages/groups/group_detail_page.dart';
 import 'package:benza/pages/groups/group_list_item.dart';
 import 'package:benza/resources/mock/group_mock_provider.dart';
-import 'package:faker/faker.dart';
+//import 'package:benza/resources/group_provider.dart';
 import 'package:flutter/material.dart';
 
 class GroupList extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
@@ -28,30 +30,42 @@ class GroupList extends StatelessWidget {
     );
   }
 
-  Future<List<Group>> _getData() async {
+/**
+ * This generates a list of groups with fake data coming from mock_group_provider.dart
+ **/
+Future<List<Group>> _getData() async {
     List<Group> dummyGroups = new List<Group>.generate(
-        2, (i) => generateRandomGroup()); // creates list of length 2 & generates random group (from mock_provider) for each entry
+        3, (i) => generateRandomGroup());
 
-    await new Future.delayed(new Duration(seconds: 1)); // delay leaves time for list of groups to be generated
+    await new Future.delayed(new Duration(seconds: 1));
     return dummyGroups;
   }
+
+/**
+ * This connects to the API and requests a single group with fetchGroup(), in this case it's the group with group_id=7
+ **/
+  /*
+  Future<Group> _getData() async {
+    final apiProvider = new GroupDataProvider();
+    final realGroup = apiProvider.fetchGroup(7);
+
+    await new Future.delayed(new Duration(seconds: 1)); // delay leaves time for list of groups to be generated
+    return realGroup;
+  }
+*/
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Group> values = snapshot.data;
     print("List<Group> values: ${values.length}");
     return new ListView.builder( // this builds the list of groups as more groups are loaded (to a max of itemCount)
       itemCount: values.length,
-      itemBuilder:
-          (BuildContext context, int index) =>
+      itemBuilder: (BuildContext context, int index) =>
           GroupListItem(values[index], () { // builds the individual groups in the list
 
             Navigator // a navigation stack - the way to move between screens in flutter apps.
-                .of(context)
-                .push(
-                MaterialPageRoute(
-                    builder: (_) => GroupDetailPage(values[index])
-                )
-            );
+                    .of(context)
+                .push(MaterialPageRoute(
+                    builder: (_) => GroupDetailPage(values[index])));
           }),
     );
   }
