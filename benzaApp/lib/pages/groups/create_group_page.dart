@@ -17,10 +17,10 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
 
   @override
   Widget build(BuildContext context) {
-    var appbar = AppBar(title: Text("Create request"), centerTitle: true);
+    //var appbar = AppBar(title: Text("Create request"), centerTitle: true); // don't need this - AppBar is already provided by home_page.dart
 
     return Scaffold(
-        appBar: appbar,
+        //appBar: appbar, // don't need this - AppBar is already provided by home_page.dart
         body: Stepper(
           steps: _mySteps(),
           currentStep: this._currentStep,
