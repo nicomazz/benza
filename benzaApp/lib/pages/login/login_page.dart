@@ -29,9 +29,9 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(hintText: 'Email'),
                   keyboardType:TextInputType.emailAddress,
                   onChanged: (value) {
-                    setState(() {
-                      _email += value;
-                    });
+                    //setState(() {
+                      _email = value;
+                    //});
                   }),
               SizedBox(height: 15.0),
               TextField(
@@ -39,9 +39,9 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(hintText: 'Password'),
                   obscureText: true,
                   onChanged: (value) {
-                    setState(() {
-                      _password += value;
-                    });
+                    //setState(() {
+                      _password = value;
+                    //});
                   }),
               SizedBox(height: 15.0),
               _loginInProgress
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                                 email: _email, password: _password)
                             .then((FirebaseUser user) {
                           setState(() => _loginInProgress = false);
-                          //Navigator.of(context).pushReplacementNamed('/homepage');
+                          Navigator.of(context).pushReplacementNamed('/homepage');
                         }).catchError((e) {
                           setState(() => _loginInProgress = false);
                           print(e);
