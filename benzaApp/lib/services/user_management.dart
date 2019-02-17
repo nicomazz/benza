@@ -8,10 +8,8 @@ class UserManagement {
       'uid': user.uid
     }).then((doc) {
 
-      print ("adding new user to database!");
-      Navigator.of(context)
-        ..pop()
-        ..pushReplacementNamed('/homepage');
+      print ("\n*** adding new user to firestore database ***\n");
+      
 
     }).catchError((e) {
       print(e);
@@ -22,7 +20,7 @@ class UserManagement {
     Firestore.instance.collection('/users').document(user.uid).updateData({
       "imageUri": newUri
     }).then((_) {
-      print("changed!");
+      print("\n*** profile picture for user: $user changed ***\n");
     });
   }
 }
