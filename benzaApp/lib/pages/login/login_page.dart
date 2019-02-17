@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                   controller: TextEditingController(text: _email),
                   decoration: InputDecoration(hintText: 'Email'),
+                  keyboardType:TextInputType.emailAddress,
                   onChanged: (value) {
                     setState(() {
                       _email += value;
@@ -36,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                   controller: TextEditingController(text: _password),
                   decoration: InputDecoration(hintText: 'Password'),
+                  obscureText: true,
                   onChanged: (value) {
                     setState(() {
                       _password += value;
@@ -64,13 +66,13 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       }),
               SizedBox(
-                height: 15.0,
+                height: 60.0,
               ),
               Text('Don\'t have an account?', 
                 textAlign: TextAlign.center,
                 ),
               SizedBox(
-                height: 10.0,
+                height: 15.0,
               ),
               RaisedButton(
                   child: Text('Sign Up'),
