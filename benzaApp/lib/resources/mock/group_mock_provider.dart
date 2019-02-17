@@ -13,14 +13,15 @@ Client getMockGroupProvider(){
   return MockClient((request) async {
     final Group g = generateRandomGroup();
 
-    return Response(json.encode(g),200);
+    return Response(json.encode(g), 200);
   });
 }
 
 Group generateRandomGroup() {
   var path = generateRandomPath();
 
-  return Group(id: Random().nextInt(100),
+  return Group(
+      id: Random().nextInt(2),
       name: Faker().address.city(),
       from: randomPosition(),
       polyline: path,
@@ -31,14 +32,22 @@ Group generateRandomGroup() {
 List<LatLng> generateRandomPath() {
   //Validate.inclusiveBetween(-90.0,90.0,_l
   //Validate.inclusiveBetween(-180.0,180.0,
-  var start_point = LatLng(Random().nextDouble()* 160.0 - 80, Random().nextDouble()* 340.0 - 170.0);
+  var start_point = LatLng(Random().nextDouble() * 160.0 - 80,
+      Random().nextDouble() * 340.0 - 170.0);
   List<LatLng> res = [start_point];
-  var numberOfPoints = Random().nextInt(50)+5;
+  var numberOfPoints = 2;
   for (var i = 0; i < numberOfPoints; i++) {
     var prec = res.last;
-    var new_point = LatLng(prec.latitude + Random().nextDouble() * 0.1 *( Random().nextDouble() > 0.8? 1:-1),
-        prec.longitude + Random().nextDouble() * 0.1*( Random().nextDouble() > 0.8? 1:-1));
-    res.add(new_point);
+    var newPoint = LatLng(
+        prec.latitude +
+            Random().nextDouble() *
+                0.1 *
+                (Random().nextDouble() > 0.8 ? 1 : -1),
+        prec.longitude +
+            Random().nextDouble() *
+                0.1 *
+                (Random().nextDouble() > 0.8 ? 1 : -1));
+    res.add(newPoint);
   }
   return res;
 }

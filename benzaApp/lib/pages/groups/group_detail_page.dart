@@ -18,30 +18,34 @@ class GroupDetailPage extends StatelessWidget {
 
     //var map = MyMap(points: group.polyline, name: group.name); //uses the temp openstreetmap workaround
     var map = MapsDemo(name: group.name); // the Google Maps demo
-    var topMapWidget = SizedBox(
+    
+		var topMapWidget = SizedBox(
       height: keyboardDisplayed ? 0.0 : MediaQuery.of(context).size.height / 4,
       child: Stack(children: <Widget>[map, mapFullScreenFab(context, map)]),
     );
+		
     var groupDetails = Hero(
-        tag: "group_item_details_${this.group.name}",
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Expanded(
-              child: Material(
-                  child: keyboardDisplayed
-                      ? SizedBox(
-                          height: statusBarHeight,
-                        )
-                      : GroupItemTextDescription(group: this.group)),
-            ),
-          ],
-        ));
+      tag: "group_item_details_${this.group.name}",
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Expanded(
+            child: Material(
+                child: keyboardDisplayed
+                    ? SizedBox(
+                        height: statusBarHeight,
+                      )
+                    : GroupItemTextDescription(group: this.group)),
+          ),
+        ],
+      ),
+    );
 
     var tabController = Expanded(
       child: DefaultTabController(
-          length: 3,
-          child: Column(children: <Widget>[
+        length: 3,
+        child: Column(
+          children: <Widget>[
             Container(
               decoration: BoxDecoration(boxShadow: [
                 BoxShadow(
@@ -52,24 +56,28 @@ class GroupDetailPage extends StatelessWidget {
               child: Material(
                 color: Colors.grey[50],
                 child: TabBar(
-                    indicatorColor: Colors.blue,
-                    labelColor: Colors.blue,
-                    tabs: [
-                      Tab(text: "Chat"),
-                      Tab(text: "Offers"),
-                      Tab(text: "Create Offer"),
-                    ]),
+                  indicatorColor: Colors.blue,
+                  labelColor: Colors.blue,
+                  tabs: [
+                    Tab(text: "Chat"),
+                    Tab(text: "Offers"),
+                    Tab(text: "Create Offer"),
+                  ],
+                ),
               ),
             ),
             Expanded(
-                child: TabBarView(
-              children: [
-                ChatPage(),
-                Icon(Icons.directions_transit),
-                Icon(Icons.directions_bike),
-              ],
-            ))
-          ])),
+              child: TabBarView(
+                children: [
+                  ChatPage(),
+                  Icon(Icons.directions_transit),
+                  Icon(Icons.directions_bike),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
 
     return Scaffold(
@@ -80,10 +88,13 @@ class GroupDetailPage extends StatelessWidget {
             topMapWidget,
             Container(
                 decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.3), blurRadius: 0.0),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+											blurRadius: 0.0
+										),
                 ]),
-                child: groupDetails),
+                child: groupDetails
+						),
             tabController,
           ],
         ),

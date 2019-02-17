@@ -22,11 +22,11 @@ class GroupListItemState extends State<GroupListItem> {
     //var points = widget._group.polyline;
 
     var map = SizedBox(
-      width: 120.0,
-      height: 120.0,
+        width: 120.0,
+        height: 120.0,
         // child: MyMap(points: points, name: widget._group.name)
-        child: MapsDemo(name: widget._group.name)
-    );
+        child: MapsDemo(name: widget._group.name),
+        );
 
 
     var buttons = ButtonTheme.bar(
@@ -60,8 +60,8 @@ class GroupListItemState extends State<GroupListItem> {
               map,
               Hero(
                   tag: "group_item_details_${widget._group.name}",
-                  child: GroupItemTextDescription(group: widget._group))
-
+                  child: GroupItemTextDescription(group: widget._group)
+                  ),
             ],
           ),
         ),
@@ -80,23 +80,21 @@ class GroupItemTextDescription extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
-       // mainAxisSize: MainAxisSize.max,
+        // mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             '${group.to.name}',
-            style: TextStyle(
-                fontSize: 20.0, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 10.0,
           ),
           Text(
-            'Depart from ${group.from.name}\n${group
-                .users.length} people in group',
-            style: TextStyle(
-                fontSize: 16.0, color: Colors.black.withOpacity(0.6)),
+            'Depart from ${group.from.name}\n${group.users.length} people in group',
+            style:
+                TextStyle(fontSize: 16.0, color: Colors.black.withOpacity(0.6)),
           )
         ],
       ),
