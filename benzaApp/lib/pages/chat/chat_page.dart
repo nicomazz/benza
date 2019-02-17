@@ -40,7 +40,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
               Flexible(
                 child: TextField(
                   controller: _textController,
-                  onSubmitted: _handleSubmitted,
+                  //onSubmitted: _handleSubmitted, // sends an empty message when you click the tick on keyboard to make it (the keyboard) go away
                   decoration:
                       new InputDecoration.collapsed(hintText: "Send a message"),
                 ),
@@ -146,9 +146,9 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
         duration: new Duration(milliseconds: 500), //new
         vsync: this, //new
       ),
-      sender_id: document["idFrom"],
-      user_id: currentUser.documentID,
-      user_name: document["nameFrom"] ?? "-",
+      senderID: document["idFrom"],
+      userID: currentUser.documentID,
+      userName: document["nameFrom"] ?? "-",
     );
     //message.animationController.forward();
     return Column(children: <Widget>[
@@ -164,16 +164,16 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 class ChatMessage extends StatelessWidget {
   ChatMessage(
       {this.text,
-      this.sender_id,
+      this.senderID,
       this.animationController,
-      this.user_id,
-      this.user_name = "-"});
+      this.userID,
+      this.userName = "-"});
 
   final String text;
   final AnimationController animationController; //new
-  final String user_id;
-  final String sender_id;
-  final String user_name;
+  final String userID;
+  final String senderID;
+  final String userName;
 
   @override
   Widget build(BuildContext context) {
@@ -181,14 +181,14 @@ class ChatMessage extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 10.0),
       child: new Row(
         textDirection:
-            sender_id == user_id ? TextDirection.rtl : TextDirection.ltr,
+            senderID == userID ? TextDirection.rtl : TextDirection.ltr,
         children: <Widget>[
           new Container(
             margin: const EdgeInsets.only(right: 16.0),
             child: new CircleAvatar(
-              child: new Text(user_name[0].toUpperCase()),
+              child: new Text(userName[0].toUpperCase()),
               backgroundColor: Colors
-                  .primaries[user_name.hashCode % Colors.primaries.length],
+                  .primaries[userName.hashCode % Colors.primaries.length],
               foregroundColor: Colors.white,
             ),
           ),
@@ -196,7 +196,7 @@ class ChatMessage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(this.user_name,
+                Text(this.userName,
                     style: Theme.of(context).textTheme.subhead),
                 Container(
                   margin: const EdgeInsets.only(top: 5.0),
