@@ -56,27 +56,27 @@ class ProfileBodyState extends State<ProfileBody> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    var image_size = MediaQuery.of(context).size.width / 3;
+    //var size = MediaQuery.of(context).size; // MediaQuery has its own .size attr
+    var imgSize = MediaQuery.of(context).size.width / 3;
     var data = displayedUser?.data ?? Map();
     var photoUrl = data["imageUri"];
-    var user_name = data["name"];
+    var userName = data["name"];
     var description = data["description"];
 
     var image = Container(
-      width: image_size,
-      height: image_size,
+      width: imgSize,
+      height: imgSize,
       decoration: BoxDecoration(
           color: Colors.white,
           image: DecorationImage(
               image: CachedNetworkImageProvider(
                   photoUrl ?? "https://www.gannett-cdn.com/-mm-/cdeb9a9e093b3172aa58ea309e74edcf80bf651f/c=0-77-2911-1722/local/-/media/2016/05/29/Cincinnati/Cincinnati/636001135964333349-Harambe2.jpg?width=3200&height=1680&fit=crop"),
               fit: BoxFit.cover),
-          borderRadius: BorderRadius.circular(image_size / 2),
+          borderRadius: BorderRadius.circular(imgSize / 2),
           boxShadow: [BoxShadow(blurRadius: 7.0, color: Colors.black)]),
     );
     var name = Text(
-      user_name ?? 'Username',
+      userName ?? 'Username',
       style: TextStyle(fontSize: 40.0, fontStyle: FontStyle.italic),
     );
 
@@ -111,11 +111,11 @@ class ProfileBodyState extends State<ProfileBody> {
         children: <Widget>[
           ClipPath(
               child: Container(color: Theme.of(context).primaryColorDark),
-              clipper: getClipper()),
+              clipper: GetClipper()),
           Container(
             alignment: Alignment.center,
             margin: EdgeInsets.only(
-              top: image_size / 3,
+              top: imgSize / 3,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -193,7 +193,7 @@ class MyButton extends StatelessWidget {
   }
 }
 
-class getClipper extends CustomClipper<Path> {
+class GetClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
