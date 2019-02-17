@@ -19,7 +19,7 @@ class TabElement {
 
 }
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 1;
+  int _currentIndex = 4;
 
   final List<TabElement> _children = [
     TabElement(
@@ -27,20 +27,22 @@ class _HomePageState extends State<HomePage> {
         icon: Icon(Icons.group_add),
         tag: "New group"),
     TabElement(
+        widget: GroupList(),
+        icon: Icon(Icons.group), 
+        tag: "My Groups"),
+    TabElement(
         widget: ChatPage(),
         icon: Icon(Icons.chat),
         tag: "Chat"),
-    TabElement(widget: GroupList(),
-        icon: Icon(Icons.group), tag: "My Groups"),
-    TabElement(widget: GroupList(),
-        icon: Icon(Icons.directions), tag: "Trips"),
+    TabElement(
+        widget: GroupList(),
+        icon: Icon(Icons.directions), 
+        tag: "Trips"),
     TabElement(
         widget: ProfileWidget(),
         icon: Icon(Icons.person),
         tag: "Profile"),
-
-
-  ];
+];
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +64,11 @@ class _HomePageState extends State<HomePage> {
           // type:BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
           // this will be set when a new tab is tapped
+          // it keeps track of which tab is active
           onTap: (index) =>
               setState(() {
                 _currentIndex = index;
+                //print('\n*** tab index = $index ***\n');
               }),
           items: _children.map((i) =>
               BottomNavigationBarItem(
