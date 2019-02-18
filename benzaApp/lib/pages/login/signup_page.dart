@@ -10,6 +10,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   String _email;
   String _password;
+  String _userName;
 
   bool _signUpProgress = false;
 
@@ -27,16 +28,25 @@ class _SignUpPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextField(
+                  controller: TextEditingController(text: _userName),
+                  decoration: InputDecoration(hintText: 'Name'),
+                  autofocus: true,
+                  onChanged: (value) {
+                    //setState(() {
+                    _userName = value;
+                    //});
+                  }),
+              SizedBox(height: 10.0),
+              TextField(
                   controller: TextEditingController(text: _email),
                   decoration: InputDecoration(hintText: 'Email'),
                   keyboardType: TextInputType.emailAddress,
-                  autofocus: true,
                   onChanged: (value) {
                     //setState(() {
                     _email = value;
                     //});
                   }),
-              SizedBox(height: 15.0),
+              SizedBox(height: 10.0),
               TextField(
                   controller: TextEditingController(text: _password),
                   decoration: InputDecoration(hintText: 'Password'),
@@ -46,9 +56,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     _password = value;
                     //});
                   }),
-              SizedBox(
-                height: 10.0,
-              ),
+              SizedBox(height: 10.0),
               _signUpProgress
                   ? CircularProgressIndicator()
                   : RaisedButton(
@@ -57,14 +65,17 @@ class _SignUpPageState extends State<SignUpPage> {
                       textColor: Colors.white,
                       elevation: 7.0,
                       onPressed: () {
-                        setState(() => _signUpProgress = true); 
+                        setState(() => _signUpProgress = true);
+
                         FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
                                 email: _email, password: _password)
                             .then((FirebaseUser signedInUser) {
-                                print("\n*** Signing up a user from signup page ***\n");
                           setState(() => _signUpProgress = false);
-                          UserManagement().storeNewUser(signedInUser, context);
+
+                          UserManagement()
+                              .storeNewUser(signedInUser, context, _userName);
+
                           Navigator.of(context)
                             ..pop()
                             ..pushReplacementNamed('/homepage');
