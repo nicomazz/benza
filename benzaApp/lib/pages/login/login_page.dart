@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                   }),
               SizedBox(height: 15.0),
               _loginInProgress
-                  ? CircularProgressIndicator()
+                  ? Center(child: CircularProgressIndicator())
                   : RaisedButton(
                       child: Text('Login'),
                       color: Colors.blue,
