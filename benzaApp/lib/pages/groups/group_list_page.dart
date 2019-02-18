@@ -30,20 +30,18 @@ class GroupList extends StatelessWidget {
     );
   }
 
-/**
- * This generates a list of groups with fake data coming from mock_group_provider.dart
- **/
-Future<List<Group>> _getData() async {
+  /// group_list_page.dart
+  /// Returns a list of `Group` objects.
+  /// Every `Group` is populated with data from `generateRandomGroup()`
+  Future<List<Group>> _getData() async {
     List<Group> dummyGroups = new List<Group>.generate(
-        3, (i) => generateRandomGroup());
+        1, (i) => generateRandomGroup());
 
     await new Future.delayed(new Duration(seconds: 1));
     return dummyGroups;
   }
 
-/**
- * This connects to the API and requests a single group with fetchGroup(), in this case it's the group with group_id=7
- **/
+  // This connects to the API and requests a single group with fetchGroup(), in this case it's the group with group_id=7
   /*
   Future<Group> _getData() async {
     final apiProvider = new GroupDataProvider();
@@ -52,7 +50,7 @@ Future<List<Group>> _getData() async {
     await new Future.delayed(new Duration(seconds: 1)); // delay leaves time for list of groups to be generated
     return realGroup;
   }
-*/
+  */
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Group> values = snapshot.data;
