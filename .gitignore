@@ -141,3 +141,4 @@ pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/python
 db/redis-data/appendonly.aof
+benzaApp/android/app/src/main/AndroidManifest.xml
