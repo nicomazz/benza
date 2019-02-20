@@ -25,7 +25,10 @@ class GroupListItemState extends State<GroupListItem> {
         width: 120.0,
         height: 120.0,
         // child: MyMap(points: points, name: widget._group.name)
-        child: MapsDemo(name: widget._group.name),
+        child: Container(
+          constraints:BoxConstraints.expand(),
+          child: MapsDemo(name: widget._group.name),
+          ),
         );
 
 

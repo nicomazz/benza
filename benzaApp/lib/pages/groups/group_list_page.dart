@@ -8,18 +8,16 @@ import 'package:benza/resources/mock/group_mock_provider.dart';
 import 'package:flutter/material.dart';
 
 class GroupList extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
       future: _getData(), // successful future returns dummyGroups
       initialData: new Text('No groups yet!'),
-      builder: (BuildContext context, AsyncSnapshot snapshot) { // evaluates last known state of async computation
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return new Text('Loading...');
+            return Center(child: CircularProgressIndicator(),);
           default:
             if (snapshot.hasError)
               return new Text('Error: ${snapshot.error}');
@@ -34,14 +32,16 @@ class GroupList extends StatelessWidget {
   /// Returns a list of `Group` objects.
   /// Every `Group` is populated with data from `generateRandomGroup()`
   Future<List<Group>> _getData() async {
-    List<Group> dummyGroups = new List<Group>.generate(
-        1, (i) => generateRandomGroup());
+    List<Group> dummyGroups =
+        new List<Group>.generate(1, (i) => generateRandomGroup());
 
     await new Future.delayed(new Duration(seconds: 1));
     return dummyGroups;
   }
 
-  // This connects to the API and requests a single group with fetchGroup(), in this case it's the group with group_id=7
+  /// This connects to the API and requests a single group with fetchGroup(), in this case it's the group with group_id=7
+  /// If you haven't already created a group with group_id=7 in the group_service API, then this won't return anything.
+  /// We need to make this work with a Group return type. Can't be a Future<Group>
   /*
   Future<Group> _getData() async {
     final apiProvider = new GroupDataProvider();
@@ -55,16 +55,18 @@ class GroupList extends StatelessWidget {
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Group> values = snapshot.data;
     print("List<Group> values: ${values.length}");
-    return new ListView.builder( // this builds the list of groups as more groups are loaded (to a max of itemCount)
+    return new ListView.builder(
+      // this builds the list of groups as more groups are loaded (to a max of itemCount)
       itemCount: values.length,
-      itemBuilder: (BuildContext context, int index) =>
-          GroupListItem(values[index], () { // builds the individual groups in the list
-
-            Navigator // a navigation stack - the way to move between screens in flutter apps.
-                    .of(context)
-                .push(MaterialPageRoute(
-                    builder: (_) => GroupDetailPage(values[index])));
-          }),
+      itemBuilder: (BuildContext context, int index) => GroupListItem(
+            values[index],
+            () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (_) => GroupDetailPage(values[index])),
+              );
+            },
+          ),
     );
   }
 }

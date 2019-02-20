@@ -16,33 +16,21 @@ class MapsDemoState extends State<MapsDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(0.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Center(
-            child: Container(
-              constraints: BoxConstraints(
-                maxWidth: 300.0,
-                maxHeight: 420.0,
-                minWidth: 120.0,
-                minHeight: 120.0,
-              ),
-              child: Container(
-                margin: new EdgeInsets.all(8.0),
-                constraints: BoxConstraints.expand(),
-                child: GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: const CameraPosition(
-                    target: LatLng(57.1656210, -2.1021930), //Kilau
-                    zoom: 16.0,
-                  ),
-                ),
-              ),
-            ),
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height,
+        maxWidth: MediaQuery.of(context).size.width,
+      ),
+      child: Container(
+        //margin: new EdgeInsets.all(0.0),
+        constraints: BoxConstraints.expand(),
+        child: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: const CameraPosition(
+            target: LatLng(57.1656210, -2.1021930), //Kilau
+            zoom: 16.0,
           ),
-        ],
+        ),
       ),
     );
   }
