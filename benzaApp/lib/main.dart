@@ -3,10 +3,10 @@ import 'package:benza/pages/login/login_page.dart';
 import 'package:benza/pages/login/signup_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+//import 'package:flutter/rendering.dart';
 
 void main() {
-  debugPaintSizeEnabled = true; // use to show structure of widgets on screen
+  //debugPaintSizeEnabled = true; // use to show structure of widgets on screen
   //timeDilation = 5.0; // use to test animations
   runApp(new MyApp());
 }
@@ -17,12 +17,17 @@ class MyApp extends StatelessWidget {
     return new StreamBuilder<FirebaseUser>(
         stream: FirebaseAuth.instance.onAuthStateChanged,
         builder: (BuildContext context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
-            return new Text("loading..");
-
-          //user already logged in
-          if (snapshot.hasData) return new HomePage();
-
+          // if signed out
+          // if (snapshot.connectionState == ConnectionState.waiting) { // the old code. breaks the app upon signing out
+          if (snapshot.connectionState == ConnectionState.none) {
+            Text("no connection..");
+          } else {
+            // if already logged in
+            if (snapshot.hasData) {
+              return new HomePage();
+            }
+          }
+          // default: no connection, display login
           return new LoginPage();
         });
   }
