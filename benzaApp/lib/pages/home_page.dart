@@ -16,10 +16,10 @@ class TabElement {
   String tag;
 
   TabElement({this.widget, this.icon, this.tag});
-
 }
+
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 4;
+  int _currentIndex = 2;
 
   final List<TabElement> _children = [
     TabElement(
@@ -27,22 +27,22 @@ class _HomePageState extends State<HomePage> {
         icon: Icon(Icons.group_add),
         tag: "New group"),
     TabElement(
-        widget: GroupList(),
-        icon: Icon(Icons.group), 
-        tag: "My Groups"),
+      widget: GroupList(), 
+      icon: Icon(Icons.group), 
+      tag: "My Groups"),
     TabElement(
-        widget: ChatPage(),
-        icon: Icon(Icons.chat),
-        tag: "Chat"),
+      widget: ChatPage(), 
+      icon: Icon(Icons.chat), 
+      tag: "Chat"),
     TabElement(
-        widget: GroupList(),
-        icon: Icon(Icons.directions), 
-        tag: "Trips"),
+      widget: GroupList(), 
+      icon: Icon(Icons.directions), 
+      tag: "Trips"),
     TabElement(
-        widget: ProfileWidget(),
-        icon: Icon(Icons.person),
+        widget: ProfileWidget(), 
+        icon: Icon(Icons.person), 
         tag: "Profile"),
-];
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -63,31 +63,37 @@ class _HomePageState extends State<HomePage> {
         bottomNavigationBar: BottomNavigationBar(
           // type:BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
-          // this will be set when a new tab is tapped
-          // it keeps track of which tab is active
-          onTap: (index) =>
-              setState(() {
+          // This will be set when a new tab is tapped. It keeps track of which tab is active
+          onTap: (index) => setState(() {
                 _currentIndex = index;
-                //print('\n*** tab index = $index ***\n');
+                print(
+                    '______________________________________________ tab index = $index ______________________________________________');
               }),
-          items: _children.map((i) =>
-              BottomNavigationBarItem(
-                backgroundColor: Colors.blue,
-                icon: i.icon,
-                title: Text(i.tag),
-              ),
-          ).toList(),
+          items: _children
+              .map(
+                (i) => BottomNavigationBarItem(
+                      backgroundColor: Colors.blue,
+                      icon: i.icon,
+                      title: Text(i.tag),
+                    ),
+              )
+              .toList(),
         ),
         body: _children[_currentIndex].widget);
   }
 
+  /// Profile settings for current user
+  _userSettings() {
+    Navigator.of(context).pushReplacementNamed('/settingspage');
+  }
 
-  _logout() {
-    FirebaseAuth.instance.signOut().then((value) {
-      Navigator.of(context).pushReplacementNamed('/landingpage');
+  _logout() async {
+    await FirebaseAuth.instance.signOut().then((value) {
+      setState(() {
+        Navigator.of(context).pushReplacementNamed('/landingpage');
+      });
     }).catchError((e) {
       print(e);
     });
   }
 }
-
