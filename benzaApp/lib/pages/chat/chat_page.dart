@@ -27,32 +27,33 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
         .collection("users")
         .document(firebaseUser.uid)
         .get();
-    setState(() {});
+    this.mounted ? setState(() {}) : context;
   }
 
   Widget _buildTextComposer() {
     return IconTheme(
       data: IconThemeData(color: Theme.of(context).accentColor),
       child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: new Row(
-            children: <Widget>[
-              Flexible(
-                child: TextField(
-                  controller: _textController,
-                  //onSubmitted: _handleSubmitted, // sends an empty message when you click the tick on keyboard to make it (the keyboard) go away
-                  decoration:
-                      new InputDecoration.collapsed(hintText: "Send a message"),
-                ),
+        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: new Row(
+          children: <Widget>[
+            Flexible(
+              child: TextField(
+                controller: _textController,
+                //onSubmitted: _handleSubmitted, // sends an empty message when you tap the tick to hide keyboard
+                decoration:
+                    new InputDecoration.collapsed(hintText: "Send a message"),
               ),
-              new Container(
-                margin: EdgeInsets.symmetric(horizontal: 4.0),
-                child: new IconButton(
-                    icon: Icon(Icons.send),
-                    onPressed: () => _handleSubmitted(_textController.text)),
-              )
-            ],
-          )),
+            ),
+            new Container(
+              margin: EdgeInsets.symmetric(horizontal: 4.0),
+              child: new IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: () => _handleSubmitted(_textController.text)),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -151,13 +152,15 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
       userName: document["nameFrom"] ?? "-",
     );
     //message.animationController.forward();
-    return Column(children: <Widget>[
-      new Divider(height: 1.0),
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 16.0),
-        child: message,
-      ), //new
-    ]);
+    return Column(
+      children: <Widget>[
+        new Divider(height: 1.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 16.0),
+          child: message,
+        ), //new
+      ],
+    );
   }
 }
 
@@ -167,7 +170,7 @@ class ChatMessage extends StatelessWidget {
       this.senderID,
       this.animationController,
       this.userID,
-      this.userName = "-"});
+      this.userName = "null"});
 
   final String text;
   final AnimationController animationController; //new
@@ -187,8 +190,8 @@ class ChatMessage extends StatelessWidget {
             margin: const EdgeInsets.only(right: 16.0),
             child: new CircleAvatar(
               child: new Text(userName[0].toUpperCase()),
-              backgroundColor: Colors
-                  .primaries[userName.hashCode % Colors.primaries.length],
+              backgroundColor:
+                  Colors.primaries[userName.hashCode % Colors.primaries.length],
               foregroundColor: Colors.white,
             ),
           ),
@@ -196,8 +199,7 @@ class ChatMessage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(this.userName,
-                    style: Theme.of(context).textTheme.subhead),
+                Text(this.userName, style: Theme.of(context).textTheme.subhead),
                 Container(
                   margin: const EdgeInsets.only(top: 5.0),
                   child: new Text(text),

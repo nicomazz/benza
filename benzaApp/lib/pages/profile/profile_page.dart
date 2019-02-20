@@ -27,13 +27,10 @@ class ProfileBody extends StatefulWidget {
 
 class ProfileBodyState extends State<ProfileBody> {
   File imageFile;
-
   bool isLoading = false;
-
   String imageUrl;
 
   DocumentSnapshot displayedUser;
-
   FirebaseUser _currentUser;
 
   @override
@@ -42,13 +39,11 @@ class ProfileBodyState extends State<ProfileBody> {
     updateUser();
   }
 
+  ///There's a problem with this that I think is the cause of the logout/login bug
   updateUser() async {
     var currentUser = await FirebaseAuth.instance.currentUser();
     //todo modify here to see everyone
-    displayedUser = await Firestore.instance
-        .collection('users')
-        .document(currentUser.uid)
-        .get();
+    displayedUser = await Firestore.instance.collection('users').document(currentUser.uid).get();
     setState(() {
       this._currentUser = currentUser;
     });
@@ -56,12 +51,12 @@ class ProfileBodyState extends State<ProfileBody> {
 
   @override
   Widget build(BuildContext context) {
-    //var size = MediaQuery.of(context).size; // MediaQuery has its own .size attr
+    //var size = MediaQuery.of(context).size; // repeated code
     var imgSize = MediaQuery.of(context).size.width / 3;
     var data = displayedUser?.data ?? Map();
     var photoUrl = data["imageUri"];
     var userName = data["name"];
-    var description = data["description"];
+    var description = data["uid"];
 
     var image = Container(
       width: imgSize,
@@ -69,8 +64,8 @@ class ProfileBodyState extends State<ProfileBody> {
       decoration: BoxDecoration(
           color: Colors.white,
           image: DecorationImage(
-              image: CachedNetworkImageProvider(
-                  photoUrl ?? "https://www.gannett-cdn.com/-mm-/cdeb9a9e093b3172aa58ea309e74edcf80bf651f/c=0-77-2911-1722/local/-/media/2016/05/29/Cincinnati/Cincinnati/636001135964333349-Harambe2.jpg?width=3200&height=1680&fit=crop"),
+              image: CachedNetworkImageProvider(photoUrl ??
+                  "https://www.gannett-cdn.com/-mm-/cdeb9a9e093b3172aa58ea309e74edcf80bf651f/c=0-77-2911-1722/local/-/media/2016/05/29/Cincinnati/Cincinnati/636001135964333349-Harambe2.jpg?width=3200&height=1680&fit=crop"),
               fit: BoxFit.cover),
           borderRadius: BorderRadius.circular(imgSize / 2),
           boxShadow: [BoxShadow(blurRadius: 7.0, color: Colors.black)]),
@@ -91,7 +86,7 @@ class ProfileBodyState extends State<ProfileBody> {
         name,
         SizedBox(height: 10.0),
         Text(
-          description ?? 'Benza testing meeting 29/01/2019',
+          description ?? 'Bio goes here',
           style:
               TextStyle(fontSize: 20.0, color: Colors.black.withOpacity(0.5)),
         )
@@ -133,7 +128,6 @@ class ProfileBodyState extends State<ProfileBody> {
 
   Future getProfileInfo() async {
     var currentUser = await FirebaseAuth.instance.currentUser();
-
     if (currentUser != null) {}
   }
 
@@ -166,30 +160,34 @@ class ProfileBodyState extends State<ProfileBody> {
 }
 
 class MyButton extends StatelessWidget {
-  var color;
-  var text;
+  final color;
+  final text;
 
-  var shadowColor;
+  final shadowColor;
 
   MyButton(this.text, this.color, this.shadowColor);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 60.0,
-        width: 100.0,
-        child: Material(
-            borderRadius: BorderRadius.circular(30.0),
-            shadowColor: this.shadowColor,
-            color: this.color,
-            elevation: 7.0,
-            child: GestureDetector(
-                onTap: () {},
-                child: Center(
-                    child: Text(
-                  this.text,
-                  style: TextStyle(color: Colors.white, fontSize: 15.0),
-                )))));
+      height: 60.0,
+      width: 100.0,
+      child: Material(
+        borderRadius: BorderRadius.circular(30.0),
+        shadowColor: this.shadowColor,
+        color: this.color,
+        elevation: 7.0,
+        child: GestureDetector(
+          onTap: () {},
+          child: Center(
+            child: Text(
+              this.text,
+              style: TextStyle(color: Colors.white, fontSize: 15.0),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
