@@ -15,7 +15,7 @@ class Offer {
         .map((data) => new UserInGroup.fromJson(data))
         .toList();
     return Offer(
-       userId: j["user_id"],
+      userId: j["user_id"],
       groupId: j["group_id"],
       capacity: j["capacity"],
       usersInside: userList

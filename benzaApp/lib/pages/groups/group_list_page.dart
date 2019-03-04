@@ -4,20 +4,22 @@ import 'package:benza/models/Group.dart';
 import 'package:benza/pages/groups/group_detail_page.dart';
 import 'package:benza/pages/groups/group_list_item.dart';
 import 'package:benza/resources/mock/group_mock_provider.dart';
-//import 'package:benza/resources/group_provider.dart';
+import 'package:benza/resources/group_provider.dart';
 import 'package:flutter/material.dart';
 
 class GroupList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
-      future: _getData(), // successful future returns dummyGroups
+      future: _getAllGroups(), // successful future returns dummyGroups
       initialData: new Text('No groups yet!'),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return Center(child: CircularProgressIndicator(),);
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           default:
             if (snapshot.hasError)
               return new Text('Error: ${snapshot.error}');
@@ -29,32 +31,28 @@ class GroupList extends StatelessWidget {
   }
 
   /// group_list_page.dart
-  /// Returns a list of `Group` objects.
+  /// Returns a list of fake `Group` objects.
   /// Every `Group` is populated with data from `generateRandomGroup()`
-  Future<List<Group>> _getData() async {
+  /*Future<List<Group>> _getAllGroups() async {
     List<Group> dummyGroups =
-        new List<Group>.generate(1, (i) => generateRandomGroup());
+        new List<Group>.generate(3, (i) => generateRandomGroup());
 
     await new Future.delayed(new Duration(seconds: 1));
     return dummyGroups;
-  }
+  }*/
 
-  /// This connects to the API and requests a single group with fetchGroup(), in this case it's the group with group_id=7
-  /// If you haven't already created a group with group_id=7 in the group_service API, then this won't return anything.
-  /// We need to make this work with a Group return type. Can't be a Future<Group>
-  /*
-  Future<Group> _getData() async {
+  Future<List<Group>> _getAllGroups() async {
     final apiProvider = new GroupDataProvider();
-    final realGroup = apiProvider.fetchGroup(7);
-
-    await new Future.delayed(new Duration(seconds: 1)); // delay leaves time for list of groups to be generated
-    return realGroup;
+    final realGroupsList = apiProvider.getAllGroups();
+    await new Future.delayed(new Duration(
+      seconds: 2)
+      );
+    return realGroupsList;
   }
-  */
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Group> values = snapshot.data;
-    print("List<Group> values: ${values.length}");
+    print("List<Group> length: ${values.length}");
     return new ListView.builder(
       // this builds the list of groups as more groups are loaded (to a max of itemCount)
       itemCount: values.length,

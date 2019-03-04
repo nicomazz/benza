@@ -1,4 +1,4 @@
-import 'dart:convert';
+/*import 'dart:convert';
 import 'dart:math';
 
 import 'package:benza/models/Group.dart';
@@ -18,15 +18,16 @@ Client getMockGroupProvider(){
 }
 
 Group generateRandomGroup() {
-  var path = generateRandomPath();
+  //var path = generateRandomPath();
 
   return Group(
-      id: Random().nextInt(2),
+      id: Random().nextInt(100),
       name: Faker().address.city(),
-      from: randomPosition(),
-      polyline: path,
-      to: randomPosition(),
-      users: getRandomUsersInGroup());
+      from: LatLng(57.1656210, -2.1021930),
+      //polyline: path,
+      to: LatLng(57.1656220, -2.1021940),
+      //users: getRandomUsersInGroup());
+      users: ['blah','blah1'],);
 }
 
 List<LatLng> generateRandomPath() {
@@ -35,7 +36,7 @@ List<LatLng> generateRandomPath() {
   var start_point = LatLng(Random().nextDouble() * 160.0 - 80,
       Random().nextDouble() * 340.0 - 170.0);
   List<LatLng> res = [start_point];
-  var numberOfPoints = 2;
+  var numberOfPoints = 10;
   for (var i = 0; i < numberOfPoints; i++) {
     var prec = res.last;
     var newPoint = LatLng(
@@ -48,6 +49,9 @@ List<LatLng> generateRandomPath() {
                 0.1 *
                 (Random().nextDouble() > 0.8 ? 1 : -1));
     res.add(newPoint);
+    
   }
+  print('List<LatLng> given by generator: $res');
   return res;
 }
+*/

@@ -88,16 +88,17 @@ class GroupItemTextDescription extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            '${group.to.name}',
+            '${group.name}',
             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 10.0,
           ),
           Text(
-            'Depart from ${group.from.name}\n${group.users.length} people in group',
-            style:
-                TextStyle(fontSize: 16.0, color: Colors.black.withOpacity(0.6)),
+            'Depart from ${group.from}\n${group.users} is in here!',
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
+            style: TextStyle(fontSize: 16.0, color: Colors.black.withOpacity(0.6)),
           )
         ],
       ),

@@ -13,7 +13,6 @@ class GroupDAO(object):
 
     def get_all(self):
         result = list(self.group_table.all())
-        print(result)
         return result
 
     def create(self, data):

@@ -5,39 +5,61 @@ import 'package:benza/models/Group.dart';
 import 'package:benza/models/Offer.dart';
 import 'package:http/http.dart' show Client, Response;
 
+// IP for the emulator to access your machine's localhost (+port for group service)
 const BASE_BENZA_URL = "http://10.0.2.2:4100";
 
+/// Group namespace:
+///- `getGroup()` -> takes a group_id. Returns a Group object.
+///- `postGroup()`-> takes a Group object. Creates an entry in the db.
+///- `deleteGroup()`-> takes a Group object. Deletes the db entry with matching id.
 class GroupDataProvider {
   Client client = Client();
 
-  Future<Group> fetchGroup(int group_id) async {
+  Future<Group> getGroup(int group_id) async {
     final response = await client.get("$BASE_BENZA_URL/group/$group_id");
-    if (response.statusCode == 200) // if successful
+    if (response.statusCode == 200) {
+      print(response.body);
       return Group.fromJson(json.decode(response.body));
-    else
-      throw Exception('Failed to load post');
+    } else {
+      throw Exception('Failed to load the group :(');
+    }
+  }
+
+  Future<List<Group>> getAllGroups() async {
+    final response = await client.get("$BASE_BENZA_URL/group/");
+    if (response.statusCode == 200) {
+      print("\n------------ getAllGroups() response.body ------------\n${response.body}\n");
+      return groupFromJson(response.body);
+    } else {
+      throw Exception('Failed to load list of all groups :(');
+    }
   }
 
   Future<Response> postGroup(Group group) async {
-    final response = await client.post("$BASE_BENZA_URL/group/${group.id}", body: group);
+    final response = await client.post("$BASE_BENZA_URL/group/", body: group);
+    if (response.statusCode == 200) {
+      print("\n------------ postGroup() response.body ------------\n${response.body}\n");}
     return response;
   }
 
-  Future<Response> deleteGroup(Group group) async {
-    final response = await client.delete("$BASE_BENZA_URL/group/${group.id}");
+  Future<Response> deleteGroup(Group group_id) async {
+    final response = await client.delete("$BASE_BENZA_URL/group/$group_id");
     return response;
   }
 
   Future<Response> addToGroup(String user_id, String group_id) async {
-    return await client.post("$BASE_BENZA_URL/user_group/${user_id}/${group_id}");
+    return await client
+        .post("$BASE_BENZA_URL/user_group/$user_id/$group_id");
   }
 
   Future<Response> deleteFromGroup(String user_id, String group_id) async {
-    return await client.delete("$BASE_BENZA_URL/user_group/${user_id}/${group_id}");
+    return await client
+        .delete("$BASE_BENZA_URL/user_group/$user_id/$group_id");
   }
 
   Future<Response> addGroupOffer(Offer offer, String group_id) async {
-    final response = await client.post("$BASE_BENZA_URL/group_offer/${group_id}", body: offer);
+    final response = await client
+        .post("$BASE_BENZA_URL/group_offer/$group_id", body: offer);
     return response;
   }
 

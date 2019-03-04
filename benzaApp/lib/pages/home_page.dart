@@ -19,7 +19,7 @@ class TabElement {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 2;
+  int _currentIndex = 4;
 
   final List<TabElement> _children = [
     TabElement(
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     TabElement(
       widget: GroupList(), 
       icon: Icon(Icons.group), 
-      tag: "My Groups"),
+      tag: "All Groups"),
     TabElement(
       widget: ChatPage(), 
       icon: Icon(Icons.chat), 
