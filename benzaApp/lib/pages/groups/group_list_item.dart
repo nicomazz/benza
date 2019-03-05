@@ -95,7 +95,7 @@ class GroupItemTextDescription extends StatelessWidget {
             height: 10.0,
           ),
           Text(
-            'Depart from ${group.from}\n${group.users} is in here!',
+            'Depart from ${group.location}\n${group.users} is in here!',
             overflow: TextOverflow.ellipsis,
             softWrap: true,
             style: TextStyle(fontSize: 16.0, color: Colors.black.withOpacity(0.6)),

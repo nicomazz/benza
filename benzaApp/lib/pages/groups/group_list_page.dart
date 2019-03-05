@@ -52,7 +52,7 @@ class GroupList extends StatelessWidget {
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Group> values = snapshot.data;
-    print("List<Group> length: ${values.length}");
+    print("Length of List<Group> is ${values.length}");
     return new ListView.builder(
       // this builds the list of groups as more groups are loaded (to a max of itemCount)
       itemCount: values.length,

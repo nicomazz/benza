@@ -1,3 +1,4 @@
+// https://app.quicktype.io/ <3
 // To parse this JSON data, do
 //
 //     final group = groupFromJson(jsonString);
@@ -16,36 +17,32 @@ String groupToJson(List<Group> data) {
 
 class Group {
     //int id;
-    int groupId;
+    int group_id;
     String name;
-    int from;
-    int to;
+    String location;
     String users;
 
     Group({
         //this.id,
-        this.groupId,
+        this.group_id,
         this.name,
-        this.from,
-        this.to,
+        this.location,
         this.users,
     });
 
     factory Group.fromJson(Map<String, dynamic> json) => new Group(
         //id: json["id"],
-        groupId: json["group_id"],
+        group_id: json["group_id"],
         name: json["name"],
-        from: json["from"],
-        to: json["to"],
+        location: json["from"],
         users: json["users"],
     );
 
     Map<String, dynamic> toJson() => {
         //"id": id,
-        "group_id": groupId,
+        "group_id": group_id,
         "name": name,
-        "from": from,
-        "to": to,
+        "location": location,
         "users": users,
     };
 }

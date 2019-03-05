@@ -12,19 +12,14 @@ api = Api(app,
         )
 
 group_ns = api.namespace('group', description='CRUD for groups')
-user_group_ns = api.namespace('user_group', description='Insert user in a group')
-group_offer = api.namespace('group', description='group management')
-ns = api.namespace('old_user', description='group management')
+#user_group_ns = api.namespace('user_group', description='Insert user in a group')
+#group_offer = api.namespace('group', description='group management')
+#ns = api.namespace('old_user', description='group management')
 
 
 # MODELS
 
 latlng_t = api.model('latLngt',{
-    'lat':fields.Float(),
-    'lng':fields.Float()
-})
-
-latlng_f = api.model('latLngf',{
     'lat':fields.Float(),
     'lng':fields.Float()
 })
@@ -38,10 +33,9 @@ offer = api.model('offer',{
 group = api.model('group',{
     'group_id':fields.Integer(),
     'name':fields.String(description="The group's name"),
-    'from':fields.Integer(),
-    'to':fields.Integer(),
+    'location':fields.String(),
     #'path':fields.String(description="polyline encoded"),
-    'users':fields.List(fields.String(description="The IDs of users in this group")),
+    'users':fields.String(description="The IDs of users in this group"),
     #'offers':fields.List(fields.Nested(offer))
 })
 

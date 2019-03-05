@@ -9,7 +9,7 @@ import 'package:http/http.dart' show Client, Response;
 const BASE_BENZA_URL = "http://10.0.2.2:4100";
 
 /// Group namespace:
-///- `getGroup()` -> takes a group_id. Returns a Group object.
+///- `getAllGroups()` -> Returns a Group a list of all rows in the group db.
 ///- `postGroup()`-> takes a Group object. Creates an entry in the db.
 ///- `deleteGroup()`-> takes a Group object. Deletes the db entry with matching id.
 class GroupDataProvider {
@@ -35,8 +35,9 @@ class GroupDataProvider {
     }
   }
 
-  Future<Response> postGroup(Group group) async {
-    final response = await client.post("$BASE_BENZA_URL/group/", body: group);
+  Future<Response> postGroup(group) async {
+    print("encoded group is: ${json.encode(group).toString()}");
+    final response = await client.post("$BASE_BENZA_URL/group/", headers: {"Content-Type": "application/json"}, body: json.encode(group).toString());
     if (response.statusCode == 200) {
       print("\n------------ postGroup() response.body ------------\n${response.body}\n");}
     return response;
