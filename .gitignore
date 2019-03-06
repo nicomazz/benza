@@ -10,8 +10,8 @@ db/redis-data/appendonly.aof
 *.png
 *.xml
 
-#redis ignore
-*.aof
+# Redis
+.aof
 .idea
 
 # Byte-compiled / optimized / DLL files
@@ -144,5 +144,4 @@ pip-selfcheck.json
 .vscode/launch.json
 
 # End of https://www.gitignore.io/api/python
-db/redis-data/appendonly.aof
 benzaApp/android/app/src/main/AndroidManifest.xml
