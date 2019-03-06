@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileWidget extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ProfileBody();
@@ -39,7 +38,6 @@ class ProfileBodyState extends State<ProfileBody> {
     updateUser();
   }
 
-  ///There's a problem with this that I think is the cause of the logout/login bug
   updateUser() async {
     var currentUser = await FirebaseAuth.instance.currentUser();
     //todo modify here to see everyone
@@ -96,7 +94,7 @@ class ProfileBodyState extends State<ProfileBody> {
     return Scaffold(
       floatingActionButton: displayedUser != null
           ? FloatingActionButton(
-              child: Icon(Icons.edit),
+              child: Icon(Icons.settings),
               onPressed: () {
                 _editProfile();
               },
