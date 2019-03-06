@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:benza/models/Group.dart';
 import 'package:benza/pages/groups/group_detail_page.dart';
 import 'package:benza/pages/groups/group_list_item.dart';
-import 'package:benza/resources/mock/group_mock_provider.dart';
 import 'package:benza/resources/group_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +10,7 @@ class GroupList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
-      future: _getAllGroups(), // successful future returns dummyGroups
+      future: _getAllGroups(), // successful future returns realGroups
       initialData: new Text('No groups yet!'),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
@@ -29,17 +28,6 @@ class GroupList extends StatelessWidget {
       },
     );
   }
-
-  /// group_list_page.dart
-  /// Returns a list of fake `Group` objects.
-  /// Every `Group` is populated with data from `generateRandomGroup()`
-  /*Future<List<Group>> _getAllGroups() async {
-    List<Group> dummyGroups =
-        new List<Group>.generate(3, (i) => generateRandomGroup());
-
-    await new Future.delayed(new Duration(seconds: 1));
-    return dummyGroups;
-  }*/
 
   Future<List<Group>> _getAllGroups() async {
     final apiProvider = new GroupDataProvider();

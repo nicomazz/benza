@@ -6,10 +6,7 @@ import 'package:latlong/latlong.dart';
 
 import 'package:benza/services/gmaps.dart';
 import 'package:benza/resources/group_provider.dart';
-import 'package:benza/resources/mock/user_mock_provider.dart';
-import 'package:benza/resources/mock/group_mock_provider.dart';
 import 'package:benza/models/Group.dart';
-import 'package:benza/models/UserInGroup.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,11 +35,8 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
 	Widget build(BuildContext context) {
 		updateUser();
 		var data = groupCreator?.data ?? Map();
-  	//var photoUrl = data["imageUri"];
-  	//var userName = data["name"];
   	var uid = data["uid"].toString();
-		//var _uid = uid.toString();
-		
+		List<String> uidList = [uid];
 
 		return Scaffold(
 			body: Stepper(
@@ -75,8 +69,8 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
 							setState(() {
 								this._currentStep += 1;
 								this.newGroup.location = addr.subAdminArea;
-								this.newGroup.group_id = 1;
-								this.newGroup.users = uid;
+								this.newGroup.group_id = 9;
+								this.newGroup.users = uidList;
 								this._endCoord = addr.coordinates;
 								this._endQuery = addr.addressLine;
 							});
@@ -108,13 +102,7 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
 			return;
 		}
 		var first = addresses.first;
-		print("Address: ${first.addressLine} at ${first.coordinates}");
-		print("- Locality: ${first.locality}");
-		print("- Sublocality: ${first.subLocality}");
-		print("- adminArea: ${first.adminArea}");
-		print("- subAdminArea: ${first.subAdminArea}");
-		print("- Thoroughfare: ${first.thoroughfare}");
-		print("- Subthoroughfare: ${first.subThoroughfare}");
+		print("Address: ${first.addressLine} at ${first.coordinates}\n- Locality: ${first.locality}\n- Sublocality: ${first.subLocality}\n- adminArea: ${first.adminArea}\n- subAdminArea: ${first.subAdminArea}\n- Thoroughfare: ${first.thoroughfare}\n- Subthoroughfare: ${first.subThoroughfare}\n");
 		then(first);
 	}
 

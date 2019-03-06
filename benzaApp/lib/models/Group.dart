@@ -16,14 +16,12 @@ String groupToJson(List<Group> data) {
 }
 
 class Group {
-    //int id;
     int group_id;
     String name;
     String location;
-    String users;
+    List<String> users;
 
     Group({
-        //this.id,
         this.group_id,
         this.name,
         this.location,
@@ -31,19 +29,17 @@ class Group {
     });
 
     factory Group.fromJson(Map<String, dynamic> json) => new Group(
-        //id: json["id"],
         group_id: json["group_id"],
         name: json["name"],
-        location: json["from"],
-        users: json["users"],
+        location: json["location"],
+        users: json["users"].split(", "),
     );
 
     Map<String, dynamic> toJson() => {
-        //"id": id,
         "group_id": group_id,
         "name": name,
         "location": location,
-        "users": users,
+        "users": new List<dynamic>.from(users.map((x) => x)),
     };
 }
 

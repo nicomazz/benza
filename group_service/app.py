@@ -12,7 +12,7 @@ api = Api(app,
         )
 
 group_ns = api.namespace('group', description='CRUD for groups')
-#user_group_ns = api.namespace('user_group', description='Insert user in a group')
+user_group_ns = api.namespace('user_group', description='Insert user in a group')
 #group_offer = api.namespace('group', description='group management')
 #ns = api.namespace('old_user', description='group management')
 
@@ -35,7 +35,7 @@ group = api.model('group',{
     'name':fields.String(description="The group's name"),
     'location':fields.String(),
     #'path':fields.String(description="polyline encoded"),
-    'users':fields.String(description="The IDs of users in this group"),
+    'users':fields.List(fields.String(description="The IDs of users in this group")),
     #'offers':fields.List(fields.Nested(offer))
 })
 
@@ -43,16 +43,23 @@ group = api.model('group',{
 DAO = GroupDAO()
 
 
-@group_ns.route('/<int:id>')
+
+@group_ns.route('/<int:groupId>/<int:uid>')
+class Group(Resource):
+    @group_ns.doc('Adds a user to a specific group')
+    def post(self,groupId,uid):
+        return DAO.update(groupId,uid), 200
+
+@group_ns.route('/<int:groupId>')
 class Group(Resource):
     @group_ns.doc('Gets info for a specific group')
-    def get(self,id):
-        return DAO.get(id), 200
+    def get(self,groupId):
+        return DAO.get(groupId), 200
 
     @group_ns.doc('Adds or updates a specific group')
     @group_ns.expect(group)
     #@group_ns.marshal_with(group)
-    def post(self,id):
+    def update(self,id):
         return DAO.create(api.payload), 200
 
     @group_ns.doc('Deletes a specific group')

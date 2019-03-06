@@ -1,7 +1,9 @@
 import 'package:benza/models/Group.dart';
-import 'package:benza/services/map_utilities.dart';
 import 'package:benza/services/gmaps.dart';
+import 'package:benza/resources/group_provider.dart';
+
 import 'package:flutter/material.dart';
+
 
 class GroupListItem extends StatefulWidget {
   final Group _group;
@@ -19,12 +21,10 @@ class GroupListItemState extends State<GroupListItem> {
 
   @override
   Widget build(BuildContext context) {
-    //var points = widget._group.polyline;
 
     var map = SizedBox(
         width: 120.0,
         height: 120.0,
-        // child: MyMap(points: points, name: widget._group.name)
         child: Container(
           constraints:BoxConstraints.expand(),
           child: MapsDemo(name: widget._group.name),
@@ -45,7 +45,8 @@ class GroupListItemState extends State<GroupListItem> {
           new FlatButton(
             child: const Text('JOIN'),
             onPressed: () {
-              /* ... */
+              //var apiProvider = new GroupDataProvider();
+							//apiProvider.postGroup(widget._group.name, uid);
             },
           ),
         ],
@@ -65,6 +66,7 @@ class GroupListItemState extends State<GroupListItem> {
                   tag: "group_item_details_${widget._group.name}",
                   child: GroupItemTextDescription(group: widget._group)
                   ),
+              //buttons,
             ],
           ),
         ),
@@ -75,30 +77,47 @@ class GroupListItemState extends State<GroupListItem> {
 
 class GroupItemTextDescription extends StatelessWidget {
   final Group group;
-
+  
   const GroupItemTextDescription({Key key, this.group}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(8.0),
       child: Column(
-        // mainAxisSize: MainAxisSize.max,
+        //mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             '${group.name}',
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            overflow: TextOverflow.ellipsis,
           ),
           SizedBox(
-            height: 10.0,
+            height: 5.0,
           ),
           Text(
-            'Depart from ${group.location}\n${group.users} is in here!',
+            '${group.location}',
+            style: TextStyle(fontSize: 15.0, color: Colors.black.withOpacity(0.6)),
             overflow: TextOverflow.ellipsis,
-            softWrap: true,
-            style: TextStyle(fontSize: 16.0, color: Colors.black.withOpacity(0.6)),
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          //Text(
+          //  '${group.users}',
+          //  style: TextStyle(fontSize: 15.0, color: Colors.black.withOpacity(0.6)),
+          //  overflow: TextOverflow.ellipsis,
+          //),
+          FlatButton(
+            child: const Text('JOIN'),
+            textColor: Colors.white,
+            color: Colors.blue,
+            onPressed: () {
+              var apiProvider = new GroupDataProvider();
+							//apiProvider.addToGroup(group.name, uid);
+            },
           )
         ],
       ),
