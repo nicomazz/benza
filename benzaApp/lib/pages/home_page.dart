@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
           onTap: (index) => setState(() {
                 _currentIndex = index;
                 print(
-                    '______________________________________________ tab index = $index ______________________________________________');
+                    '------------ tab index = $index ------------');
               }),
           items: _children
               .map(
