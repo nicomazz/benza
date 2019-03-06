@@ -5,6 +5,10 @@
 
 # Duncan's ignores
 *.DS_Store
+benzaApp/android/app/google-services.json
+db/redis-data/appendonly.aof
+*.png
+*.xml
 
 #redis ignore
 *.aof
@@ -142,4 +146,3 @@ pip-selfcheck.json
 # End of https://www.gitignore.io/api/python
 db/redis-data/appendonly.aof
 benzaApp/android/app/src/main/AndroidManifest.xml
-*.png
