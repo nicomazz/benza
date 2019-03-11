@@ -37,6 +37,7 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
 		var data = groupCreator?.data ?? Map();
   	var uid = data["uid"].toString();
 		List<String> uidList = [uid];
+    Random random;
 
 		return Scaffold(
 			body: Stepper(
@@ -69,7 +70,7 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
 							setState(() {
 								this._currentStep += 1;
 								this.newGroup.location = addr.subAdminArea;
-								this.newGroup.group_id = 9;
+								this.newGroup.group_id =  random.nextInt(999);
 								this.newGroup.users = uidList;
 								this._endCoord = addr.coordinates;
 								this._endQuery = addr.addressLine;
