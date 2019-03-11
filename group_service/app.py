@@ -44,11 +44,11 @@ DAO = GroupDAO()
 
 
 
-@group_ns.route('/<int:groupId>/<int:uid>')
+@group_ns.route('/<string:groupName>/<string:uid>')
 class Group(Resource):
     @group_ns.doc('Adds a user to a specific group')
-    def post(self,groupId,uid):
-        return DAO.update(groupId,uid), 200
+    def post(self, groupName, uid):
+        return DAO.update(groupName, uid), 200
 
 @group_ns.route('/<int:groupId>')
 class Group(Resource):
