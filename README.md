@@ -66,11 +66,11 @@ something like `docker swarm join --token a_token 1.1.1.1:2377`
 benzaApp
    └── lib                                            - Contains all of the Flutter code
          └── models                                   - Where objects are made, attrs defined
-               ├── Group.dart
-               ├── Offer.dart
-               ├── Position.dart                      - Must change to suit GoogleMaps integration
-               ├── User.dart
-               └── UserInGroup.dart
+         |     ├── Group.dart
+         |     ├── Offer.dart
+         |     ├── Position.dart                      - Must change to suit GoogleMaps integration
+         |     ├── User.dart
+         |     └── UserInGroup.dart
          └── pages                                    - Structure of pages in the Flutter app
                ├── home_page.dart                     - The basic layout of the app (home of the navbar)
                ├── placeholder_page.dart              - from flutter app template (unnecessary)
