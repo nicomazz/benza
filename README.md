@@ -65,36 +65,44 @@ something like `docker swarm join --token a_token 1.1.1.1:2377`
 ```
 benzaApp
    └── lib                                            - Contains all of the Flutter code
-         └── models                                   - Where objects are made, attrs defined
-               ├── Group.dart
-               ├── Offer.dart
-               ├── Position.dart                      - Must change to suit GoogleMaps integration
-               ├── User.dart
-               └── UserInGroup.dart
-         └── pages                                    - Structure of pages in the Flutter app
-               ├── home_page.dart                     - The basic layout of the app (home of the navbar)
-               ├── placeholder_page.dart              - from flutter app template (unnecessary)
-               └── chat
-                    └── chat_page.dart                - Chat page for the group that current user is in
-               └── groups
-                     ├── create_group_page.dart       - Create a group
-                     ├── group_detail_page.dart       - View of one group (tap one of the groups from the list)
-                     ├── group_list_item.dart         - Elements of the list (includes map tile, group name, people inside etc.)
-                     └── group_list_page.dart         - The page that the list is displayed on
-               └── login
-                     ├── login_page.dart
-                     └── signup_page.dart
-               └── profile
-                     ├── profile_page.dart
-                     └── rating_widget.dart 
-         └── resources
-               └── mock
-                     ├── group_mock_provider.dart
-                     └── user_mock_provider.dart
-               └── group_provider.dart                - Code to query the group web service
-         └── services
-               ├── map_utilities.dart                 - Interfaces with OpenStreetMap, widget grabs appropriate map tile
-               ├── gmaps.dart                         - Interfaces with Google Maps API
-               └── user_management.dart               - Interfaces with Firebase Console for adding new User/updating dp
+         ├── models                                   - Where objects are made, attrs defined
+         |     ├── Group.dart
+         |     ├── Offer.dart
+         |     ├── Position.dart                      - Must change to suit GoogleMaps integration
+         |     ├── User.dart
+         |     └── UserInGroup.dart
+         |
+         ├── pages                                    - Structure of pages in the Flutter app
+         |     ├── home_page.dart                     - The basic layout of the app (home of the navbar)
+         |     ├── placeholder_page.dart              - from flutter app template (unnecessary)
+         |     ├── chat
+         |     |    └── chat_page.dart                - Chat page for the group that current user is in
+         |     |
+         |     ├── groups
+         |     |    ├── create_group_page.dart       - Create a group
+         |     |    ├── group_detail_page.dart       - View of one group (tap one of the groups from the list)
+         |     |    ├── group_list_item.dart         - Elements of the list (includes map tile, group name, people inside etc.)
+         |     |    └── group_list_page.dart         - The page that the list is displayed on
+         |     |
+         |     ├── login
+         |     |    ├── login_page.dart
+         |     |    └── signup_page.dart
+         |     |
+         |     └── profile
+         |          ├── profile_page.dart
+         |          └── rating_widget.dart 
+         |
+         ├── resources
+         |     ├── mock
+         |     |    ├── group_mock_provider.dart
+         |     |    └── user_mock_provider.dart
+         |     |
+         |     └── group_provider.dart                - Code to query the group web service
+         |
+         ├── services
+         |     ├── map_utilities.dart                 - Interfaces with OpenStreetMap, widget grabs appropriate map tile
+         |     ├── gmaps.dart                         - Interfaces with Google Maps API
+         |     └── user_management.dart               - Interfaces with Firebase Console for adding new User/updating dp
+         |
          └── main.dart                                - Initialise the app, check for auth, load landing page
 ```
