@@ -34,7 +34,6 @@ class _LoginPageState extends State<LoginPage> {
                     });
                   }),
               //SizedBox(height: 15.0),
-              Text('_email: $_email'),
               TextField(
                   //controller: TextEditingController(text: _password),
                   decoration: InputDecoration(hintText: 'Password'),
@@ -44,8 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                       _password = value;
                     });
                   }),
-              //SizedBox(height: 15.0),
-              Text('_password: $_password'),
+              SizedBox(height: 15.0),
               // if the login button hasn't been pressed, display the rest of the page. If it has, display CircularProgressIndicator
               _loginInProgress
                   ? Center(child: CircularProgressIndicator())

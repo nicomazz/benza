@@ -69,7 +69,7 @@ class GroupDetailPage extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: [
-                  ChatPage(),
+                  ChatPage(this.group.group_id),
                   Text("\n\n\n  Here, user will view offers that are not full in group:\n\n  group.group_id = ${group.group_id}\n  group.name = ${group.name}\n  group.location = ${group.location}\n  group.users = ${group.users}"),
                   Text("\n\n\n  Here, user will create offers that will be stored in group: \n\n  group.group_id = ${group.group_id}\n  group.name = ${group.name}\n  group.location = ${group.location}\n  group.users = ${group.users}"),
                 ],

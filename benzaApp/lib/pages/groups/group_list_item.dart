@@ -71,7 +71,6 @@ class GroupListItemState extends State<GroupListItem> {
                   tag: "group_item_details_${widget._group.name}",
                   child: GroupItemTextDescription(group: widget._group)
                   ),
-              //buttons,
             ],
           ),
         ),
@@ -82,8 +81,7 @@ class GroupListItemState extends State<GroupListItem> {
 
 class GroupItemTextDescription extends StatelessWidget {
   final Group group;
-  final uid;
-  const GroupItemTextDescription({Key key, this.group, this.uid}) : super(key: key);
+  const GroupItemTextDescription({Key key, this.group}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

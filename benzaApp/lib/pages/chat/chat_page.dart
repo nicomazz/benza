@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
+  final int id; // needed for shared transactions
+  ChatPage(this.id);
+
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -40,7 +43,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
             Flexible(
               child: TextField(
                 controller: _textController,
-                //onSubmitted: _handleSubmitted, // sends an empty message when you tap the tick to hide keyboard
+                //onSubmitted: _handleSubmitted, // Bad. Sends an empty message when you tap the tick to hide keyboard
                 decoration:
                     new InputDecoration.collapsed(hintText: "Send a message"),
               ),
@@ -65,16 +68,13 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
       );
 
     return new Column(
-      //modified
       children: <Widget>[
-        //new
         new Flexible(
-          //new
           child: StreamBuilder(
             stream: Firestore.instance
-                .collection('messages')
+                .collection('chats')
                 .document("group_id")
-                .collection("group_id")
+                .collection("${widget.id}")
                 .orderBy('timestamp', descending: true)
                 .limit(20)
                 .snapshots(),
@@ -95,9 +95,8 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
         ),
         new Divider(height: 1.0),
         new Container(
-          decoration:
-              new BoxDecoration(color: Theme.of(context).cardColor), //new
-          child: _buildTextComposer(), //modified
+          decoration: new BoxDecoration(color: Theme.of(context).cardColor),
+          child: _buildTextComposer(),
         ),
       ],
     );
@@ -107,9 +106,9 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     _textController.clear();
 
     var documentReference = Firestore.instance
-        .collection('messages')
+        .collection('chats')
         .document("group_id")
-        .collection("group_id")
+        .collection("${widget.id}")
         .document(DateTime.now().millisecondsSinceEpoch.toString());
 
     Firestore.instance.runTransaction((transaction) async {
@@ -131,21 +130,17 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    //new
-    for (ChatMessage message in _messages) //new
-      message.animationController.dispose(); //new
-    super.dispose(); //new
+    for (ChatMessage message in _messages)
+      message.animationController.dispose();
+    super.dispose();
   }
 
   buildItem(DocumentSnapshot document) {
     var message = new ChatMessage(
-      //new
       text: document.data["content"],
-      //new
       animationController: new AnimationController(
-        //new
-        duration: new Duration(milliseconds: 500), //new
-        vsync: this, //new
+        duration: new Duration(milliseconds: 500),
+        vsync: this,
       ),
       senderID: document["idFrom"],
       userID: currentUser.documentID,
@@ -158,7 +153,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 16.0),
           child: message,
-        ), //new
+        ),
       ],
     );
   }

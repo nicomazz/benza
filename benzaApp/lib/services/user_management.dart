@@ -8,7 +8,8 @@ class UserManagement {
       'name': _userName,
       'email': user.email,
       'uid': user.uid,
-      'photoUrl': user.photoUrl, // will always be null on create
+      'bio': "",
+      //'photoUrl': user.photoUrl, // will always be null on create
     })
     .then((doc) {
       print ("\n*** adding new user to firestore database ***\n");
@@ -22,7 +23,10 @@ class UserManagement {
     Firestore.instance.collection('/users').document(user.uid).updateData({
       "imageUri": newUri
     }).then((_) {
-      print("\n*** profile picture for user: $user changed ***\n");
+      print("\n*** ${user.uid} changed their profile picture ***\n");
+      Navigator.of(context)
+        ..pop()
+        ..pushReplacementNamed('/homepage');
     });
   }
 }

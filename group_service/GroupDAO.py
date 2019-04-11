@@ -5,7 +5,7 @@ class GroupDAO(object):
     def __init__(self):
         self.db = dataset.connect('mysql://root:not_so_secret@mysql_db/group_db')
         self.group_table = self.db['group']
-        print("\nThe group_table column headers:\n", self.group_table.columns, "\n")
+        #print("\nThe group_table column headers:\n", self.group_table.columns, "\n")
     
     # THESE ARE ACCESSED IN THE /GROUP/<INT:ID> NS
 

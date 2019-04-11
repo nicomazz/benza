@@ -19,35 +19,44 @@ class TabElement {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 4;
+  int currentTab;
 
   final List<TabElement> _children = [
     TabElement(
-        widget: CreateGroupPage(),
-        icon: Icon(Icons.group_add),
-        tag: "New group"),
+      widget: CreateGroupPage(),
+      icon: Icon(Icons.group_add),
+      tag: "New group"
+      ),
     TabElement(
-      widget: GroupList(), 
-      icon: Icon(Icons.group), 
-      tag: "All Groups"),
+      widget: GroupList(),
+      icon: Icon(Icons.group),
+      tag: "All Groups"
+      ),
+    /* TabElement(
+      widget: ChatPage(),
+      icon: Icon(Icons.chat),
+      tag: "Chat"
+      ), */
     TabElement(
-      widget: ChatPage(), 
-      icon: Icon(Icons.chat), 
-      tag: "Chat"),
+      widget: GroupList(),
+      icon: Icon(Icons.directions),
+      tag: "Trips"
+      ),
     TabElement(
-      widget: GroupList(), 
-      icon: Icon(Icons.directions), 
-      tag: "Trips"),
-    TabElement(
-        widget: ProfileWidget(), 
-        icon: Icon(Icons.person), 
-        tag: "Profile"),
+      widget: ProfileWidget(),
+      icon: Icon(Icons.person),
+      tag: "Profile"
+      ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    if (currentTab == null) {
+      currentTab = 3;
+    }
+
     var appbar = AppBar(
-      title: Text(_children[_currentIndex].tag),
+      title: Text(_children[currentTab].tag),
       centerTitle: true,
       actions: <Widget>[
         IconButton(
@@ -58,28 +67,28 @@ class _HomePageState extends State<HomePage> {
         )
       ],
     );
+
+    var navbar = BottomNavigationBar(
+      currentIndex: currentTab,
+      
+      onTap: (index) => setState(() {
+        currentTab = index;
+        print('------------ tab index = $index ------------');
+        }),
+      items: _children.map(
+        (i) => BottomNavigationBarItem(
+          backgroundColor: Colors.blue,
+          icon: i.icon,
+          title: Text(i.tag),
+          ),
+        ).toList()
+    );
+
     return Scaffold(
-        appBar: appbar,
-        bottomNavigationBar: BottomNavigationBar(
-          // type:BottomNavigationBarType.fixed,
-          currentIndex: _currentIndex,
-          // This will be set when a new tab is tapped. It keeps track of which tab is active
-          onTap: (index) => setState(() {
-                _currentIndex = index;
-                print(
-                    '------------ tab index = $index ------------');
-              }),
-          items: _children
-              .map(
-                (i) => BottomNavigationBarItem(
-                      backgroundColor: Colors.blue,
-                      icon: i.icon,
-                      title: Text(i.tag),
-                    ),
-              )
-              .toList(),
-        ),
-        body: _children[_currentIndex].widget);
+      appBar: appbar,
+      body: _children[currentTab].widget,
+      bottomNavigationBar: navbar
+    );
   }
 
   /// Profile settings for current user

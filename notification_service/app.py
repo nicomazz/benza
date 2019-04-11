@@ -7,12 +7,13 @@ from pyfcm import FCMNotification
 from UserDAO import UserDAO
 
 # IMPORTANT: this key is revoked, replace it with a new one, and protect it in the most appropriate way
-push_service = FCMNotification(api_key="AAAAgTBmNoo:APA91bHL08Z1VW5iaCAnxqM-u3xsSgRcXd9lwbXHRTY9ygDeT-s2GopwclF1-TNkhsWCFcfayZetZE1DHhKbjBRNmFD0FROEOd3JQKFpRioJUsc5pNdO2fY_Z1Go-mohrgsQaKwK97sd")
+# new key added
+push_service = FCMNotification(api_key="AAAAiDRYHIs:APA91bEdzWZ1cZrq8Y8w9MGSwEQ8Ar1CFBbdlJUSn3zWulhUa4KO4izAAwLLcs8tvhLQ1BcQJ5nNJKniQDyEA9F-FhWJbZzIFJXc2GjhMQAmFPydcIELTfzfuWXloyj71xIZldr85eoq")
 
 app = Flask(__name__)
 
 api = Api(app, version='1.0', title='Notification service',
-          description='A simple service to handle notification with firebase messaging',
+          description='A simple service to handle notifications with Firebase Cloud Messaging',
           )
 
 ns = api.namespace('user', description='user management')
@@ -37,11 +38,11 @@ notification = api.model('notification', {
 
 DAO = UserDAO()
 
-# MOCK USERS for testing pourpose
-DAO.create('user_1', "not_key_1")
-DAO.create('user_2', "not2")
-DAO.create('user_3', "not3")
-DAO.create('user_4', "not4")
+# MOCK USERS for testing purpose
+DAO.create('user_1', "notkey1")
+DAO.create('user_2', "notkey2")
+DAO.create('user_3', "notkey3")
+DAO.create('user_4', "notkey4")
 
 # NOTIFICATION_KEY SETTING
 
@@ -89,7 +90,7 @@ def get_notifications_ids(user_ids):
             res.append(str(notification_id))
     return res
 
-# endpoint to effectiverly send a notification
+# setting an endpoint to effectively send a notification
 @notify_ws.route('/')
 class Notify(Resource):
     @notify_ws.doc('send a notification to the id in the payload')

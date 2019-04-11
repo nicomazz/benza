@@ -1,3 +1,4 @@
+import 'package:benza/pages/groups/create_group_page.dart';
 import 'package:benza/pages/home_page.dart';
 import 'package:benza/pages/login/login_page.dart';
 import 'package:benza/pages/login/signup_page.dart';
@@ -48,7 +49,9 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           '/landingpage': (BuildContext context) => MyApp(),
           '/signup': (BuildContext context) => SignUpPage(),
-          '/homepage': (BuildContext context) => HomePage()
-        });
+          '/homepage': (BuildContext context) => HomePage(),
+          //'/creategrouppage': (BuildContext context) => CreateGroupPage()
+        }
+    );
   }
 }

@@ -41,7 +41,10 @@ class ProfileBodyState extends State<ProfileBody> {
   updateUser() async {
     var currentUser = await FirebaseAuth.instance.currentUser();
     //todo modify here to see everyone
-    displayedUser = await Firestore.instance.collection('users').document(currentUser.uid).get();
+    displayedUser = await Firestore.instance
+        .collection('users')
+        .document(currentUser.uid)
+        .get();
     setState(() {
       this._currentUser = currentUser;
     });
@@ -54,7 +57,7 @@ class ProfileBodyState extends State<ProfileBody> {
     var data = displayedUser?.data ?? Map();
     var photoUrl = data["imageUri"];
     var userName = data["name"];
-    var description = data["uid"];
+    var description = data["bio"];
 
     var image = Container(
       width: imgSize,
@@ -83,23 +86,21 @@ class ProfileBodyState extends State<ProfileBody> {
         SizedBox(height: 15.0),
         name,
         SizedBox(height: 10.0),
-        Text(
-          description ?? 'Bio goes here',
-          style:
-              TextStyle(fontSize: 20.0, color: Colors.black.withOpacity(0.5)),
-        )
+        InkWell(
+          onTap: () {
+            // user should be able to edit their bio
+          },
+          child: Text(
+            description ?? 'Bio goes here',
+            textAlign: TextAlign.center,
+            style:
+                TextStyle(fontSize: 18.0, color: Colors.black.withOpacity(0.5)),
+          ),
+        ),
       ],
     );
 
     return Scaffold(
-      floatingActionButton: displayedUser != null
-          ? FloatingActionButton(
-              child: Icon(Icons.settings),
-              onPressed: () {
-                _editProfile();
-              },
-            )
-          : null,
       body: Stack(
         children: <Widget>[
           ClipPath(
@@ -176,7 +177,9 @@ class MyButton extends StatelessWidget {
         color: this.color,
         elevation: 7.0,
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            //DO SOMETHING
+          },
           child: Center(
             child: Text(
               this.text,

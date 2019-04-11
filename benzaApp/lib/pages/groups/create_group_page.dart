@@ -37,7 +37,7 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
 		var data = groupCreator?.data ?? Map();
   	var uid = data["uid"].toString();
 		List<String> uidList = [uid];
-    Random random;
+    var random = new Random();
 
 		return Scaffold(
 			body: Stepper(
@@ -137,12 +137,12 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
 						isActive: _currentStep >= 3)
 			];
 
-	getFromToCoords() {
-		if (_startCoord != null && _endCoord != null) {
-			return [
-				LatLng(_startCoord.latitude, _startCoord.longitude),
-				LatLng(_endCoord.latitude, _endCoord.longitude)
-			];
-		}
-	}
+	//getFromToCoords() {
+	//	if (_startCoord != null && _endCoord != null) {
+	//		return [
+	//			LatLng(_startCoord.latitude, _startCoord.longitude),
+	//			LatLng(_endCoord.latitude, _endCoord.longitude)
+	//		];
+	//	}
+	//}
 }

@@ -13,7 +13,7 @@ class MapsDemo extends StatefulWidget {
 
 class MapsDemoState extends State<MapsDemo> {
   GoogleMapController mapController;
-
+   
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,6 +30,7 @@ class MapsDemoState extends State<MapsDemo> {
             target: LatLng(57.1656210, -2.1021930), //Kilau
             zoom: 16.0,
           ),
+          myLocationEnabled: false,
         ),
       ),
     );
