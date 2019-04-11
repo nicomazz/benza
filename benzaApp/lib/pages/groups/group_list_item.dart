@@ -32,7 +32,7 @@ class GroupListItemState extends State<GroupListItem> {
         height: 120.0,
         child: Container(
           constraints:BoxConstraints.expand(),
-          child: MapsDemo(name: widget._group.name),
+          child: MapsDemo(name: widget._group.name, coords: widget._group.coords),
           ),
         );
 
@@ -88,7 +88,6 @@ class GroupItemTextDescription extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        //mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -108,11 +107,7 @@ class GroupItemTextDescription extends StatelessWidget {
           SizedBox(
             height: 5.0,
           ),
-          //Text(
-          //  '${group.users}',
-          //  style: TextStyle(fontSize: 15.0, color: Colors.black.withOpacity(0.6)),
-          //  overflow: TextOverflow.ellipsis,
-          //),
+          
           FlatButton(
             child: const Text('JOIN'),
             textColor: Colors.white,

@@ -34,9 +34,9 @@ group = api.model('group',{
     'group_id':fields.Integer(),
     'name':fields.String(description="The group's name"),
     'location':fields.String(),
-    #'path':fields.String(description="polyline encoded"),
     'users':fields.List(fields.String(description="The IDs of users in this group")),
     #'offers':fields.List(fields.Nested(offer))
+    'coords':fields.List(fields.String()),
 })
 
 
@@ -78,19 +78,6 @@ class Group(Resource):
     def post(self):
         return DAO.create(api.payload), 200
 
-
-
-def test_db():
-    db = dataset.connect('mysql://root:not_so_secret@mysql_db/group_db')
-    print(db.tables)
-    table = db['user']
-    # Insert a new record.
-    table.insert(dict(name='John Doe', age=46, country='China'))
-    # dataset will create "missing" columns any time you insert a dict with an unknown key
-    table.insert(dict(name='Jane Doe', age=37, country='France', gender='female'))
-    print(db.tables)
-    print("user list:")
-    print(list(db['user'].all()))
 #for the docs: https://dataset.readthedocs.io/en/latest/quickstart.html
 
 if __name__ == '__main__':

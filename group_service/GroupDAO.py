@@ -23,7 +23,7 @@ class GroupDAO(object):
             if group['name'] == group_name:
                 existingUsers = group['users']
                 print("existing: ", existingUsers)
-                newList = existingUsers + ", " +uid
+                newList = existingUsers + ", " + uid
         print("----------GroupDAO.update()----------")
         print("\n|   Group name to update = ", group_name)
         print("|   User already inside = ", existingUsers)
@@ -41,7 +41,6 @@ class GroupDAO(object):
         for group in self.group_table:
             print("   Group %d" % (group['id']))
             print("|  users = ", group['users'])
-            print("|   type = ", type(group['users']),"\n") 
         result = list(self.group_table.all())
         return result
 

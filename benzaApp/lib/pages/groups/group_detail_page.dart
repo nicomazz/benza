@@ -17,7 +17,7 @@ class GroupDetailPage extends StatelessWidget {
     final keyboardDisplayed = bottomInset > 0.0;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
-    var map = MapsDemo(name: group.name);
+    var map = MapsDemo(name: group.name, coords: group.coords);
     
 		var topMapWidget = SizedBox(
       height: keyboardDisplayed ? 0.0 : MediaQuery.of(context).size.height / 4,
@@ -70,8 +70,8 @@ class GroupDetailPage extends StatelessWidget {
               child: TabBarView(
                 children: [
                   ChatPage(this.group.group_id),
-                  Text("\n\n\n  Here, user will view offers that are not full in group:\n\n  group.group_id = ${group.group_id}\n  group.name = ${group.name}\n  group.location = ${group.location}\n  group.users = ${group.users}"),
-                  Text("\n\n\n  Here, user will create offers that will be stored in group: \n\n  group.group_id = ${group.group_id}\n  group.name = ${group.name}\n  group.location = ${group.location}\n  group.users = ${group.users}"),
+                  Text("\n\n\n  Here, user will view offers that are not full in group:\n\n  group.group_id = ${group.group_id}\n  group.name = ${group.name}\n  group.location = ${group.location}\n  group.users = ${group.users}\n  group.coords = ${group.coords}"),
+                  Text("\n\n\n  Here, user will create offers that will be stored in group: \n\n  group.group_id = ${group.group_id}\n  group.name = ${group.name}\n  group.location = ${group.location}\n  group.users = ${group.users}\n  group.coords = ${group.coords}"),
                 ],
               ),
             ),

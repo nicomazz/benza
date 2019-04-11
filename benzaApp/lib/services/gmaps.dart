@@ -3,7 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapsDemo extends StatefulWidget {
   final String name; // needed for shared transactions
-  const MapsDemo({Key key, this.name}) : super(key: key);
+  String coords;
+  MapsDemo({Key key, this.name, this.coords}) : super(key: key);
 
   @override
   MapsDemoState createState() {
@@ -13,9 +14,13 @@ class MapsDemo extends StatefulWidget {
 
 class MapsDemoState extends State<MapsDemo> {
   GoogleMapController mapController;
-   
+  
   @override
   Widget build(BuildContext context) {
+    // Kilau: 57.165657,2.102314
+    List<String> actualCoords = widget.coords.split(",");
+    var lat = double.parse(actualCoords[0]);
+    var lng = double.parse(actualCoords[1]);
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height,
@@ -26,9 +31,9 @@ class MapsDemoState extends State<MapsDemo> {
         constraints: BoxConstraints.expand(),
         child: GoogleMap(
           onMapCreated: _onMapCreated,
-          initialCameraPosition: const CameraPosition(
-            target: LatLng(57.1656210, -2.1021930), //Kilau
-            zoom: 16.0,
+          initialCameraPosition: new CameraPosition(
+            target: LatLng(lat, lng),
+            zoom: 11.0,
           ),
           myLocationEnabled: false,
         ),
