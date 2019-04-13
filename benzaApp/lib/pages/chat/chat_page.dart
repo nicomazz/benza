@@ -149,9 +149,9 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     //message.animationController.forward();
     return Column(
       children: <Widget>[
-        new Divider(height: 1.0),
+        //new Divider(height: 1.0),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
           child: message,
         ),
       ],
@@ -176,13 +176,13 @@ class ChatMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
+      //margin: const EdgeInsets.symmetric(vertical: 3.0),
       child: new Row(
         textDirection:
             senderID == userID ? TextDirection.rtl : TextDirection.ltr,
         children: <Widget>[
           new Container(
-            margin: const EdgeInsets.only(right: 16.0),
+            //margin: const EdgeInsets.only(right: 16.0),
             child: new CircleAvatar(
               child: new Text(userName[0].toUpperCase()),
               backgroundColor:
@@ -192,11 +192,23 @@ class ChatMessage extends StatelessWidget {
           ),
           Expanded(
             child: Column(
+              textDirection:
+                  senderID == userID ? TextDirection.rtl : TextDirection.ltr,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(this.userName, style: Theme.of(context).textTheme.subhead),
                 Container(
-                  margin: const EdgeInsets.only(top: 5.0),
+                  margin: EdgeInsets.only(left: 5.0),
+                  child: senderID == userID
+                      ? Text("")
+                      : Text(this.userName,
+                          style: TextStyle(
+                              fontSize: 10.0,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.black.withOpacity(0.5))),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(
+                      bottom: 10.0, right: 5.0, left: 5.0),
                   child: new Text(text),
                 ),
               ],

@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
       icon: Icon(Icons.group),
       tag: "All Groups"
       ),
+    // This chat page was for debugging before unique group chats were implemented.
     /* TabElement(
       widget: ChatPage(),
       icon: Icon(Icons.chat),

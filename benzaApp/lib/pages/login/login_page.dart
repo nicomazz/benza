@@ -55,6 +55,9 @@ class _LoginPageState extends State<LoginPage> {
                             textColor: Colors.white,
                             elevation: 7.0,
                             onPressed: () {
+                              if (_email==''||_password=='') {
+                                _showDialog();
+                              }
                               //FirebaseAuth.instance.currentUser()
                               setState(() => _loginInProgress = true);
                               FirebaseAuth.instance
@@ -93,6 +96,29 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Oopsie"),
+          content: new Text("You can't login with blank fields."),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  Navigator.of(context).pushReplacementNamed('/landingpage');
+                });
+              },
+            )
+          ],
+        );
+      },
     );
   }
 }

@@ -8,8 +8,7 @@ class UserManagement {
       'name': _userName,
       'email': user.email,
       'uid': user.uid,
-      'bio': "",
-      //'photoUrl': user.photoUrl, // will always be null on create
+      'bio': "Say something about yourself!",
     })
     .then((doc) {
       print ("\n*** adding new user to firestore database ***\n");

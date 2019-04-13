@@ -33,7 +33,7 @@ class MapsDemoState extends State<MapsDemo> {
           onMapCreated: _onMapCreated,
           initialCameraPosition: new CameraPosition(
             target: LatLng(lat, lng),
-            zoom: 11.0,
+            zoom: 10.5,
           ),
           myLocationEnabled: false,
         ),

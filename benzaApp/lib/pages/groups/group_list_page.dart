@@ -13,7 +13,7 @@ class GroupList extends StatelessWidget {
   Widget build(BuildContext context) {
     return new FutureBuilder(
       future: _getAllGroups(), // successful future returns realGroups
-      initialData: new Text('No groups yet!'),
+      //initialData: new Text('No groups yet!'),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -41,9 +41,9 @@ class GroupList extends StatelessWidget {
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Group> values = snapshot.data;
     print("Length of List<Group> is ${values.length}");
-    if (values.length == 0) return NoGroups();
+    if (values.length == 0) return noGroups(context);
     return new ListView.builder(
-      // this builds the list of groups as more groups are loaded (to a max of itemCount)
+      // this builds a dynamic list of groups up to a max length of itemCount
       itemCount: values.length,
       itemBuilder: (BuildContext context, int index) => GroupListItem(
             values[index],
@@ -58,34 +58,43 @@ class GroupList extends StatelessWidget {
   }
 }
 
-class NoGroups extends StatefulWidget {
-  @override
-  _NoGroupsState createState() => _NoGroupsState();
-}
-
-class _NoGroupsState extends State<NoGroups> {
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      constraints: BoxConstraints.expand(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'No groups yet!',
-            textAlign: TextAlign.center,
-          ),
-          FlatButton(
-            child: const Text('Create Group'),
-            textColor: Colors.white,
-            color: Colors.blue,
-            onPressed: () {
-              new CreateGroupPage();
-            },
-          ),
-        ],
-      ),
-    );
-  }
+Widget noGroups(context) {
+  return new Container(
+    constraints: BoxConstraints.expand(),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          'No groups yet!',
+          textAlign: TextAlign.center,
+        ),
+        FlatButton(
+          child: const Text('Create Group'),
+          textColor: Colors.white,
+          color: Colors.blue,
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: new Text("Oopsie"),
+                  content: new Text(
+                      "This is a feature that will be created in the future. For now, you can tap on the bottom left icon to create your own group!"),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: new Text("OK"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              },
+            );
+          },
+        ),
+      ],
+    ),
+  );
 }

@@ -1,12 +1,13 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
-import 'package:latlong/latlong.dart';
 
 import 'package:benza/services/gmaps.dart';
 import 'package:benza/resources/group_provider.dart';
 import 'package:benza/models/Group.dart';
+import 'package:benza/pages/groups/group_list_page.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -89,6 +90,8 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
               var apiProvider = new GroupDataProvider();
               apiProvider.postGroup(this.newGroup.toJson());
             });
+            Scaffold.of(context).showSnackBar(new SnackBar(
+                content: Text("Created your group successfully!")));
           }
         },
       ),
@@ -103,6 +106,7 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
   }
 
   _fetchCorrectPosition(String query, Function(Address) then) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     if (query.isEmpty) return;
     print("\n------------ Geocoder fetch initiated ------------\n");
     var addresses = await Geocoder.local.findAddressesFromQuery(query);
@@ -118,8 +122,9 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
 
   List<Step> _mySteps() => [
         Step(
-            title: Text("${this._startQuery}"),
+            title: _currentStep == 0 ? Text("") : Text("${this._startQuery}"),
             content: TextField(
+                autofocus: true,
                 decoration: InputDecoration(hintText: "Your group's name"),
                 onChanged: (text) {
                   this.setState(() {
@@ -128,8 +133,9 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
                 }),
             isActive: _currentStep >= 0),
         Step(
-            title: Text("${this._endQuery}"),
+            title: _currentStep == 1 ? Text("") : Text("${this._endQuery}"),
             content: TextField(
+                autofocus: true,
                 decoration: InputDecoration(hintText: "Your group's location"),
                 onChanged: (text) {
                   this.setState(() {
@@ -138,15 +144,17 @@ class _CreateRequestPageState extends State<CreateGroupPage> {
                 }),
             isActive: _currentStep >= 1),
         Step(
-            title: Text("Map"),
+            title: _currentStep == 2 ? Text("Does this look right?") : Text(""),
             content: SizedBox(
               height: 250.0,
-              child: MapsDemo(coords: this.newGroup.coords),
+              child: _currentStep >= 2
+                  ? MapsDemo(coords: this.newGroup.coords)
+                  : Text(""),
             ),
             isActive: _currentStep >= 2),
         Step(
-            title: Text("Confirm"),
-            content: SizedBox(),
+            title: _currentStep == 3 ? Text("Confirm group") : Text(""),
+            content: Text(""),
             isActive: _currentStep >= 3)
       ];
 }

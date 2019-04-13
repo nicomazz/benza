@@ -5,7 +5,6 @@ import 'package:benza/services/gmaps.dart';
 
 import 'package:flutter/material.dart';
 
-
 class GroupDetailPage extends StatelessWidget {
   final Group group;
 
@@ -18,12 +17,12 @@ class GroupDetailPage extends StatelessWidget {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     var map = MapsDemo(name: group.name, coords: group.coords);
-    
-		var topMapWidget = SizedBox(
+
+    var topMapWidget = SizedBox(
       height: keyboardDisplayed ? 0.0 : MediaQuery.of(context).size.height / 4,
       child: Stack(children: <Widget>[map, mapFullScreenFab(context, map)]),
     );
-		
+
     var groupDetails = Hero(
       tag: "group_item_details_${this.group.name}",
       child: Row(
@@ -61,7 +60,7 @@ class GroupDetailPage extends StatelessWidget {
                   tabs: [
                     Tab(text: "Chat"),
                     Tab(text: "Offers"),
-                    Tab(text: "Create Offer"),
+                    Tab(text: "Members"),
                   ],
                 ),
               ),
@@ -70,8 +69,14 @@ class GroupDetailPage extends StatelessWidget {
               child: TabBarView(
                 children: [
                   ChatPage(this.group.group_id),
-                  Text("\n\n\n  Here, user will view offers that are not full in group:\n\n  group.group_id = ${group.group_id}\n  group.name = ${group.name}\n  group.location = ${group.location}\n  group.users = ${group.users}\n  group.coords = ${group.coords}"),
-                  Text("\n\n\n  Here, user will create offers that will be stored in group: \n\n  group.group_id = ${group.group_id}\n  group.name = ${group.name}\n  group.location = ${group.location}\n  group.users = ${group.users}\n  group.coords = ${group.coords}"),
+                  Text(
+                      "\n\n\n  group.group_id = ${group.group_id}\n  group.name = ${group.name}\n  group.location = ${group.location}\n  group.users = ${group.users}\n  group.coords = ${group.coords}"),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('${group.users[0]}'),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -88,13 +93,10 @@ class GroupDetailPage extends StatelessWidget {
             topMapWidget,
             Container(
                 decoration: BoxDecoration(boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-											blurRadius: 0.0
-										),
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.3), blurRadius: 0.0),
                 ]),
-                child: groupDetails
-						),
+                child: groupDetails),
             tabController,
           ],
         ),

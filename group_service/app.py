@@ -13,7 +13,7 @@ api = Api(app,
 
 group_ns = api.namespace('group', description='CRUD for groups')
 user_group_ns = api.namespace('user_group', description='Insert user in a group')
-#group_offer = api.namespace('group', description='group management')
+group_offer = api.namespace('offer', description='group management')
 #ns = api.namespace('old_user', description='group management')
 
 
