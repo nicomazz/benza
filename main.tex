@@ -1,0 +1,1167 @@
+% Preamble
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% User packages: extra document elements
+\usepackage{appendix}
+\usepackage{biblatex}
+\addbibresource{references.bib}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[acronym,toc]{glossaries}
+\usepackage{minted}
+\usepackage{csquotes}
+\usepackage{smartdiagram}
+\usepackage{tikz}
+\usepackage{pgfgantt}
+
+% User packages: document elaboration
+\usepackage{wrapfig}
+\usepackage{subcaption}
+\usepackage[normalem]{ulem}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+
+% User document-wide settings
+\usepackage[left=3.5cm, right=3.5cm, top=3.5cm]{geometry}
+\graphicspath{ {./images/} }
+\setlength{\parskip}{1em}
+\hypersetup{
+    pdftitle    = Benza Final Report,
+    pdfauthor   = Duncan van der Wielen,
+    colorlinks  = true,
+    %citecolor  = red,
+    %filecolor  = magenta,      
+    urlcolor    = cyan,
+}
+\urlstyle{same}
+\usemintedstyle{manni}
+\usetikzlibrary{shapes,arrows,trees}
+
+% Title
+\title{Benza: A Carpooling Mobile Application for CS3528 Software Engineering and Professional Practice}
+\author{Duncan van der Wielen, Magni Hansen, Loredana Cozzone, Greta Šimonytė}
+\date{April 2019}
+
+% Initiate glossary (includes acronyms)
+\makeglossaries
+\newglossaryentry{app}{
+    name = app,
+    description = {A mobile phone application}
+}
+
+% This is what makes the report appear on the page
+\begin{document}
+
+% Insert the title, authors and date
+\maketitle
+
+\begin{abstract}
+    This report presents the progress in development of an Android mobile application, Benza, which aims to connect users based on geographic factors and ultimately enable them to carpool in a structured manner. There will be a summary of the project and a review of the current competition, followed by a discussion of the project’s requirements and design (as laid out in the initial White Paper). While the White Paper described early working prototypes of functional requirements, these features have been developed further to perform in a cohesive manner and deliver the initial requirements. The code behind the project will be explored with a focus on key implementation decisions before examining the team’s testing strategy. An evaluation of limitations to the project will be based on the results of testing and will pay particular attention to fulfilment of the requirements. A video demonstration of Benza is available on \href{https://www.youtube.com/channel/UCFu91T9vGvJUtSXXUMHnAig?view_as=subscriber}{Youtube}.
+\end{abstract}
+
+
+% The table of contents is automatically generated from \section and \subsection tags
+\newpage
+\tableofcontents
+
+
+\newpage
+\section{Acknowledgements}
+The team would like to thank: \par
+Nicolò Mazzucato, for invaluable contributions to the mobile application and Dr. Martin Kollingbaum, for guidance throughout the project.\par
+
+
+\newpage
+\section{Introduction}
+\label{sec:intro}
+
+    \subsection{Overview}
+    \emph{Background.} The carpooling concept is altering society's definition of personal transport. Everyday commuters, poor students and adventurous tourists are all part of the 21st century revolution that says your vehicle is a shared resource rather than a mutually exclusive possession [REFERENCE!]. The benefits are clear to see: vehicle owners pay less per litre of fuel with a passenger contribution, roads are less congested, leading to shorter journey times and pollution from private vehicles is reduced, benefiting our environment. \par
+    
+    \emph{Motivation.} Although many people might offer a seat in their car or would be interested in finding one, there is still a lack of suitable middleman services that would bring these two parties together. The obvious difficulty in providing such a service is that users on the platform need to trust one another before interacting in a real world situation. This issue has been the main focus of industry leading companies like BlaBlaCar (see Section \ref{sec:stateoftheart}) and is something that needs to be prioritised in any newcomer. \par
+    
+    \emph{Rationale.} Our innovative carpooling service enables its users to plan shared car journeys and split the costs of their journey, while reducing traffic congestion and pollution as well as meeting new people. To use the \gls{app}, a user only needs to create an account, join a group and connect with other users in their group to organise a trip. Unlike other ride-sharing services, in Benza there is no clear distinction between user types, so anyone with an account can be either a driver or a passenger.\par
+    
+    \subsection{Team Organisation}
+    The team consists of four members: Duncan van der Wielen is the team leader, Magni Hansen is his deputy and Greta Šimonytė is a programmer who shares her responsibilities with Loredana Cozzone, Benza's marketing lead. \par 
+ 
+    After the departure of a valuable fifth member, who had previous experience in software development and knowledge about cutting-edge technologies and web development tools, roles within the team were updated to include extra responsibilities. \par
+    
+    \subsection{Project Management Strategy - GRETA}
+    \label{subsec:projectmanagementstrategy}
+
+    At the start of the project the Agile approach was chosen to be used for the  development of software application. During the first half of the project development, team had fortnightly meetings with the academic course guide, Dr Martin Kollingbaum. These meetings were considered to be the start of the new iteration of the cycle which consisted of planning the next steps to be done, splitting them into small components, tasks and working on them during the next two weeks. The work done was presented to the guide and the team during the meeting instantly receiving the feedback. The team also held weekly informal meetings as well as worked in pairs when needed. \par
+    
+    In the second half of the development cycle, weekly meetings with the team's academic course guide were held to discuss the progress and steps for the next stage in the development cycle of the software. The structure of the meetings was similar to those in the first half of the project development, however,the length of the sprints was adapted to fit between weekly meetings.\par 
+    
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{
+        \begin{ganttchart}[
+        x unit=4mm,
+        vgrid,
+        group right peak height = 0,
+        group height = 0.15,
+        bar height = 0.55,
+        group top shift=.6,
+        time slot format=isodate
+        ]{2019-01-14}{2019-02-24}
+        \gantttitlecalendar{week = 1} \\
+        \ganttbar[inline]{Planning}{2019-01-15}{2019-01-24} \\
+        \ganttbar[inline]{Google Maps}{2019-01-25}{2019-02-03} \\
+        \ganttbar[inline]{UI}{2019-02-01}{2019-02-07} \\
+        \ganttbar[inline]{Auth.}{2019-02-06}{2019-02-08}
+        \ganttgroup[inline]{Group Service}{2019-02-10}{2019-02-24} \\
+        \ganttbar[inline]{Flask API}{2019-02-10}{2019-02-24} \\
+        \ganttbar[inline]{Flutter Models}{2019-02-16}{2019-02-24}
+        %\ganttlink{elem0}{elem1}
+        \end{ganttchart}
+        }
+        \caption{Development schedule from 14th January to 24th February 2019 (The remaining segments are available in Appendix \ref{app:ganttchartimplementationschedule})}
+        \label{fig:ganttchartschedule1}
+    \end{figure}
+    
+    The rest of the implementation schedule can be found in Appendix \ref{app:ganttchartimplementationschedule}. \par
+    
+    Unfortunately, team members soon found themselves struggling to find convenient time for the informal meetings amid their various commitments and schedules. To counter the slow progress, the team decided to adopt a loosely defined somewhat agile strategy, where members would contribute to the project in a time of their choice and to work in pairs whenever possible. However, as the spring break approached, the team found it easier to meet more often and primarily focused on finishing the project on the set deadlines.\par
+    
+    Multiple tools were used in order to keep everyone on the team well informed about the progress made in development of the project as well what needs to be done. Google Drive was one of the tools used for general organisation and sharing of material. As all the materials were held in the same place, everyone within the team were to able to access important information such as logs from the meetings or contribute to their part of the report. Software development platform GitHub was used for tracking the implementation progress of the application. Team members could see the changes made to the code, work on the issues found and move to the next stage of implementation. \par
+
+
+\newpage
+\section{State of the Art}
+\label{sec:stateoftheart}
+    \newacronym{ux}{UX}{User Experience}
+    \newacronym{ipo}{IPO}{Initial Public Offering}
+    \newacronym{eu}{EU}{European Union}
+    \newacronym{gdpr}{GDPR}{General Data Protection Regulation}
+    \newglossaryentry{unicorn}
+    {
+        name = unicorn,
+        description = {A privately held startup company valued at over \$1 billion}
+    }
+    \newglossaryentry{gamify}
+    {
+        name = gamify,
+        description = {Integrate game mechanics to motivate participation, engagement, and loyalty}
+    }
+    
+    The recent surge in attention to the carpooling sector presents challenges to a startup like Benza: various functionalities of our application are already delivered by Lyft, BlaBlaCar, Uber and Waze Carpool - the most popular applications currently in deployment. For Benza to be marketable, it will differentiate itself from competitors by offering carpooling to persistent and geographically-based groups of users, resulting in a user experience akin to group chats in a social networking application. \par
+
+    \subsection{Competitors}
+    \label{subsec:competitors}
+    BlaBlaCar is the application that is most similar to Benza. The key difference is that Benza does not make a clear distinction between \emph{driver} and \emph{passenger}. In contrast, when a user interacts with BlaBlaCar, they have to specify if they are offering a ride, as a driver, or looking through the current available journeys and requesting to join a ride, as a passenger. \par
+    
+    \begin{wrapfigure}{R}{0.42\textwidth} %% R means it's a floating wrapfigure, r means it's inline
+        \vspace{-5pt}
+        \centering
+        \frame{\includegraphics[width=0.4\textwidth]{google_maps_blablacar}}
+        \caption{BlaBlaCar recommendations within Google Maps using ads \cite{romaindillet2017blablacargooglemaps}}
+        \label{fig:google_maps_blablacar}
+        \vspace{-10pt} %% This gets rid of the trailing white space that was bleeding onto the next page.
+    \end{wrapfigure}
+    
+    BlaBlaCar has seen exponential growth over the last 12 years, gaining 15 million users at the peak of its take-off during 2014 \cite{blablacarslideshare} and totalling over 70 million users at the start of this year \cite{romaindillet2018blablacaroptimising}. \par
+    
+    The \gls{app} started as French ride-sharing service Covoiturage.fr. As the service gained popularity, the company fuelled domestic growth by providing carpooling infrastructure to several high profile companies\footnote{IKEA \cite{comutoIKEAscheme}, Vinci Parking \cite[page 70]{comutoVINCIscheme} and Carrefour \cite{comutoCarrefourscheme}} before releasing BlaBlaCar on Apple's UK App Store in 2011. Since its debut, BlaBlaCar's parent company has re-branded to suit their \gls{unicorn} and continues to acquire and rebrand ride-sharing services in all of their countries of operation \cite{blablacarfinancialtimes,blablacarblogbeepcar,blablacarblogless,blablacarblogouibus} as well as push its service to new users through existing channels like Google Maps (Figure \ref{fig:google_maps_blablacar}). \par
+    
+    BlaBlaCar is an industry leader with a long history, so we expect that their software is engineered to high standards. However, our team have found that the \acrshort{ux} of their \gls{app} can often lack intuition as well as a sense of community. We aim to exploit these shortcomings to the benefit of Benza. For example, where BlaBlaCar forces their users to complete boring text fields (Figure \ref{fig:blablacar_find_a_ride}), Benza will instead show a list of nearby carpooling groups without the hassle of searching for a starting location. This example also illustrates how Benza interprets carpooling as communities of people, instead of discrete transactions. More details about the value that Benza brings to its users can be found in Section \ref{subsec:innovation}. \par
+    
+    Uber is a spectacularly successful company that provides features resembling those seen in our application, so one might assume that it falls into the scope of Benza’s most serious competitors. Indeed, we listed it as one of our main competitors in the initial White Paper. However, Uber is focused on on-demand transportation by designated drivers, not crowd sourced ride-sharing. The service provided by Uber profits its drivers (who are paid by Uber), contrasting with Benza's payment system, which was initially designed to accommodate in-app payments but has now been reduced to a simple recommendation system (see Section \ref{subsec:modificationstodesign}).\par
+    
+    \begin{figure}[ht]
+        \makebox[\textwidth][c]{
+        \centering
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \frame{\includegraphics[width=0.9\linewidth]{blablacar_find_a_ride}}
+            \caption{Finding a ride}
+            \label{fig:blablacar_find_a_ride}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \frame{\includegraphics[width=0.9\linewidth]{blablacar_list_of_rides}}
+            \caption{List of rides}
+            \label{fig:blablacar_list_of_rides}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \frame{\includegraphics[width=0.9\linewidth]{blablacar_offer_a_ride}}
+            \caption{Start of an offer}
+            \label{fig:blablacar_offer_a_ride}
+        \end{subfigure}}
+        \caption{Mobile interface for BlaBlaCar (iOS)}
+    \end{figure}
+    
+    Much like BlaBlaCar, Lyft was initially released as a proof of concept service by its parent company Zimride after some years spent developing and fund raising. Shortly after its initial release in 2012, Lyft raised \$15 million in funding \cite{lyftearlyseriesBfunding}. Following this successful series B funding round, the service's founders promptly sold parent company to Enterprise Holdings (owner of Enterprise Rent-a-car) so they could focus on Lyft. The sale came immediately after a further round of funding worth \$60 million and also led to Lyft moving into new domestic markets, encroaching on Uber's market space. Years of steady growth and a sequence of successful funding rounds have culminated in its recent \acrshort{ipo}, which was one of the most successful tech \acrshort{ipo}s in history \cite{lyftIPOtechcrunch}. In mid-2018, Lyft claimed to have 35\% of the USA ride-sharing market \cite{lyft35pcofmarketinUS} - a measure of how mature the company has become. \par
+    
+    When comparing the Lyft and Uber experiences, it is clear that Lyft places more emphasis on empathy. It accomplishes this through marketing strategy rather than app functionality \cite{lyftvalueofempathy} and \acrshort{ui}, both of which remain very similar to Uber's app. Although this similarity might seem contradictory for an app that is trying to disrupt a market, the familiarity serves as a pull factor for Uber's existing users. When Uber entered the market, it was subjected to a slew of bad press for its controversial and aggressive targeting of the taxi industry. Years later, it still bears the burden of negative coverage that accompanies its relentless attitude toward trailblazing in various other markets \cite{uberbadpressguardian}. Lyft has been able to capitalise on this strategy, operating within the larger company's wake to distance itself from any association with Uber. So, while Lyft does appear to value its user community on a more personal level than Uber does, Benza aims to go above and beyond by providing a sociable experience to users before even entering a car (Section \ref{subsec:innovation}). \par
+    
+    Although Lyft is certainly a competitor to be wary of, it also caters more for the on-demand ride-hailing industry, which is not the market space that Benza wants to occupy. In addition to this difference in market space, Lyft is currently still limited to the USA market, although it briefly partnered with Chinese ride-hailing service DiDi Chuxing to provide its customers with a seamless experience in some Asian countries \cite{lyftdidialliancemashable}. It may be the case that the \acrshort{eu}'s \acrshort{gdpr} discourages non-European \gls{unicorn} startups from prioritising the European market. This hypothesis could become very relevant if the UK were to leave the \acrshort{eu}, abandoning the \acrshort{gdpr} and making itself more accessible to tech startups like Lyft. \par
+    
+    Waze Carpool is Google's carpooling service, primarily catering for coworkers that commute using common routes on a daily basis. It is especially geared towards employees of large companies, as seen by Google's collaboration with Amazon warehouses across the USA \cite{wazeTargetsAmazonWarehouses}. Designed primarily as an extension of the original Waze navigation \gls{app}, which specialises in avoiding high-traffic and otherwise time-consuming routes, Waze carpool is Benza's closest competitor after BlaBlaCar. The \gls{app}'s ability to \gls{gamify} the ordinary process of navigation, coupled with its use of saved ``routes'' where Benza's would use groups, makes it the most community-focused of the competitors discussed in this report. \par
+    
+    Taking these similarities into account, it is advantageous that Benza will be released on the UK market: Google's product is currently only available in the USA, Mexico, Israel and Brazil. As Waze continues to gain traction with an audience of a country that often imparts its cultural trends to the UK (particularly the British youth), Benza could be marketed as a British substitute for something that is already on the fringes of common knowledge. Waze Carpool's audience is composed largely of millenials \cite{wazetargetsmillenials}; another positive indicator for Benza, which will be released for beta testing in a university environment (Section \ref{subsec:testingstrategy}), where the majority of the student population falls within the millenial cohort.
+    
+    \subsection{Innovation}
+    \label{subsec:innovation}
+    Constructing a vision for Benza has been an important part of defining the aims and values of the application. These values (Figure \ref{fig:values}) led to the prioritisation of certain design features and changes to the requirements analysis during this first development cycle (see Sections \ref{sec:requirements}, \ref{subsec:modificationstodesign}). This section will explore how Benza will realise the team's vision and the defining features that Benza users can expect from the \gls{app}. \par
+    
+    \emph{Community:} Benza aims to connect people in a manner that encourages organic growth of carpooling groups as opposed to the transaction-like features that characterise the \glspl{app} of our competitors. Benza users can create their own groups with unique names, locations and member lists (Figure \ref{fig:benza_group_detail}) to better reflect the way people already coordinate shared travel arrangements. By centring our \gls{app} on a list of nearby groups (Figure \ref{fig:benza_group_list_after}), new users are greeted by familiar locations and more meaningful group names. The familiarity of location is designed to make the new user feel as if they already have a stake in these groups - that they belong to and are welcome in them. If any user wishes to create a new group, they can do so at the tap of one button, followed by an intuitive four-step process where they provide details for their group. As more groups are created, the \gls{app}'s home page will become more dynamic, changing its content depending on the user's proximity to group locations to deliver an engaging experience to users that remains relevant to their own location. \par
+    
+    \smartdiagramset{
+        bubble center node size=2.3cm,
+        bubble node size=2.0cm,
+    }
+    \begin{wrapfigure}{l}{0.4\textwidth}
+        \vspace{-5pt}
+        \smartdiagram[bubble diagram]{Benza, Community, Trust, Sustainability}
+        \caption{Benza's values}
+        \label{fig:values}
+        \vspace{-10pt}
+    \end{wrapfigure}
+    
+    \emph{Sustainability.} Benza facilitates environmentally friendly travel for all its users by maximising the person to vehicle ratio, fulfilling the contemporary meaning attached to ``sustainability''. However, the development team aims for Benza to be an application relevant to more than ride-sharing with personal vehicles. Taking university sports away games as a potential use case, the Benza application could be adapted to pair teams that are travelling to the same university. After pairing, the application could interface with the teams' student union (or relevant governing body) to book transport, thereby eliminating paperwork, minimising fuel and vehicle hire costs and bringing university clubs together to strengthen ties within the student body. \par 
+    
+    The demand for geographically anchored team coordination is increasing as traditional centres for work and education develop remote-access capabilities. If the carpooling-specific features of the application were to be removed, it could be viewed as a location-dependent instant messenger. Different modules could be created to offer different types of functionality within the \gls{app}. For example, if a routing feature was replaced with a structure representing a curriculum's course and content, the application could be used by academic institutions to create groups of students for group projects. This \gls{pluggable} behaviour is encouraged by the application's core language, Flutter, which treats every piece of the mobile app as an interchangeable widget \cite{fluttereverythingsawidget}.\par
+    
+    \emph{Trust.} The development team aim to complete a slow and steady initial release, conducting extended beta testing at the University of Aberdeen before expanding to other UK markets. This extended testing period will provide the feedback necessary to improve Benza's \acrshort{ux}, which is difficult to gauge without a diverse pool of users. The limited initial release is an introduction technique that the team aim to take advantage of when moving into new markets. While rapid and open expansion brings undoubted benefits to startups, solidifying Benza's reputation and curating an audience that delivers constructive criticism will take priority over market impact during initial release. \par
+
+  
+\newpage
+\section{Requirements}
+\label{sec:requirements}
+    \newacronym{furps}{FURPS+}{Functional, Usability, Reliability, Performance, Supportability, \(+\)}
+    
+    Requirements were specified during CS3028 and were informed by the guidance of in-course practical material. Adopting an agile process has resulted in numerous reiterations of the requirements throughout our cycle of analysis, development, testing and evaluation. The main cause for reiteration came from evaluating use cases, which informed the team about how effective the requirements were /in capturing our vision for the application. Further reiteration arose during implementation, where new issues were highlighted, especially in terms of technical feasibility. These changes were what led to the version of the requirements included in this report. \par
+    
+    This section will guide the reader through an in-depth analysis of the pre-release version of Benza, focusing on the reasons why each requirement was added and the impact of the requirement on the application's \acrlong{ux}, but also on details about why some requirements were prioritised and others were dismissed or deemed unfeasible . For more information on implementation barriers and obstacles found in the process, see Section \ref{subsec:keyimplementationdecisions}. The dismissed features will be retained for potential development in any future releases of Benza. \par
+
+    \subsection{Functional Requirements}
+    \label{subsec:functionalreq}
+    The requirements in Table \ref{tab:userfunctionality} pertain to the main use case of the system: how users will be able to sign up, log in, view the list of groups and join them to get to the end-goal of coordinating with other users for a carpooling trip. The outlier requirement for \emph{rating another user in a group} might not appear to be a core part of the application, however trust is a vital aspect of all community-based platforms, especially so for platforms where users eventually meet in real life \cite{blablacarslideshare}. \par
+    % do we want to add the 'main use case' as a part of the glossary, so we can reference to it later on?
+    
+    \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+    \begin{table}[ht]
+        \centering
+        \ra{1.2}
+        \begin{tabular}{@{}ll@{}} \toprule
+        Base User Requirement               & After joining a Group                 \\ \midrule
+        Sign-up with unique User details    & View list of Users in a Group         \\[3pt]
+        Log-in with unique User details     & Chat with other Users in a Group      \\[3pt]
+        View User profile details/rating    & View profile of other Users in a Group\\[3pt]
+        Change User details                 & Rate another User in a Group          \\[3pt]
+        View list of Groups                 & Leave Group                           \\[3pt]
+        Join a Group                        &                                       \\ \bottomrule
+        \end{tabular}
+        \caption{Requirements for Base Use Functionality}
+        \label{tab:userfunctionality}
+    \end{table}
+    
+    \emph{Sign-up \& log-in}: A user will be able to sign up and consequently log in with their details. The required details are an e-mail that hasn't yet been registered (validated to match \emph{x@y.z}), a password with a minimum of six characters and a name. If a user forgets their password, they will be able to reset their password from the login page using e-mail verification.
+    
+    \emph{User details}: Once logged in, a user will able to view and personalise their profile, changing details such as their name, profile picture and bio (maximum 50 characters). These details will also be visible to other users within groups and a thumbs-up or thumbs-down widget will be available to these group members so that every user can be assigned a rating.
+    
+    \emph{View \& join groups}: A user will be able to view a list of all existing groups, and view details such as the group's name and a Google Maps preview of the group location. From this list, a user will be able to explore, join and leave groups. 
+    
+    \emph{Group creation}: A user will be able to create a group using a dedicated page. A unique group name and a valid location are the only prerequisites for creating a new group. A location is the name of the city and country, but can be further specified by adding a street name and postcode. A preview of the location will be displayed to ensure that the user has entered their desired location before letting the user to confirm the creation of the group. 
+    
+    \emph{Group details \& chat}: Once in a group, a user will be able to the view the details of the group together with a list of the users who have joined the group. Users in a group can also access and use the group chat to communicate within the group, as well as select a specific user to view their profile. \par
+    
+    \begin{table}[ht]
+        \centering
+        \ra{1.2}
+        
+        \begin{tabular}{@{}ll@{}} \toprule
+        Trip User Requirement           & After offering a Trip     \\\midrule
+        View Trip details               & Change Trip details       \\[3pt]
+        View list of offered Trips      & Trip Moderation           \\[3pt]
+        Offer a Trip within a Group     & Take Payment for Trip     \\[3pt]
+        Pay for Trip                    & Complete Trip             \\[3pt]
+        Leave Trip                      &                           \\[3pt]
+        View list of Completed Trips    &                           \\\bottomrule
+        \end{tabular}
+        \caption{Requirements for Trips Functionality}
+        \label{tab:tripfunctionality}
+    \end{table}
+    
+    Table \ref{tab:tripfunctionality} lists the extended requirements, complete with a payment and trip management system that can be customised to suit different dates, times and start/end locations. This data can be used to generate routes and schedules for any given trip. 
+    
+    Another important requirement worth noting is \emph{Trip Moderation}, which entails the ability of a user to further manage the 'small' community they have created. This was meant to be applied to both groups and trips, but was later restricted to allow the trip offeror to have more control over trip participants and trip details. \par
+    
+    These features were originally part of the functional requirements (Table \ref{tab:userfunctionality}) but have been abstracted to this second level of functionality as iterative analysis, implementation and evaluation prioritised other requirements and made some less feasible. \par
+    
+    % These requirements are strongly correlated and therefore after the decision of not implementing the trip functionality for the first release was made (see Section \ref{subsec:keyimplementationdecisions}), most of these were deemed unfeasible and kept as possible features to be added at a later stage.
+
+    \subsection{Non-functional Requirements}
+    \label{subsec:nonfunctionalreq}
+    The non-functional requirements are essential to the quality of the \acrshort{ux}. So, to structure and categorise the different requirements the team decided to use the \acrshort{furps} model of classifying software quality attributes \cite{furpslecture}. A thorough explanation of the non-functional requirements (Table \ref{tab:nonfunctionalrequirements}) will follow. \par
+    
+ \begin{table}[ht]
+        \centering
+        \ra{1.2}
+        
+        \begin{tabular}{@{}ll@{}} \toprule
+            Category        &   System Requirement                                                                                      \\ \midrule
+            Functional      &   See Tables \ref{tab:userfunctionality} and \ref{tab:tripfunctionality}.                                    \\[6pt]
+            Usability       &   \begin{tabular}[t]{@{}l@{}} Provide offline access to FAQs and T\&Cs.                                   \\
+                                                            Rank groups according to geographical proximity.                            \\
+                                                            Notify users of significant in-app events                                    \\[6pt] 
+                                                            \end{tabular}                                                               \\
+            Reliability     &   Dynamically adapt to volume of user activity\footnotemark[2].                                           \\[6pt]
+            Performance     &   \begin{tabular}[t]{@{}l@{}} Execute Group and Trip queries within 4 seconds of user request.            \\ 
+                                                            Have the capability to serve at least 1,000 users simultaneously.           \\[6pt] 
+                                                            \end{tabular}                                                               \\
+            Supportability  &   \begin{tabular}[t]{@{}l@{}} Support modular load balancing.                                             \\ 
+                                                            Run without fault on Android 6.0 -- 9.0 and iOS 10.0 -- 12.0.               \\
+                                                            Provide a secure method of payment and credential storage\footnotemark[3].  \\ 
+                                                            \end{tabular}                                                               \\ \bottomrule
+        \end{tabular}
+        \caption{Non-functional requirements, based on \acrshort{furps} Model}
+        \label{tab:nonfunctionalrequirements}
+    \end{table}
+    \footnotetext[2]{Using load balancing with service replication}
+    \footnotetext[3]{In accordance with Payment Card Industry Data Security Standard (PCI DSS)}
+    
+    \emph{Usability.} Making the user comfortable with using our application and ensuring that helpful information is readily accessible at any time is essential to success after the initial release. Hence why Benza's frequently asked questions and terms and conditions are made available to users even when the they do not have an internet connection. \par
+    
+    To make the process of finding an appropriate group more streamlined, the requirements include a point about ranking groups according to geographical proximity. For this purpose, an algorithm was planned during the analysis phase, to compute a ranking value for each group based on the user's request. The groups best suited to the user would have then be displayed in decreasing order for the user to join.%SOMETHING ABOUT WHY NOT IMPLEMENTED?
+    \par
+
+    Notifications are an expected feature from current mobile applications and would be a useful tool in the capabilities of any application containing a chat. In our application, a user would receive a notification whenever relevant changes happen, such as a new message in the groups the user is part of, or when details are updated. These could be the location or the time and date of a group, or a user joining or leaving a group. %SOMETHING ABOUT WHY NOT IMPLEMENTED? 
+    \par
+    
+    \emph{Reliability.} Startups can be required to scale incredibly quickly if their application gains significant traction after initial release. This rapid growth in traffic can cause unforeseen strain for application infrastructure and can lead to problems if the management and the product is unprepared \cite{scalingupstanfordpresentation}, including: stalled growth, damaged reputation and even loss of user data. To safeguard Benza against such unfortunate circumstances, the application uses the containerisation platform, Docker. Docker will enhance Benza's reliability by adjusting to the volume of traffic through built in load balancing features, where any strained services can be virtually replicated to share the burden of increased traffic. \par 
+    
+    \emph{Performance.} Today's mobile applications provide users with on-demand access to a massive range of resources in seconds. As the tech industry continues to boost users' expectations with regards to convenience and speed, it is very important that Benza's users get responses to their queries within a reasonable time limit. Erring on the side of caution, the Benza mobile app will have a maximum wait time of 4 seconds for any operation. Although this is a long time to wait by today's standards, multiple test queries have proven that the application is usually well within this upper bound and never in excess of it (Section \ref{sec:testing}). \par
+    
+    For Benza to reach its full potential, it will need a large and distributed user base. Working in tandem with Docker, Firebase's Cloud Firestore (Benza's storage solution for user data), boosts performance by providing support for more than 1000 simultaneous reads (Section \ref{subsec:dataorganisation}). However, in this pre-release version of Benza there are restrictions placed on the daily number of reads and writes that can be performed in application's Firebase space. This performance ceiling is a direct result of the restrictive lack of funding available to the development team. \par
+    
+    \emph{Supportability.} To take full advantage of Docker's load balancing feature, Benza's architecture will follow the \glspl{microservice} pattern. In accordance with the pattern, Benza's various components will be split into distinct services, which will in turn allow Docker to provide load balancing specifically for those services that are under strain. The modular characteristic will minimise the system bloat created by whole-system replication when only one service is under strain. \par
+    
+    Further to the requirement specifying compatibility with mobile operating systems (Table \ref{tab:nonfunctionalrequirements}: Supportability), Benza eventually aims to run smoothly on the latest versions of both Android and iOS. This non-functional requirement was updated following the release of iOS 12.0, while the Android version compatibility remains unchanged. Currently, Benza runs without fault on Android 8.0 Oreo (Section \ref{sec:testing}) and the development team aims to port the application to iOS immediately after the Android beta testing phase. \par
+    
+    The initial application proposal included a payment method so that users could contribute to the cost of a journey's fuel. The development team has since realised that this functionality is not essential to the application and could be reserved as a feature to be potentially added at a later stage. Moreover, the implementation of an in-app payment feature raised concerns about potential security issues handling the users' financial details. Another possible issue is that including payments in the software itself could wrongly encourage users to consider the ride as a job opportunity, which is not in harmony with the social nature of the application. Lastly, there are risks of running into regulatory obstacles, since Benza could then be lawfully considered as a taxi service. The industry has strict legislation that protects the traditional ride-hailing companies such as the local Rainbow City Taxis [REFERENCE].\par
+    
+    \subsection{Feasibility Study - MAGNI/LORI}
+    \label{subsec:feasibilitystudy}
+    In order to analyse whether the project can be fully developed in the time-frame given and if it is worth developing, our team carried out a feasibility study. This considers different aspects of the project, including the economical and technical side. 
+        \subsubsection{Technical Feasibility}
+        A detailed risk analysis was carried out in the first semester and will be summarised here. 
+        \subsubsection{Operational Feasibility}
+        \subsubsection{Schedule Feasibility}
+        \subsubsection{Economic Feasibility}
+    
+
+\newpage
+\section{Design}
+\label{sec:design}
+    \newacronym{mvc}{MVC}{Model-Viewer-Controller}
+    \newacronym{uid}{UID}{User ID}
+    \newacronym{nosql}{NoSQL}{Not only SQL}
+    \newacronym{uri}{URI}{Uniform Resource Identifier}
+    \newacronym{id}{ID}{Identifier}
+    \newacronym{kiss}{KISS}{Keep It Simple Stupid}
+    \newglossaryentry{3tier}
+    {
+        name = 3-Tier,
+        description = {Software architecture pattern with presentation, application and storage layers}
+    }
+    \newglossaryentry{microservice}
+    {
+        name = microservice,
+        description = {A single-function module with a well-defined interface}
+     }
+    \newglossaryentry{bio}
+    {
+        name = bio,
+        description = {Colloquialism for biography - a concise description of a person}
+    }
+    \newglossaryentry{bucket}
+    {
+        name = bucket,
+        description = {A totally flat storage space to hold an unstructured collection of data}
+    }
+
+    \subsection{Current System Characterisation}
+    
+    \begin{wrapfigure}{r}{0.42\textwidth}
+        \vspace{-8pt}
+        \tikzstyle{basic} = [rectangle, minimum height=0.6cm]
+            \begin{tikzpicture}[node distance=1.5cm]
+                % Flutter node
+                \node(app)[basic,fill=cyan!20,minimum width=6cm]{Flutter application};
+                % Microservice nodes
+                \node(groups)[basic,below of=app,fill=red!20,xshift=-0.6cm]{Groups};
+                \node(match)[basic,left of=groups,fill=red!20]{Match};
+                \node(users)[basic,right of=groups,fill=red!20]{Users};
+                \node(chat)[basic,right of=users,fill=red!20]{Chat};
+                % Database nodes
+                \node(sql)[basic,below of=match,fill=blue!20,minimum width=2.75cm,xshift=0.6cm]{MySQL};
+                \node(firebase)[basic,below of=chat,fill=blue!20,minimum width=2.75cm,xshift=-0.7cm]{Firebase};
+            
+                % App to microservices straight downwards arrows
+                \draw[->](app.south -| groups.north) -- (groups.north);
+                \draw[->](app.south -| match.north) -- (match.north);
+                \draw[->](app.south -| users.north) -- (users.north);
+                \draw[->](app.south -| chat.north) -- (chat.north);
+                % Microservices to databases slanted arrows
+                \draw[->](match.south) -- (sql);
+                \draw[->](groups.south) -- (sql);
+                \draw[->](users.south) -- (firebase);
+                \draw[->](chat.south) -- (firebase);
+            \end{tikzpicture}
+        \caption{Benza's simplified architecture}
+        \label{fig:simple_architecture}
+        \vspace{-8pt} %trimming the white space that appears below the figure
+    \end{wrapfigure}
+    
+    Benza was designed using three different software architectures: \gls{3tier}, \acrfull{mvc} and \glspl{microservice}. Figure \ref{fig:simple_architecture} clearly illustrates the aforementioned three tiered structure and the individual modules that adhere to the \glspl{microservice} pattern, while the characteristics belonging to the \acrshort{mvc} pattern are obfuscated for brevity. \par
+    
+    The presentation layer (top) contains the Flutter application, which has an internal structure resembling the \acrshort{mvc} pattern (Appendix \ref{app:fullarchitecture}) and handles the user's interaction with the system. The microservices are shown in red in the application layer (middle); these services work independently and are called upon individually depending on user actions. The databases (bottom), are accessed by methods located in the microservices above and are the only locations where user data is stored in the system. \par
+    
+    \emph{3-Tier}: Benza uses the \gls{3tier} software architecture because it is an adaptable pattern that can accommodate various other architectures, while also providing a tried and tested high level system architecture that ensures minimal coupling between storage and presentation layers. Although this pattern provides a good base template for assigning responsibility within a system, incorporating \glspl{microservice} led to some unforeseen alterations. Since each \gls{microservice} contains its own \acrfull{dao}, the \acrshort{dao}s that would traditionally appear in the storage layer are bundled into \glspl{microservice} that are better suited to the application layer. These \acrshort{dao}s access data held in the inferred database layer. In the case of the \emph{Groups} service (Figure \ref{fig:simple_architecture}), the \gls{dao} will access data that is held in a MySQL database (Section \ref{subsec:keyimplementationdecisions} discusses how this is a \gls{microservice} in itself). The structure and organisation of Benza's data is discussed further in Sections \ref{subsec:dataorganisation} and \ref{subsec:fileanddatabasestructure}. \par
+    
+    \emph{Microservices}: By incorporating the \glspl{microservice} pattern into Benza's business logic, the system's modularity is improved and its ability to deliver consistent service in hand with Docker is maximised. The sfubmodules contained within each \gls{microservice} are highly cohesive, performing operations that are pertinent only to the purpose of the parent \gls{microservice}. (submodules, modularity, minimising external dependencies, high scalability, keeping it cohesive) \par
+    
+    \emph{MVC}: The \acrlong{mvc} pattern was chosen for its ability to define the flow of control within an application. By dividing responsibility for certain operations between distinct classes and files within the Flutter app, the system benefits from improved modularity and abides by the ``principle of least privilege''\cite{ploplecture}. The inherent modularity of \acrshort{mvc} increases implementation speed because programmers are able to locate program features in the file structure.\par
+
+    \subsection{Data Organisation}
+    \label{subsec:dataorganisation}
+    Benza's \glspl{microservice} architecture allowed the team to choose the most fitting storage solution for the implementation of each module. The decision to distribute the data into two different types of databases: a MySQL relational database for storing the data relating to groups and a cloud-hosted \acrshort{nosql} database for storing user data. \par
+    
+    The \acrshort{nosql} database is hosted by Google's Firebase platform and was chosen for being easy to set up and maintain, as well as offering additional useful features such as secure user authentication \cite{firestoredocs} and real time data synchronisation. These additional features made it the ideal solution for storing sensitive user data and implementing Benza's group chat functionality. Because the data in Cloud Firestore is synchronised in real time, all connected clients are informed about or able to see the changes to the data that they have access to. By executing one-time fetch queries, Firestore allows to see the result almost instantly \cite{firestorevsrealtime}.  Security rules are set by the database host (Firebase) for datatype validation and user access restrictions. For example, only users who have joined group \emph{x} are able to see offers and messages posted in group \emph{x}. \par
+    
+    However, implementing Benza's matching and group management services required a different approach for storage and retrieval of data. This part of the software is what makes Benza unique, ensuring complete control of these microservices and their data is essential and cannot be achieved with a cloud hosted database. Instead, a relational MySql database was the solution of choice because it is open source, scalable (capable of handling almost any amount of data, up to as much as 50 million rows), secure \cite{featuresMySql} and widely used within the software engineering community \cite{WhyMySql}. \par
+    
+    Distributing data between two different hosts rather than relying entirely on one prevents the system from having a single point of failure, enhancing the reliability of the system. In the case of MySQL database not responding, certain functionalities of the app would still be working as usual, such as users' ability to register, log in and see their profile. This is due to all the necessary data to provide these services being stored in the Cloud Firestore database. Only the functions that require access to group data would not be functional, as the data necessary for those operations would not be available. In the case of a failure within the Firebase-hosted Cloud Firestore, users would not be able to log into or sign up for the app, but the important group data residing in the MySQL database would be kept safe.\par
+
+    Using two databases also reduces the cost of maintenance and supports scalability, which is very important for a startup like Benza. Firebase is taking a lot of responsibility for the data management, allowing the development team to primarily focus on managing the MySQl database which stores the data needed to provide the core service of the app and is less flexible in terms of change. Storing all data in the MySQL database would require specific expertise and constant maintenance, which would result in increased costs of running the application. With regards to scalability, both databases are capable of expanding according to the needs and growing amount of users of the application. Firestore is capable of running up to 1 million concurrent connections, while the MySQL database can store up ... of data depending on...[REFERENCE]. However, in order to keep the cost of running the application as low as possible and comply with a tight startup budget, the amount of daily read, write and delete operations in the pre-release version of Benza is limited to 50 thousand reads, 20 thousand writes and 20 000 deletes. \par
+    
+    \subsection{File \& Database Structure}
+    \label{subsec:fileanddatabasestructure}
+    
+     Having two distinct hosts responsible for the storage of Benza's data, result in data being structured in a specific fashion and requiring different querying approach as each host possesses its own data model. The data in the Cloud Firestore database is organised into collections and sub-collections consisting of records in the form \acrshort{json} data format. While the traditional MySQL database consists of tables, columns representing the attributes (different types of information stored) and rows being the data stored. 
+    
+    % Adapted from Frantisek Burian http://www.texample.net/tikz/examples/filesystem-tree/
+    \begin{wrapfigure}{r}{0.42\textwidth}
+     \vspace{-8pt}
+        \tikzstyle{every node}=[thick,anchor=west]
+        \tikzstyle{users}=[fill=magenta!20]
+        \tikzstyle{user}=[fill=cyan!20]
+        \tikzstyle{field}=[fill=blue!20]
+        \begin{tikzpicture}[%
+          grow via three points={one child at (0.5,-0.7) and
+          two children at (0.5,-0.7) and (0.5,-1.4)},
+          edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
+          \node {Users} [users]
+            child { node [user] {id: ...}
+                    child { node [field] {bio: ...}}
+                    child { node [field] {email: ...}}
+                    child { node [field] {imageUri: ...}}
+                    child { node [field] {name: ...}}
+                    child { node [field] {uid: ...}}
+                    }
+            child [missing] {}
+            child [missing] {}
+            child [missing] {}
+            child [missing] {}
+            child [missing] {}
+            child { node [user] {...}}
+            ;
+        \end{tikzpicture}
+        
+        \caption{The Users collection in the Cloud Firestore database}
+        \label{fig:users_collection}
+        \vspace{-8pt} %trimming the white space that appears below the figure
+     \end{wrapfigure}
+     
+    The Cloud Firestore database is responsible for storing user data and messages sent within the groups. In the database, data fields are stored in artefacts called documents, which belong to a collection \cite{firebaseDataModel}. There are two distinct collections: Users and Chats. Each document within the Users collection represents a single user and consists of five fields: \gls{bio}, email, name and \acrshort{uid} (Figure \ref{fig:users_collection}). Users' profile photos are stored in a separate storage \gls{bucket} provided by Firebase and referenced in the Users collection by means of a \acrshort{uri}. The document can be retrieved by its name which is the \acrshort{uid}. The Chats collection is structured in a similar manner. The difference being that within each group in the collection, there is another subcollection for the list of messages, where each message is a document. Every message contains five fields: message content, \acrshort{uid} of the sender, name of the sender, timestamp of the moment of sending and message type. \par
+     
+    The data relating to groups is held in a single table in the MySQL database. Every record in the group table has columns for the group \acrshort{id}, group name, group location and the users that have joined the group. The data types of these fields are set by the Flask \acrshort{api} when the database is initialised and the table is created (during Docker startup). It is important to note that once the application is released, the Docker container will be available 24/7 and by extension, so will the database. The majority of data stored in this database is typed as SQL VARCHAR, with unspecified field lengths (with the exception of group \acrshort{id}s, which are stored as SQL INTEGER). This implementation decision is explored further in Section \ref{subsec:keyimplementationdecisions}. \par
+    
+    The file structure of the system (Figure \ref{fig:full_file_structure}) reflects the microservices architecture that was proposed in Benza's initial white paper. The Group Management Service, Notification Service and Matching Service are all structured as distinct collections of files, a characteristic that enhances Docker's ability to replicate services that are under significant strain and thereby increase load-balancing efficiency. \par
+    
+    
+    \subsection{User Interface - MAGNI}
+    The application is comprised of six separate views: a log-in/sign-up form, a user profile page, a group creation form, a page containing the list of groups and lastly the group and trip view pages. The log-in/sign-up form serves as the landing page of the application, and after logging in or signing up, the rest of the pages become available through the navigation bar consistently displayed at the bottom of each view except for groups. \par 
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.4\textwidth]{images/benza_bottom_navbar.png}
+        \caption{The bottom navigation bar}
+        \label{fig:benza_bottom_navbar}
+    \end{figure}
+    
+    The navigation bar has a minimalistic blue and white design, containing four buttons, one for each page. Navigating to a page will alter the bar to display which view the user is in (for example, in Figure \ref{fig:benza_bottom_navbar} the user is in the list of groups page). \par
+    
+    % Insert homepage example / layout mockup
+    The main interface of the application is built using a scaffold of three containers: the header containing the title and a sign-out button, the content containing the relevant widget (depending on which view the user is in), and the footer containing the navigation bar. This is the layout used both in the landing page (excluding the navigation bar), and the pages accessible in the navigation bar. \par
+    
+    % Insert group view example / layout mockup
+    Once a group is selected or created by a user, a new view is displayed using a , the group's vie. It consists of a map preview in the header, with the group details underneath (name and location), and a group chat at the bottom. It does not include a navigation bar, as it would clutter the view and hinder the user's ability to use the chat. This comes from the \acrshort{kiss} principle (\acrlong{kiss}), only allowing the bare necessities to be displayed for the user to view and interact with, making the application optimal and easier to use.\par
+    
+    % Insert colour palette
+    Even the colour scheme of the interface followed this same idea, as only three colours, blue, white and black, were used in the interface. This keeps the design consistent with minimal changes between the views, except for the chat, that will have users with customisable profile icons. 
+    % more: something about the DRY principle, something about the hovering the buttons on the navigation bar (maybe a paragraph just about the navbar), something about why exactly blue, that the text is only in black and white, and something about ethos/pathos/logos
+    
+    % maybe refer back to competitors section, where we talk about how our app will be better. could give you some talking points to put here.
+    
+    % if we really thinking about the colour choice for the app
+    
+    \subsection{Modifications to Design - LORI/MAGNI}
+    \label{subsec:modificationstodesign}
+    Don't discuss things that we \emph{aren't} doing here - rather discuss things that we set out to do one way but have ended up doing differently. This is a good place to draw on material from the \hyperlink{sec:requirements}{requirements}. \par
+    There's also lots of opportunity for linking back to the feasibility study, pointing out whether the risks that we anticipated there actually caused us to change the design (or not). \par
+
+\newpage
+\section{Coding and Integration}
+\label{sec:coding}
+    \newacronym{sdk}{SDK}{Software Development Kit}
+    \newacronym{api}{API}{Application Programming Interface}
+    \newacronym{json}{JSON}{JavaScript Object Notation}
+    \newacronym{dao}{DAO}{Data Access Object}
+    \newacronym{http}{HTTP}{HyperText Transfer Protocol}
+    \newacronym{url}{URL}{Uniform Resource Locator}
+    \newacronym{crud}{CRUD}{Create Read Update Delete}
+    \newglossaryentry{gtr}
+    {
+        name = getter,
+        description = {A method to access data held elsewhere in the system}
+    }
+    \newglossaryentry{restful}
+    {
+        name = RESTful,
+        description = {A web service following the Representational State Transfer architectural pattern}
+    }
+    \newglossaryentry{boilerplate}
+    {
+        name = boilerplate,
+        description = {code that can be reused with minimal changes}
+    }
+    \newglossaryentry{gantt}
+    {
+        name = gantt,
+        description = {A charted visualisation of a project's scheduled tasks over time}
+    }
+    
+    \subsection{Planning}
+    \label{subsec:planning}
+    Planning how the components would be implemented took a multitude of factors into account. The coupling of some back end system components determined the order that parts of the project could be implemented in. For example, the \gls{app}'s login page (Figure \ref{fig:benza_login}) depends upon several other features being functional: the device running the app needs to have internet access, there must be an online Firebase space with the Firebase Authentication tool activated and there must be a corresponding record in the Authentication tool's storage for the login data to be validated against. \par
+    
+    Priority according to the requirements analysis was another factor: the software should be implemented in an order that fulfilled the base use requirements (Table \ref{tab:userfunctionality}) before the trips feature (Table \ref{tab:tripfunctionality}) and the remaining non-functional requirements (Table \ref{tab:nonfunctionalrequirements}). This structured approach is clearly illustrated by the \Gls{gantt} charts that the team used to plan and record the order of implementation (Figures \ref{fig:ganttchartschedule1}, \ref{fig:ganttchartschedule2}, \ref{fig:ganttchartschedule3}). \par
+    
+    Like the coupled back end components, there were elements of the Flutter mobile application that needed to be implemented in a certain order to produce meaningful test outcomes and the desired system behaviour. These front end components follow what one might call a \emph{flow of possibility}, where features that implement a specific functionality build on each other to fulfil a requirement. For example, to fulfil the \emph{user should be able to create a group} requirement, a model that represents the internal structure of a group needed to be implemented. Modelling custom objects that have attributes of various data types presented its own challenges further into the implementation phase, when the objects needed to be passed to an \acrshort{api} in \acrshort{json} format and decoded from that format upon receiving a response. \par
+    
+    Creating a template for the system that adhered to the architectural patterns decided in the design phase (Section \ref{sec:design}) was an important first step in planning implementation. The Flutter application was initialised with a comprehensive ``quick start'' structure, providing a logical space for the team to implement the \acrshort{mvc} pattern. Each of the \glspl{microservice} used \gls{boilerplate} code from the Flask RESTPlus documentation \cite{flaskquickstartdocs} to provide a generic \acrshort{api} with simple \acrshort{crud} capabilities. Each \gls{microservice}'s \acrlong{dao} borrowed elements from the Dataset micro-framework documentation \cite{datasetquickstartdocs} to provide a base functionality that complimented its Flask \acrshort{api}.
+    
+    \subsection{Key Implementation Decisions}
+    \label{subsec:keyimplementationdecisions}
+
+    \emph{Trips.} To not implement trips before releasing Benza was a turning point in the programming process. To understand why, let us briefly recount what a trip is. Every trip starts as an object with several attributes of different data types (similar to the groups discussed in Section \ref{subsec:dataorganisation}). Creating nested fields for group objects in the \acrshort{api} was an arduous task that overflowed its allocated programming time and eventually resulted in using flattened lists to represent a single field containing a list of values. This hack produced the application behaviour that was necessary to fulfil the base use requirements (Table \ref{tab:userfunctionality}) but greatly complicated the task of integrating the trips feature in the process. \par
+    
+    The decision to discontinue programming efforts for the trip feature was made after significant time was lost to troubleshooting and the time allocated to other features began to shrink dangerously. Fortunately, the architecture template produced as part of the implementation plan has dedicated structures intended for this feature and should enable the team to resume work post-release. \par
+    
+    \emph{Notifications.} The decision to not fully develop the notifications feature was taken after the team experienced setbacks late in the implementation phase. This feature was listed as a non-functional requirement and as such, was allocated programming time in the later stages of implementation. Despite following the planning strategy set out in Section \ref{subsec:planning}, this has led to Benza being released for beta testing without a notifications feature. However, as well as being the main cause of failure to meet this requirement, the planning strategy is also what will allow the development team to return to future development of the feature with tempo. This is due to the complete system template being laid in accordance with the chosen architectures before implementation of the business logic even began, providing a \gls{boilerplate} Flask \acrshort{api} for each of the \glspl{microservice} (Figure \ref{fig:full_file_structure}). \par
+    
+    \begin{listing}[ht]
+    \begin{minted}[
+        frame=lines,
+        framesep=2mm,
+        baselinestretch=1.2,
+        fontsize=\footnotesize,
+        linenos
+    ]{python}
+    group_ns = api.namespace('group', description='CRUD for groups')
+    @group_ns.route('/') # The base route of the web application
+    class Group(Resource):
+        @group_ns.doc('Gets all groups')
+        def get(self):
+            return DAO.get_all(), 200 # Accessing the DAO
+    \end{minted}
+    \caption{The Flask \acrshort{api}'s \gls{gtr} for the list of all groups from \mintinline{python}{/benza/group_service/app.py}}
+    \label{code:flask_get_all_groups}
+    \end{listing}
+    
+    The decision to structure the microservices as \gls{restful} \acrshort{api}s with web application interfaces provided the team with a simple and intuitive interface for use during the testing phase (Section \ref{sec:testing}). The decision to abstract the \acrshort{dao} class out of the flask \acrshort{api} file improved the modularity of the microservices by separating each service's business logic from its \acrfull{dao}. The handover in responsibility from the Python application to its \acrlong{dao} can be seen in Listing \ref{code:flask_get_all_groups}:6. In the listing, a hint of the structure for the web application can also be gleaned: each of the \glspl{gtr} defined in the Python file are referenced by a relevant namespace (route). The method to get a list of all the groups in the database is defined in the base namespace (Listing \ref{code:flask_get_all_groups}:2), so it will be one of the methods that are executable without the client sending any plain text data in the \acrshort{http} \acrshort{url} request. \par
+    
+    \begin{listing}[ht]
+    \begin{minted}[
+        frame=lines,
+        framesep=2mm,
+        baselinestretch=1.2,
+        fontsize=\footnotesize,
+        linenos
+    ]{python}
+    class GroupDAO(object):
+        def __init__(self):
+            # Specifying database and table that the DAO should connect to
+            self.db = dataset.connect('mysql://root:not_so_secret@mysql_db/group_db')
+            self.group_table = self.db['group']
+    
+        def get_all(self):
+            result = list(self.group_table.all()) # Returns a JSON list of all groups in MySQL db
+            return result
+    \end{minted}
+    \caption{The group service's \acrshort{dao} structure from \mintinline{python}{/benza/group_service/GroupDAO.py}}
+    \label{code:dao_get_all_groups}
+    \end{listing}
+    
+    Once responsibility is passed to the \acrshort{dao} class, it needs to do several things: firstly, initialise a connection to the MySQL database (Listing \ref{code:dao_get_all_groups}:4). This locates the database, which is hosted as a service by Docker, before selecting the singular table in the database (Listing \ref{code:dao_get_all_groups}:5). If this table is not yet present in the database (the Docker service has been completely restarted and the tables dropped), then Dataset\footnote{Python library that Benza uses to connect to the MySQL database} will automatically create a new table named `group'. After the GroupDAO class object has been initialised, the system can access its internal methods. Listing \ref{code:dao_get_all_groups}:8 shows how the GroupDAO uses the \mintinline{python}{.all()} function that Dataset provides to operate on all the rows in the `group' table. \par
+    
+    \begin{listing}[ht]
+    \begin{minted}[
+        frame=lines,
+        framesep=2mm,
+        baselinestretch=1.2,
+        fontsize=\footnotesize,
+        linenos
+    ]{bash}
+    services:
+        group_service:
+            build: ./group_service
+            depends_on: - mysql_db
+            ports: - "4100:4000"
+            volumes: - ./group_service:/group_service 
+            restart: on-failure:5
+        ...
+        mysql_db:
+            image: mysql:5.7
+            ports: - "32000:3306"
+            volumes: - ./db/mysql:/docker-entrypoint-initdb.d/:ro
+            environment: MYSQL_ROOT_PASSWORD: not_so_secret
+    \end{minted}
+    \caption{The application-level \mintinline{python}{docker-compose.yml} file structure}
+    \label{code:dockercomposefile}
+    \end{listing}
+    
+    To provide access to the MySQL database and avoid the hassle of having to manage a server, the team decided to provide it as a service using Docker. The most tangible benefits of this decision were the ease of testing the database-dependent features (Section \ref{subsec:testingstrategy}) and the fine-grained control and feedback provided by the Docker console (Section \ref{subsec:otherresources}). \par
+    
+    To demystify the process by which Docker provides containerised services, snippets from the application-level \mintinline{python}{docker-compose.yml} file and the service-level \mintinline{python}{Dockerfile} are included (Figures \ref{code:dockercomposefile}, \ref{code:groupsdockerfile}). The \mintinline{python}{docker-compose.yml} file is essentially a recipe that Docker follows to provide all the services as individual containers. Listing \ref{code:dockercomposefile}:4 instructs Docker that the group service container needs the database service declared in line 9, so that the service does not attempt to start up before the databases are online. \par
+    
+    This is reflected in the group microservice's \mintinline{python}{Dockerfile} (Listing \ref{code:groupsdockerfile}:2), where the tools to manage and build the database are initialised. Following initialisation of the database, lines 7 and 10 launch the service as an \acrshort{api}, which is the interface that the Flutter mobile app will use to interact with group data in the MySQL database. \par
+    
+    By specifying dependencies for each service in their own \mintinline{python}{Dockerfile}, the application avoids the risks associated with outdated versioning and ensures that all instances of Benza are using an identical back-end. \par
+    
+     \begin{listing}[ht]
+    \begin{minted}[
+        frame=lines,
+        framesep=2mm,
+        baselinestretch=1.2,
+        fontsize=\footnotesize,
+        linenos
+    ]{bash}
+    ...
+    # Initialise database dependencies
+    RUN apk add py-mysqldb
+    RUN apk add --no-cache mariadb-dev build-base
+    ...
+    # Make port 4100 available to the world outside this container
+    EXPOSE 4100
+    ...
+    # Run app.py when the container launches
+    CMD ["python", "app.py"]
+    \end{minted}
+    \caption{The group service's \mintinline{python}{Dockerfile} structure from \mintinline{python}{/benza/group_service/Dockerfile}}
+    \label{code:groupsdockerfile}
+    \end{listing}
+    
+    \subsection{Libraries - DUNCAN}
+    \label{subsec:libraries}
+    The following are code libraries that have been used during implementation to avoid reinventing multiple, rather complex, wheels. \par
+    
+    \emph{\href{https://firebase.google.com/}{Firebase Suite}}. Continuing with Benza's theme of Google development tools, the team elected to use Firebase as the storage solution for all data relating to the application's users and the group chat feature. Although it is not technically speaking a `library', Firebase has been too important to Benza's development to be considered an `other resource'. The Suite supports the application with two useful tools:
+    \begin{itemize}
+        \item Authentication: Firebase Authentication supplied a mature user management infrastructure to the development team and fit intuitively into the Flutter application. With aesthetic methods to access the authentication API, it also improved readability for all the team members.
+        \item Cloud Firestore: A cloud-hosted \acrshort{nosql} database, providing data synchronisation and intuitive management through a friendly web-based console.
+    \end{itemize}
+    
+    \emph{\href{https://developers.google.com/maps/documentation/android-sdk/intro}{Google Maps Android SDK}}. When the team released their initial technical report on Benza at the end of last semester, the application used the free-to-use OpenStreetMap resource to display map tiles relating to latitude-longitude pairs. In December 2018, this was the best solution for integrating maps to Flutter applications. However, the Flutter Development Team announced the Developer's Preview version \cite{fluttergooglemapspluginrelease} of the \mintinline{bash}{google-maps-flutter} plugin on March 6th of this year and the Benza development team adapted to take advantage of what was sure to be a rapidly improving new technology. The new plugin allows Benza to use Google's Maps for all its mapping features and anticipates growing capabilities from the plugin in the months and years to come. \par
+    
+    \emph{\href{https://flask-restplus.readthedocs.io/en/stable/example.html}{Flask RESTPlus}}. Flask is a widely-used and simple library that facilitates easy setup of APIs. The Flask RESTPlus micro-framework is designed around Flask and focuses on streamlining the process of creating a \gls{restful} interface and encouraging good \gls{restful} practices \cite{flaskrestplushome}. Benza uses the framework in conjunction with Docker to create and run its microservices. An added benefit of this particular framework is the Swagger documentation and UI that it generates automatically. The UI is available via the base URL of whichever API is being accessed and provides a method for testing the methods in the Flask-like code base. \par
+    
+    \emph{\href{https://dataset.readthedocs.io/en/latest/}{Dataset}}. To interact with the containerised MySQL database, Benza uses the Python framework called Dataset. Dataset provides a way for Python programs to interface with SQL databases in a way similar to interacting with a \acrshort{nosql} store or \acrshort{json} file \cite{datasetquickstartdocs}. As a result, the development team avoided writing complicated SQL queries, saving developer time and creating code that was easier to read and maintain. \par
+    
+    \emph{\href{https://pub.dartlang.org/}{Built-in Dart/Flutter libraries}}. Since Flutter is at heart a framework based on the Dart programming language, the mobile application makes frequent use of built-in Dart libraries. Some of the most prolific imports were:
+    \begin{itemize}
+        \item \mintinline{bash}{dart:async} \\[6pt]
+        The Dart language has one thread of execution. To avoid blocking and unwanted program freezes mid-execution it lets developers declare resource intensive and time consuming operations as asynchronous. This means that developers can use an \mintinline{bash}{await} statement to instruct the program to wait for the operation to terminate. \\ [6pt]
+        Programs can also operate on variables that are declared as the \mintinline{bash}{Future} of a certain asynchronous operation, so execution can continue while the operation is processed. This feature was particularly useful when interacting with the microservice APIs, which had some inherent latency due to internet connection speed.
+        \item \mintinline{bash}{http:http.dart} and \mintinline{bash}{dart:convert} \\[6pt]
+        Both of these libraries were used to interface with the microservice API's. The main application for \mintinline{bash}{http} was in setting up a persistent client object for an instance of the mobile application. Once the client object has been executed, the connection that it opens to a server will remain open to minimise the frequency of restarting the connection (which would use more mobile data then an open connection with no traffic). \\[6pt]
+        The data being transmitted over this connection consists mainly of \acrshort{json} encoded objects, on account of the Dataset framework preferring that format. To transform the Dart objects that are produced by the application into \acrshort{json} format, Dart provides a \mintinline{bash}{json.encode(x)} method.
+    \end{itemize}
+    
+    \subsection{Other Resources - GRETA} 
+    \label{subsec:otherresources}
+
+    The following are resources that have aided the team during implementation. \par
+    
+    \emph{\href{https://www.docker.com/}{Docker}} \par
+    
+    Docker is a containerisation platform that serves as a great asset in managing various services that make up the application. Each service is treated as a separate container possessing source code, settings and required libraries - all the things needed for the execution of the service. More importantly Docker runs all the microservices simultaneously ensuring needed co
+    This results in minimising interdependancies within the system. Individual containers can be easily managed and updated without worrying how it will affect the rest of the services. \par
+    Moreover, use of Docker led to Benza being a portable application. Not only services are represented as containers, but also Benza itself is a container, thus can be easily transferred and executed in any environment.
+
+    % Takes fewer resources.
+    % the developer can rest assured that the application will run on any other Linux machine regardless of any customized settings that machine might have that could differ from the machine used for writing and testing the code. [Portable]
+    % perfect choice for running microservices. Microservices should be easy to maintain and change as they're separate containers i.e. have less interdependencies. 
+    Also high scalability and performance of the application was achieved with the help of these Docker features:
+ 
+    \begin{itemize}
+        \item Load balancer: ensures that no service within the system is put under too much pressure. Struggling services gets virtually replicated in order to take overload preventing failure of the microservice that and the whole application. %long response times
+        \item Docker console used as tool for tracking the performance of the microservices.   %How exactly and what it information it
+          %console log command shows response messages and warnings
+        \item Docker compose: executing multiple containers with a single command. 
+             \begin{itemize}
+                 \item multiple isolated environments on a single host
+                 \item preserve volume data when containers are created
+                 \item only recreate containers that have changed %the execution time is shorter because of this?
+             \end{itemize}
+    \end{itemize}
+   
+
+    % Duncan: In the key implementation decisions bit I reference this section when I'm talking about Docker's console and how it's useful for monitoring individual services - could you try can find something about that so it ties in nicely?
+    
+    % more material: Docker is also mentioned on page 13, in the Reliability and Performance bits. 
+    %coordinate the internal communication of microservices
+    % single configuration file (Duncan: described it as a 'recipe' in key implementation decisions)
+    % monitoring the status of the deployed services in real time shown in the Docker's console (Duncan: also mentioned in key implementation decisions - could refer back to that section)
+    
+  
+    \emph{Flutter related resources}\\
+    At the start of the development cycle team had no previous experience working with the very young application development framework Flutter. To get additional support when fixing issues or having trouble figuring out how certain functionalities should be implemented using Flutter team looked for help within the community of flutter developers.\par
+     \begin{itemize}    
+     
+        \item \href{https://www.youtube.com/watch?v=yr8F2S3Amas}{Boring Flutter Show}: a set of videos that provided useful information on initial development of the app, type fixes and blunders. The basics of Flutter was explained by showing how to build an app from scratch while fixing encountered errors. Thus, team gained desperately needed knowledge on how to start the implementation and approach encountered problems.
+        
+        \item \href{https://medium.com/flutter-community}{medium.com/flutter-community}: website that offers a number of flutter design patterns and packages. Also contains articles posted by fellow developers including tips and advice on how to implement certain features and overcome issues. Gave valuable insights on how the application should be structured.
+        
+        \item \href{https://github.com/flutter/samples}{flutter samples}: an official, curated list of sample flutter projects on GitHub that is regularly updated by actual Flutter developers. Served as a source on new features and examples of Flutter which helped to make well informed implementation decision without reinventing the wheel.
+    \end{itemize}
+   
+    % Duncan: I just found myself on this website quite often, guess we don't really need to include it. Maybe a better one /would be https://github.com/flutter/samples - an official, curated list of sample flutter projects that is refreshed regularly by actual Flutter developers. 
+    
+    \emph{Data related resources}\\
+    As user data in Benza is stored in the form of \acrshort{json} objects and information about groups is stored as a set of attributes with assigned values in the traditional MySQL table, a tool able to convert data from one form to another was a crucial resource.
+    \begin{itemize}
+        \item \href{https://quicktype.io }{Quicktype.io}: \acrshort{json} parser generator was used for this purpose. It allowed to create group objects %(which are initially encoded with Dart, the language that Flutter is written in)
+        to and from \acrshort{json} objects so that data could be written into the MySQL database saving huge amount of time for the team.
+    %convertion methods
+    \end{itemize}
+  
+\newpage
+\section{Testing and Evaluation}
+\label{sec:testing}
+    \newacronym{vm}{VM}{Virtual Machine}
+    \newacronym{ui}{UI}{User Interface}
+    \newacronym{gui}{GUI}{Graphical User Interface}
+    \newacronym{cli}{CLI}{Command Line Interface}
+    \newglossaryentry{trace}{
+    name = traceback,
+    description = {A stack trace from the point of an exception (error)}
+    }
+    \begin{itemize}
+        \item Evaluation starts from the result of test data to discuss the quality and the limitations of what you have done so far. In particular, you should discuss how well your software fulfils the requirements (and here is where non-functional ones play a major role).
+    \end{itemize}
+
+    \subsection{Strategy}
+    \label{subsec:testingstrategy}
+    A loosely defined testing strategy enabled the team to remain adaptable during the series of sprints that define the agile process. The low granularity of the implementation schedule (Figures \ref{fig:ganttchartschedule1}, \ref{fig:ganttchartschedule2}, \ref{fig:ganttchartschedule3}) led to implementation of the small code units (which combine to deliver application features) being completed at the discretion of the team's programmers. As such, the testing for each feature in the schedule was conducted by that feature's assigned programmer during the feature's development. \par
+    
+    The risk associated with this strategy was a lack of high level feature testing and a focus on unit testing. Fortunately for the development team, every component of the application has its own dedicated testing infrastructure that encouraged a high-level perspective of its functionality:
+    
+    \begin{itemize}
+        \item Docker \par
+        The Docker \acrshort{cli} tool provides information about all active containers when the application is launched using a \mintinline{bash}{docker-compose.yml} file. The \acrshort{cli} also has a feature that lets the developer attach to individual containers. This feature is incredibly useful in that it adapts to the content of the container that Docker is attached to. If the container is a MySQL database, the console will feature SQL response messages and warnings. \par
+        
+        \item Flutter \par
+        The Flutter SDK generates informative error messages in whichever terminal window executes the \mintinline{bash}{flutter run} command. In its default configuration, the error messages display information about the error itself, the probable cause and where the failing widget is located in Flutter's widget tree. \par
+        As a framework that prides itself on creating beautiful mobile applications, Flutter ensures that any errors impacting the mobile app's \acrshort{gui} are indicated to developers by way of graphical warnings in the emulator. Since the team had no experience with Flutter before this project, the graphical warnings would inform agile development and testing of \acrshort{ui} features. \par
+        Since Flutter is built on Dart, it inherits compatibility with the Dart \acrshort{vm} Observatory. Dart describes its Observatory tool as ``A Profiler for Dart Apps''\cite{dartvmobservatorydocs}. \par
+        
+        \item Flask RESTPlus \par
+
+        The Swagger UI testing interface is integrated into Flask RESTPlus and generates a browser-based \acrshort{gui} for the \acrshort{api}'s exposed methods. This \acrshort{gui} let the development team test the microservices' capabilities without defining tests with harness code, saving time in coding and learning. \par
+        Decorators are an element of Flask RESTPlus that automatically add details to the generated Swagger UI. An example decorator is \mintinline{bash}{@api.expect()}, which tells the method exposed to the \acrshort{gui} what kind of input data to expect. There is also an optional boolean parameter for validating the input data after it has been submitted: if the validator returns false, an error is thrown and execution halts. \par
+
+        \item Dataset \par
+        Dataset is built on top of SQLAlchemy to ensure compatibility across a range of common database types\footnote{SQLite, PostgreSQL, MySQL and more \cite{datasetquickstartdocs}} but this design choice also gives error messages that are very informative. Since Dataset is used by the Docker-hosted microservices, an SQLAlchemy \gls{trace} became visible once a developer ran the \mintinline{bash}{docker-compose up} command or attached to a container that was already running in the background. \par
+    \end{itemize}
+    
+    \emph{Unit testing}. If a feature that was not being worked on interrupted program execution after it was deemed to be complete, steps were taken to follow the flow of the program with regards to that feature, using the in-browser Dart VM Observatory. The Observatory enabled developers to place breakpoints in the Flutter application and jump between points of asynchronous execution once debugging halted at a breakpoint. \par
+    
+    The mobile application relies on asynchronous operations to communicate with the Firebase and MySQL databases, so this feature was particularly useful in determining whether the exception was the result of other faulty elements. 
+    
+    \emph{Alpha testing}. The alpha release of Benza will trialled with a group of 10 students from the University of Aberdeen who have past experience with carpooling, including hitch hiking.
+    
+    \emph{Beta testing}. As proposed in Section \ref{subsec:innovation}, initial beta testing of Benza is to be conducted with the University of Aberdeen student population. The group of fewer than 30 students that preferably have home addresses on the East coast of Scotland between Aberdeen and Dundee will be selected as participants. 
+    After a period of time spent collecting feedback from this pilot group of users, an extended beta will be released to people with \mintinline{bash}{*@aberdeen.ac.uk} and \mintinline{bash}{*@abdn.ac.uk} email suffixes. After a minimum period of 2 months spent testing with this extended audience, the first official release of Benza will be available to people with \mintinline{bash}{*.ac.uk} email suffixes. \par
+    
+    \subsection{Test Data - DUNCAN}
+    
+    
+    Re-imagined for each component.\par
+    
+    Mostly passing different data types to other components to see how they react.\par
+    
+    \subsection{Harnessing Code - DUNCAN}
+    Debug environment generates its own basic test code.\par
+    Built-in function calls will fail tests set in by their language if the software breaks.\par
+    
+    \subsection{Results - DUNCAN}
+    Lots of type errors for Flutter \gls{app} to \acrshort{api} (and \acrshort{api} to Flutter \gls{app})\par
+    Returning instances of futures in Dart\par
+    Rendering errors for \acrshort{ui}\par
+    
+    \subsection{Evaluation - DUNCAN}
+    \label{subsec:evaluation}
+    Some important stuff goes here!\par
+
+
+\newpage
+\section{Conclusions and Future Plans}
+\label{sec:conlusion}
+    \newglossaryentry{pluggable}
+        {
+        name = pluggable,
+        description = {Architecture where elements can be removed or replaced freely}
+        }
+    \begin{itemize}
+        \item If original client requirements were not satisfied - explanation of why.
+    \end{itemize}
+    
+    \subsection{Outcomes - LORI}
+    The software that this report is released with is not to the standard that the team originally envisaged. However, there are also aspects of Benza that the team  didn't believe were possible to attain at the beginning of CS3028. \par
+    
+    \subsection{The Future - DUNCAN}
+    As with any new application, there are lots of features that the development team is still considering implementing. For some of these features it would be a matter of the team resuming development of from where it was discontinued, as mentioned in Section \ref{subsec:evaluation}. \par
+    
+    The Flutter Development Team is working on improving the Google Maps plugin, which will eventually feature fast routing on Google's existing Maps framework. With this capability, the maps already integrated in the Benza mobile application will become more suitable  for use with the discontinued `Trips' functionality. \par
+    
+    The possibility of ``\gls{pluggable}'' features described in Section \ref{subsec:innovation} is an exciting prospect but also one that would be best reserved for when the development team has implemented the discontinued features detailed in Section \ref{subsec:keyimplementationdecisions}. In the future, there may be opportunity for Benza to be opened to other developers as part of an open-source campaign, run in conjunction with the University of Aberdeen's Computing Society. Benza's comparably niche software paradigm makes it an ideal option for developers who would like to broaden their knowledge of mobile application development, a topic that is not included in the University's curriculum. \par
+    
+    \subsection{Lessons Learnt - GRETA/DUNCAN}
+    
+    The software engineering process has been an illuminating experience for the whole team. \par 
+    
+    Teamwork plays an important role in the software development cycle: team management was shaky at first and communication suffered as a result [EXPAND]. \par
+    
+    The team's overall experience of the development process would have been more positive had the members had some foresight about the challenges they would be facing. Since this is the first software development group project of this scale that the members had been involved in, everyone found it difficult to adjust to the dynamics.\par
+    
+    Very young technologies can be very rewarding but present their own unique challenges: frequent changes and unfinished features lead to existing code becoming unreliable with little to no warning. \par
+    
+    A small developer community and a limited amount of existing material leads to ambiguity when trying to ascertain the ``right'' way to implement a feature. \par
+
+
+\newpage
+\appendixpage
+\appendix
+\section{User Manual}
+\label{app:usermanual}
+    \newacronym{apk}{APK}{Android application Package}
+    
+    \subsection{Preamble}
+    \begin{itemize}
+        \item Hardware Requirements: \\
+        Any device capable of running the operating systems in the Software Requirements. \\
+        The software was developed and tested on a Google Pixel, in an Intel Atom (x86) Android emulator with a 1080x1920 display, running Oreo (Android 8.1).
+        \item Software Requirements: \\
+        Your device OS must be Android, versions 6.0 -- 9.0.
+        \item Installation: \\
+         Benza is coming to the Google Play Store in May 2019. \\[6pt]
+    If you would like to take part in the open beta, you can download Benza from Team Bravo's Google Drive using the link below. You can download the file to your computer or directly to your compatible Android device.
+    \begin{center}
+        \href{https://drive.google.com/open?id=1TzMazfQU8_SMdWixVM0ivUeSUKwuJ4zb}{Download APK}
+    \end{center}
+    If you have downloaded the \acrshort{apk} to your computer, connect your Android device via USB and move the file to your device. \\[6pt]
+    When the \acrshort{apk} appears on your device, you will have successfully installed the beta release of Benza! \\[6pt]
+    Let's jump right into it by tapping the Benza icon.
+    \end{itemize}
+
+    \newpage
+    \subsection{Signing Up \& Logging In}
+    
+    You will be greeted by the log in screen (Figure \ref{fig:benza_login}). If this is your first time using Benza, you won't have an account yet. To register an account, tap the \emph{Sign Up} button. \par
+    
+    If you have already registered an account, enter the details that you previously registered into the \emph{Email} and \emph{Password} fields before tapping \emph{Login}. \par
+    
+    \begin{figure}[ht]
+    \makebox[\textwidth][c]{
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \frame{\includegraphics[width=0.8\linewidth]{images/benza_login.png}}
+        \caption{Log in screen}
+        \label{fig:benza_login}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \frame{\includegraphics[width=0.8\linewidth]{images/benza_sign_up.png}}
+        \caption{Sign up screen}
+        \label{fig:benza_sign_up}
+    \end{subfigure}}
+    \caption{Initial sign up process}
+    \end{figure}
+    
+    Now you can see the sign up screen (Figure \ref{fig:benza_sign_up}). To register an account, complete the \emph{Name}, \emph{Email} and \emph{Password} fields with your own information. \par
+    
+    If you ever forget your password, you can contact the development team [CONTACT] to update it to a new one. After notifying USA that you've forgotten your password, we'll send an email to the address you provided when you signed up, which will have link that lets you change your password (Benza will \emph{never} store your password in plain text and it will \emph{never} be readable by our team). \par
+    
+    \newpage
+    \subsection{Your Profile}
+    
+        \begin{wrapfigure}{R}{0.42\textwidth} %% R means it's a floating wrapfigure, r means it's inline
+        \centering
+        \frame{\includegraphics[width=0.4\textwidth]{benza_profile}}
+        \caption{User's personal details}
+        \label{fig:benza_profile}
+        \vspace{-40pt} %% This gets rid of the trailing white space that was bleeding onto the next page.
+    \end{wrapfigure}
+    
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget faucibus justo. Fusce bibendum commodo suscipit. Integer nisi ante, pulvinar eu condimentum non, iaculis et ante. Integer venenatis imperdiet lacus, quis eleifend augue hendrerit at. Etiam nec scelerisque ex, nec sodales eros. Sed eget orci dolor. Cras ex nibh, iaculis id odio dapibus, lobortis pharetra arcu. \par
+
+    Sed nibh risus, iaculis ut varius sit amet, commodo vel risus. Maecenas felis felis, congue ac posuere id, fermentum eget mi. Maecenas euismod, odio nec mollis lobortis, sem sapien ornare ligula, sed semper mauris neque non lectus. Nullam id arcu risus. Fusce eros felis, dictum eu bibendum at, faucibus eget urna. Nullam iaculis accumsan nunc. Aliquam tempus nulla eget luctus fringilla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin consequat sagittis dui, sed convallis leo consequat ac. Aenean mattis placerat finibus. Phasellus aliquet dictum turpis at blandit. Suspendisse tincidunt, ipsum vel condimentum gravida, nisl elit venenatis neque, venenatis imperdiet erat sem ut turpis. Donec tempor ex leo, id rhoncus erat placerat a. Aenean posuere turpis vitae metus fermentum dapibus. Sed non fermentum orci. \par
+    
+     Sed nibh risus, iaculis ut varius sit amet, commodo vel risus. Maecenas felis felis, congue ac posuere id, fermentum eget mi. Maecenas euismod, odio nec mollis lobortis, sem sapien ornare ligula, sed semper mauris neque non lectus. Nullam id arcu risus. \par
+    
+    \newpage
+    \subsection{Creating a Group}
+    
+    To start carpooling with Benza, you need to join a group! To start with, consider joining one of the groups that already exist close to you. To see a list of all these groups, tap the second leftmost icon in the bottom navigation bar. \par
+    If none of the groups in the list look like something you want to join, tap on the leftmost icon in the bottom navigation bar to start the process of creating your own group. \par
+    
+    \begin{figure}[ht]
+    \makebox[\textwidth][c]{
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \frame{\includegraphics[width=0.8\linewidth]{images/benza_create_group_start.png}}
+        \caption{Entering group details}
+        \label{fig:benza_create_group_start}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \frame{\includegraphics[width=0.8\linewidth]{images/benza_create_group_midway.png}}
+        \caption{Confirming group's location}
+        \label{fig:benza_create_group_midway}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \frame{\includegraphics[width=0.8\linewidth]{images/benza_group_list_after.png}}
+        \caption{List of all groups}
+        \label{fig:benza_group_list_after}
+    \end{subfigure}}
+    \caption{Creating a group}
+    \end{figure}
+    
+    Upon tapping the leftmost icon, you will see a screen setting out the steps required to create a new group, starting with the group's name (Figure \ref{fig:benza_create_group_start}). Enter a name for your group and tap \emph{Continue}.
+    
+    \newpage
+    \subsection{Inside a Group}
+    
+    \begin{figure}[ht]
+    \makebox[\textwidth][c]{
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \frame{\includegraphics[width=0.8\linewidth]{images/benza_group_detail.png}}
+        \caption{Expanded group view.}
+        \label{fig:benza_group_detail}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \frame{\includegraphics[width=0.8\linewidth]{images/benza_fullscreen_map.png}}
+        \caption{Full-screen location of group.}
+        \label{fig:benza_fullscreen_map}
+    \end{subfigure}}
+    \caption{Communicating with users inside a group.}
+    \end{figure}
+    
+
+\newpage
+\section{Maintenance Manual}
+\label{app:maintenancemanual}
+\newacronym{ide}{IDE}{Integrated Development Environment}
+    \subsection{Getting Started}
+    To get started, fork the latest version of Benza from the GitHub repository\footnote{\href{https://github.com/nicomazz/benza}{github.com/nicomazz/benza}}. \\ [6pt]
+        If you are unsure about how to fork a repository, read the GitHub article on how to fork a repository\footnote{\href{https://help.github.com/en/articles/fork-a-repo}{help.github.com/en/articles/fork-a-repo}}.
+    \subsection{Minimum Requirements}
+    \begin{itemize}
+        \item Hardware \\[6pt]
+        Your machine should have at least: 4-core CPU, 2GB RAM, 4GB free hard disk space.
+        
+        \item Software
+        \begin{enumerate}
+            \item An \acrshort{ide} will make your development experience smoother. For this project, the team used \hyperlink{https://code.visualstudio.com/}{Visual Studio Code} with the \hyperlink{https://developer.android.com/studio/run/emulator}{Android Emulator}.
+            \item  Install the appropriate \hyperlink{https://www.docker.com/get-started}{Docker} developer package for your OS. To complete the Docker setup, you will need to register your own Docker account.
+            \item  Install the latest stable version of \hyperlink{https://flutter.dev/docs/get-started/install}{Flutter}.
+            \item Install \hyperlink{https://www.python.org/downloads/}{Python} 3.7.
+            \item Update pip on Mac OSX and Linux: 
+            \begin{minted}{bash}
+            pip install -U pip
+            \end{minted}
+            Windows: 
+            \begin{minted}{bash}
+            python -m pip install -U pip
+            \end{minted}
+        \end{enumerate}
+    \end{itemize}
+    
+        \subsection{Dependencies}
+        \begin{enumerate}
+            \item Install \hyperlink{https://flask-restplus.readthedocs.io/en/stable/index.html}{Flask-RESTPlus}: 
+            \begin{minted}{bash}
+            pip install flask-restplus
+            \end{minted}
+            \item Install \hyperlink{https://dataset.readthedocs.io/en/latest/quickstart.html}{Dataset}:
+            \begin{minted}{bash}
+            pip install dataset
+            \end{minted}
+        \end{enumerate}
+        
+        \newpage
+        \subsection{File Structure Overview}
+        
+        The folders (purple) and files (blue) that make up the Benza application (Figure \ref{fig:full_file_structure}) follow a very purposeful structure. \par
+        
+        % Adapted from Frantisek Burian http://www.texample.net/tikz/examples/filesystem-tree/
+    \begin{figure}[ht]
+     \vspace{-5pt}
+        \tikzstyle{every node}=[thick,anchor=west]
+        \tikzstyle{folder}=[fill=blue!20]
+        \tikzstyle{file}=[fill=cyan!20]
+        \begin{tikzpicture}[%
+          grow via three points={one child at (0.5,-0.7) and
+          two children at (0.5,-0.7) and (0.5,-1.4)},
+          edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
+          \node {benzaApp}
+            child { node [folder] {android}}
+            child { node [folder] {lib}
+                    child { node [folder] {models}}
+                    child { node [folder] {pages}
+                        child { node [folder] {chat}}
+                        child { node [folder] {groups}}
+                        child { node [folder] {login}}
+                        child { node [folder] {profile}}
+                        child { node [file] {home\_page.dart}}}
+                    child [missing] {}				
+                    child [missing] {}				
+                    child [missing] {}
+                    child [missing] {}
+                    child [missing] {}
+                    child { node [folder] {resources}}
+                    child { node [folder] {services}}
+                    child { node [file] {main.dart}}
+                    }
+            child [missing] {}				
+            child [missing] {}				
+            child [missing] {}
+            child [missing] {}
+            child [missing] {}
+            child [missing] {}				
+            child [missing] {}				
+            child [missing] {}
+            child [missing] {}
+            child [missing] {}
+            child { node [folder] {db}}
+            child { node [folder] {group\_service}
+                child { node [file] {app.py}}
+                child { node [file] {Dockerfile}}
+                child { node [file] {GroupDAO.py}}
+                child { node [file] {requirements.txt}}
+                }
+            child [missing] {}				
+            child [missing] {}				
+            child [missing] {}
+            child [missing] {}
+            child { node [folder] {matching\_service}}
+            child { node [folder] {notification\_service}}
+            child { node [file] {docker-compose.yml}};
+        \end{tikzpicture}
+        
+        \caption{Structure of pertinent files}
+        \label{fig:full_file_structure}
+        \vspace{-8pt} %trimming the white space that appears below the /figure
+     \end{figure}
+     
+     In the structure, the group service is the only microservice that is expanded, due to it being the most complete service and therefore the most representational of the finished application.
+    
+\newpage
+\section{Full Architecture}
+\label{app:fullarchitecture}
+\begin{figure}[h!]
+        \includegraphics[width=\textwidth]{benza_full_architecture.png}
+        \caption{Benza's legacy architecture from CS3028}
+        \label{fig:full_architecture_diagram}
+\end{figure}
+
+\newpage
+\section{Implementation Schedule}
+\label{app:ganttchartimplementationschedule}
+
+In Figure \ref{fig:ganttchartschedule2}, the `API Interfacing' bar contains milestones for when each of the \acrshort{crud} features were made usable. You will notice that this means the application is missing the last element of the acronym, \emph{Delete}. For more discussion about why this feature was not fully developed, refer to Section \ref{subsec:keyimplementationdecisions}. \par
+
+\begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{
+        \begin{ganttchart}[
+        x unit=4mm,
+        vgrid,
+        group height = 0.1,
+        group left peak height = 0,
+        time slot format=isodate
+        ]{2019-02-25}{2019-04-07}
+        \gantttitlecalendar{week = 7} \\
+        \ganttgroup[inline]{Group service}{2019-02-25}{2019-03-10}\\
+        \ganttbar{API Interfacing}{2019-02-25}{2019-03-10}
+        \ganttmilestone[inline]{Create/Read}{2019-03-04}
+        \ganttmilestone[inline]{Update}{2019-03-09} \\
+        \ganttbar{Flutter Models}{2019-02-25}{2019-03-04} \\
+        \ganttbar{Trips}{2019-03-05}{2019-03-22} 
+        \ganttmilestone[inline]{Discontinued}{2019-03-22} \\
+        \ganttbar{Notifications}{2019-03-22}{2019-03-30} 
+        \ganttmilestone[inline]{Discontinued}{2019-03-30} \\
+        \ganttbar{Group Chats}{2019-04-03}{2019-04-07} \\
+        \ganttmilestone[inline]{Intermediate Demo}{2019-03-30}
+        \ganttbar{Final Report}{2019-04-05}{2019-04-07}
+        \end{ganttchart}
+        }
+        \caption{Development schedule from 25th February to 7th April 2019}
+        \label{fig:ganttchartschedule2}
+    \end{figure}
+    
+    The `Notifications' and `Trips' bars finish with a negative milestones. Due to complications in implementing the services and time pressure starting to mount, the features were discontinued so that work on other features could continue. \par
+    
+    The intermediate demo of the application occurred in late March and the resulting evaluation of the current system characteristics was an influencing factor in the decision to discontinue the notifications feature. \par
+    
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{
+        \begin{ganttchart}[
+        x unit=4mm,
+        vgrid,
+        time slot format=isodate
+        ]{2019-04-08}{2019-04-21}
+        \gantttitlecalendar{week = 13} \\
+        \ganttbar{Group Chats}{2019-04-08}{2019-04-10} \\
+        \ganttbar{UI}{2019-04-10}{2019-04-14} \\
+        \ganttbar{Final Report}{2019-04-08}{2019-04-20}
+        \end{ganttchart}
+        }
+        \caption{Development schedule from 8th to 21st April 2019}
+        \label{fig:ganttchartschedule3}
+    \end{figure}
+
+
+\newpage
+\printglossaries
+
+
+\newpage
+\printbibliography
+\end{document}
