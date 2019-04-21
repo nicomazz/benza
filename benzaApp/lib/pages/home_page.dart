@@ -4,6 +4,7 @@ import 'package:benza/pages/groups/group_list_page.dart';
 import 'package:benza/pages/profile/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:benza/pages/placeholder_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -39,9 +40,9 @@ class _HomePageState extends State<HomePage> {
       tag: "Chat"
       ), */
     TabElement(
-      widget: GroupList(),
+      widget: PlaceholderWidget(),
       icon: Icon(Icons.directions),
-      tag: "Trips"
+      tag: "My Trips"
       ),
     TabElement(
       widget: ProfileWidget(),

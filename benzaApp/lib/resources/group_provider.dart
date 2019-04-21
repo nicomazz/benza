@@ -5,12 +5,12 @@ import 'package:benza/models/Group.dart';
 import 'package:benza/models/Offer.dart';
 import 'package:http/http.dart' show Client, Response;
 
-// IP for the emulator to access your machine's localhost (+port for group service)
+// IP for the android emulator to access your machine's localhost (+port for group service)
 const BASE_BENZA_URL = "http://10.0.2.2:4100";
 
 /// Group namespace:
 ///- `getAllGroups()` -> returns a list of json-encoded maps, with each map representing a group.
-///- `postGroup()`-> takes a json-encoded Group object. Creates an entry in the db.
+///- `postGroup()` -> takes a json-encoded Group object. Creates an entry in the db.
 ///
 class GroupDataProvider {
   Client client = Client();

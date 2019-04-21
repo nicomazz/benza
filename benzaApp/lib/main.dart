@@ -4,35 +4,33 @@ import 'package:benza/pages/login/login_page.dart';
 import 'package:benza/pages/login/signup_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter/rendering.dart';
 
+///This is what start the whole application
 void main() {
-  //debugPaintSizeEnabled = true; // use to show structure of widgets on screen
-  //timeDilation = 5.0; // use to test animations
   runApp(new MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  //auth management. Checks if the user is logged in correctly
+  //Authentication management. Checks if the user is logged in correctly
   Widget _handleCurrentScreen() {
     return new StreamBuilder<FirebaseUser>(
         stream: FirebaseAuth.instance.onAuthStateChanged,
         builder: (BuildContext context, snapshot) {
-          // if signed out
-          // if (snapshot.connectionState == ConnectionState.waiting) { // the old code. breaks the app upon signing out
+          //If the user is signed out
           if (snapshot.connectionState == ConnectionState.none) {
             Text("no connection..");
           } else {
-            // if already logged in
+            //If already logged in, go straight to the home page for that user
             if (snapshot.hasData) {
               return new HomePage();
             }
           }
-          // default: no connection, display login
+          //Default: no connection, display the login screen
           return new LoginPage();
         });
   }
 
+  //Here we declare application-wide settings like colour scheme and routes between certain pages.
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -45,12 +43,10 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         home: _handleCurrentScreen(),
-        //LoginPage(),// for testing, put this the page
         routes: <String, WidgetBuilder>{
           '/landingpage': (BuildContext context) => MyApp(),
           '/signup': (BuildContext context) => SignUpPage(),
           '/homepage': (BuildContext context) => HomePage(),
-          //'/creategrouppage': (BuildContext context) => CreateGroupPage()
         }
     );
   }

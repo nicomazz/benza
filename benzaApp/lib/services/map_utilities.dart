@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 
+///This is the deprecated OpenStreetMap solution for map tiles.
 class MyMap extends StatefulWidget {
   final List<LatLng> points;
   final String name; // needed for shared transactions

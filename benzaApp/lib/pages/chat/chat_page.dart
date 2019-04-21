@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
-  final int id; // needed for shared transactions
+  //Adding an id parameter to this widget enabled each group to have its own unique chat based on group_id
+  final int id;
   ChatPage(this.id);
 
   @override
@@ -13,26 +14,28 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   final TextEditingController _textController = TextEditingController();
   final List<ChatMessage> _messages = <ChatMessage>[];
-
   ScrollController _listScrollController;
-
   DocumentSnapshot currentUser;
 
   @override
   void initState() {
     _listScrollController = new ScrollController();
     initUser();
-  } // new
+  }
 
+  ///Setting the [currentUser] to the user that is currently logged in, allowing us to access that user's firestore data
   initUser() async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     currentUser = await Firestore.instance
         .collection("users")
         .document(firebaseUser.uid)
         .get();
+    //This is a bugfix for GitHub issue #11
     this.mounted ? setState(() {}) : context;
   }
 
+  ///This widget is where users will type their messages for the chat.
+  ///It also holds the button for sending those messages.
   Widget _buildTextComposer() {
     return IconTheme(
       data: IconThemeData(color: Theme.of(context).accentColor),
@@ -43,7 +46,6 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
             Flexible(
               child: TextField(
                 controller: _textController,
-                //onSubmitted: _handleSubmitted, // Bad. Sends an empty message when you tap the tick to hide keyboard
                 decoration:
                     new InputDecoration.collapsed(hintText: "Send a message"),
               ),
@@ -60,13 +62,16 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     );
   }
 
+  //Main method for the chat page
   @override
   Widget build(BuildContext context) {
+    //If there isn't a user currently logged in, display a loading screen
     if (currentUser == null)
       return Center(
         child: CircularProgressIndicator(),
       );
 
+    //If there is a logged in user, build the chat history from the firestore data.
     return new Column(
       children: <Widget>[
         new Flexible(
@@ -94,6 +99,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
           ),
         ),
         new Divider(height: 1.0),
+        //This is where we tell the app that the message composer should be placed at the bottom of the chat history.
         new Container(
           decoration: new BoxDecoration(color: Theme.of(context).cardColor),
           child: _buildTextComposer(),
@@ -102,32 +108,37 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     );
   }
 
+  ///Logic for the "Send Message" button
   void _handleSubmitted(String text) {
+    //Clear the text field once the user taps the send button on their message
     _textController.clear();
 
+    //Specify which part of the firestore database we'd like to store the message in
     var documentReference = Firestore.instance
         .collection('chats')
         .document("group_id")
         .collection("${widget.id}")
         .document(DateTime.now().millisecondsSinceEpoch.toString());
 
+    //Populate the document we just made (above) with our message's data
     Firestore.instance.runTransaction((transaction) async {
       await transaction.set(
         documentReference,
         {
           'nameFrom': currentUser["name"],
           'idFrom': currentUser.documentID,
-          //'idTo': 42,
           'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
           'content': text,
           'type': "message"
         },
       );
     });
+    //Nice UI animation
     _listScrollController.animateTo(0.0,
         duration: Duration(milliseconds: 1000), curve: Curves.easeOut);
   }
 
+  //Make sure that animations finish properly
   @override
   void dispose() {
     for (ChatMessage message in _messages)
@@ -135,6 +146,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  //How messages from the firestore area are displayed within the chat
   buildItem(DocumentSnapshot document) {
     var message = new ChatMessage(
       text: document.data["content"],
@@ -146,10 +158,8 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
       userID: currentUser.documentID,
       userName: document["nameFrom"] ?? "-",
     );
-    //message.animationController.forward();
     return Column(
       children: <Widget>[
-        //new Divider(height: 1.0),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
           child: message,
@@ -159,6 +169,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   }
 }
 
+///Constructing the internal layout of a message in the chat
 class ChatMessage extends StatelessWidget {
   ChatMessage(
       {this.text,
@@ -176,13 +187,11 @@ class ChatMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      //margin: const EdgeInsets.symmetric(vertical: 3.0),
       child: new Row(
         textDirection:
             senderID == userID ? TextDirection.rtl : TextDirection.ltr,
         children: <Widget>[
           new Container(
-            //margin: const EdgeInsets.only(right: 16.0),
             child: new CircleAvatar(
               child: new Text(userName[0].toUpperCase()),
               backgroundColor:
@@ -200,11 +209,13 @@ class ChatMessage extends StatelessWidget {
                   margin: EdgeInsets.only(left: 5.0),
                   child: senderID == userID
                       ? Text("")
-                      : Text(this.userName,
+                      : Text(
+                          this.userName,
                           style: TextStyle(
                               fontSize: 10.0,
                               fontStyle: FontStyle.italic,
-                              color: Colors.black.withOpacity(0.5))),
+                              color: Colors.black.withOpacity(0.5)),
+                        ),
                 ),
                 Container(
                   margin: const EdgeInsets.only(

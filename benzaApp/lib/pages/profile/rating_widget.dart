@@ -13,6 +13,7 @@ class RatingWidget extends StatefulWidget {
   RatingWidget(this.user, this.currentUser);
 }
 
+///AUTHOR: NICOLO MAZZUCATO. Keeps track of ratings assigned to the user.
 class _RatingWidgetState extends State<RatingWidget> {
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,8 @@ class _RatingWidgetState extends State<RatingWidget> {
                         valueColor:
                             new AlwaysStoppedAnimation<Color>(Colors.green),
                         backgroundColor: Colors.red,
-                      )),
+                      ),
+                      ),
                       _constructThumb(
                           icon: Icons.thumb_down,
                           function: () => _vote("down"),
@@ -59,12 +61,14 @@ class _RatingWidgetState extends State<RatingWidget> {
             ),
     );
   }
-
+  
+  ///Retrieve the existing ratings from the user's firestore record.
   _getRatingsCollection() => Firestore.instance
       .collection('users')
       .document(widget.user.data["uid"])
       .collection("ratings");
 
+  ///Calculate the percentage differeance between positive and negative ratings
   _getUpPercentage(List<DocumentSnapshot> data) {
     var up = 0;
     var down = 0;
@@ -92,6 +96,7 @@ class _RatingWidgetState extends State<RatingWidget> {
     );
   }
 
+  ///Adding the rating to the user's firestore record
   void _vote(String s) async {
     final DocumentReference docRef =
         _getRatingsCollection().document(widget.currentUser.uid);

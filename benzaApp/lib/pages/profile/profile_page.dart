@@ -38,9 +38,10 @@ class ProfileBodyState extends State<ProfileBody> {
     updateUser();
   }
 
+  ///Sets the current user to the one that is logged in.
+  ///This will need to be changed when development continues on the peer rating feature so that profile pages can display uids that are handed to them instead of just the one belonging to the current user.
   updateUser() async {
     var currentUser = await FirebaseAuth.instance.currentUser();
-    //todo modify here to see everyone
     displayedUser = await Firestore.instance
         .collection('users')
         .document(currentUser.uid)
@@ -52,20 +53,23 @@ class ProfileBodyState extends State<ProfileBody> {
 
   @override
   Widget build(BuildContext context) {
-    //var size = MediaQuery.of(context).size; // repeated code
+    //Getting the data from the current user's cloud firestore record
     var imgSize = MediaQuery.of(context).size.width / 3;
     var data = displayedUser?.data ?? Map();
     var photoUrl = data["imageUri"];
     var userName = data["name"];
     var description = data["bio"];
 
+    //The default image is a gorilla from Cincinatti Zoo, called Harambe. This will change before the application is released for closed alpha testing.
     var image = Container(
       width: imgSize,
       height: imgSize,
       decoration: BoxDecoration(
           color: Colors.white,
           image: DecorationImage(
+              //Here, we check if there's a link to an actual profile photo in the user's firestore record.
               image: CachedNetworkImageProvider(photoUrl ??
+                  //If there's no link to a photo in the Firestore record, Harambe is used.
                   "https://www.gannett-cdn.com/-mm-/cdeb9a9e093b3172aa58ea309e74edcf80bf651f/c=0-77-2911-1722/local/-/media/2016/05/29/Cincinnati/Cincinnati/636001135964333349-Harambe2.jpg?width=3200&height=1680&fit=crop"),
               fit: BoxFit.cover),
           borderRadius: BorderRadius.circular(imgSize / 2),
@@ -76,6 +80,7 @@ class ProfileBodyState extends State<ProfileBody> {
       style: TextStyle(fontSize: 40.0, fontStyle: FontStyle.italic),
     );
 
+    //This widget represents the finished layout of the profile page, excluding the rating widget.
     var imageNameDescription = Column(
       children: <Widget>[
         InkWell(
@@ -88,7 +93,7 @@ class ProfileBodyState extends State<ProfileBody> {
         SizedBox(height: 10.0),
         InkWell(
           onTap: () {
-            // user should be able to edit their bio
+            //This is where the logic will appear for the user being able to edit their own bio.
           },
           child: Text(
             description ?? 'Bio goes here',
@@ -99,7 +104,8 @@ class ProfileBodyState extends State<ProfileBody> {
         ),
       ],
     );
-
+    
+    //The whole page structure
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -111,9 +117,9 @@ class ProfileBodyState extends State<ProfileBody> {
             margin: EdgeInsets.only(
               top: imgSize / 3,
             ),
+            //This is where the elements that appear on the page are specified
             child: Column(
               mainAxisSize: MainAxisSize.max,
-              //mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 imageNameDescription,
                 RatingWidget(displayedUser, _currentUser)
@@ -125,11 +131,13 @@ class ProfileBodyState extends State<ProfileBody> {
     );
   }
 
+  ///Basically a getter for a Future object representing the user's profile info
   Future getProfileInfo() async {
     var currentUser = await FirebaseAuth.instance.currentUser();
     if (currentUser != null) {}
   }
 
+  ///Select a picture from the device's gallery
   Future getImage() async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -142,6 +150,7 @@ class ProfileBodyState extends State<ProfileBody> {
     }
   }
 
+  ///Uploads the picture to the Firebase storage bucket and inserts the link to that picture in the user's firestore record.
   Future uploadFile() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
@@ -155,6 +164,8 @@ class ProfileBodyState extends State<ProfileBody> {
     });
   }
 
+  ///This method was a possible concept that was not included in the requirements analysis.
+  ///It will remain here because it will become important and necessary as the application grows.
   void _editProfile() {}
 }
 

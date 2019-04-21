@@ -27,36 +27,36 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              //The Name textfield does not have any restrictions
               TextField(
                   controller: TextEditingController(text: _userName),
                   decoration: InputDecoration(hintText: 'Name'),
                   autofocus: true,
                   onChanged: (value) {
-                    //setState(() {
                     _userName = value;
-                    //});
                   }),
               SizedBox(height: 10.0),
+              //The Email textfield provides basic input validation for correct email formats (e.g. x@y.z)
               TextField(
                   controller: TextEditingController(text: _email),
                   decoration: InputDecoration(hintText: 'Email'),
                   keyboardType: TextInputType.emailAddress,
                   onChanged: (value) {
-                    //setState(() {
                     _email = value;
-                    //});
                   }),
               SizedBox(height: 10.0),
+              //The Password textfield forces the user to choose a password with over 6 characters.
+              //This needs to be improved in the future.
               TextField(
                   controller: TextEditingController(text: _password),
                   decoration: InputDecoration(hintText: 'Password'),
                   obscureText: true,
                   onChanged: (value) {
-                    //setState(() {
                     _password = value;
-                    //});
                   }),
               SizedBox(height: 10.0),
+              //If the signup button hasn't been pressed, display the rest of the page. 
+              //If it has, display Loading screen.
               _signUpProgress
                   ? CircularProgressIndicator()
                   : RaisedButton(
@@ -66,16 +66,16 @@ class _SignUpPageState extends State<SignUpPage> {
                       elevation: 7.0,
                       onPressed: () {
                         setState(() => _signUpProgress = true);
-
+                        //Creating a new registered user in the Firebase Authentication tool
                         FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
                                 email: _email, password: _password)
                             .then((FirebaseUser signedInUser) {
                           setState(() => _signUpProgress = false);
-
+                          //Creating a record for the new user in the Firebase Cloud Firestore tool
                           UserManagement()
                               .storeNewUser(signedInUser, context, _userName);
-
+                          //Proceed to the homepage of the app. This will be set to the profile page.
                           Navigator.of(context)
                             ..pop()
                             ..pushReplacementNamed('/homepage');

@@ -22,10 +22,8 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           padding: EdgeInsets.all(50.0),
           child: ListView(
-            //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextField(
-                  //controller: TextEditingController(text: _email),
                   decoration: InputDecoration(hintText: 'Email'),
                   keyboardType: TextInputType.emailAddress,
                   onChanged: (value) {
@@ -33,9 +31,7 @@ class _LoginPageState extends State<LoginPage> {
                       _email = value;
                     });
                   }),
-              //SizedBox(height: 15.0),
               TextField(
-                  //controller: TextEditingController(text: _password),
                   decoration: InputDecoration(hintText: 'Password'),
                   obscureText: true,
                   onChanged: (value) {
@@ -44,7 +40,8 @@ class _LoginPageState extends State<LoginPage> {
                     });
                   }),
               SizedBox(height: 15.0),
-              // if the login button hasn't been pressed, display the rest of the page. If it has, display CircularProgressIndicator
+              //If the login button hasn't been pressed, display the rest of the page. 
+              //If it has, display Loading screen.
               _loginInProgress
                   ? Center(child: CircularProgressIndicator())
                   : new Column(
@@ -99,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  ///Warning the user that they are not allowed to have any blank fields when tapping the Login button.
   void _showDialog() {
     showDialog(
       context: context,
